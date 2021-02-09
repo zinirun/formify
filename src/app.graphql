@@ -1,0 +1,12 @@
+scalar Date
+
+type Query {
+    getUsers: [User]
+}
+
+type User {
+    id: Int!
+    provider: String!
+    providerId: String!
+    username: String!
+}
