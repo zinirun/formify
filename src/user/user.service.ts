@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindConditions, Repository } from 'typeorm';
+import { UserAuthDto } from './user.auth.dto';
 import { User } from './user.entity';
 
 @Injectable()
@@ -10,16 +11,8 @@ export class UserService {
         private readonly userRepository: Repository<User>,
     ) {}
 
-    private async createUser(
-        provider: string,
-        providerId: string,
-        username = 'Anonymous',
-    ): Promise<User> {
-        const user = this.userRepository.create({
-            provider,
-            providerId,
-            username,
-        });
+    private async createUser(userAuth: UserAuthDto): Promise<User> {
+        const user = this.userRepository.create(userAuth);
         return this.userRepository.save(user);
     }
 
@@ -27,15 +20,12 @@ export class UserService {
         return await this.userRepository.findOneOrFail({ where });
     }
 
-    public async findOrCreate(
-        provider: string,
-        providerId: string,
-        username: string,
-    ): Promise<User> {
+    public async findOrCreate(userAuth: UserAuthDto): Promise<User> {
         try {
+            const { provider, providerId } = userAuth;
             return await this.findOne({ provider, providerId });
         } catch {
-            return await this.createUser(provider, providerId, username);
+            return await this.createUser(userAuth);
         }
     }
 }

@@ -19,6 +19,9 @@ export class User {
     @Column('text')
     providerId: string;
 
+    @Column('text')
+    email: string;
+
     @Column()
     username: string;
 
