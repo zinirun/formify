@@ -25,7 +25,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         _refreshToken: string,
         { provider, id, displayName, emails }: Profile,
     ): Promise<User> {
-        // { provider, id, displayName, emails }
+        console.log(_accessToken, _refreshToken);
         const userAuth: UserAuthDto = {
             provider,
             providerId: id,

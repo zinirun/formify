@@ -9,7 +9,7 @@ export class AuthController {
     @Get('google')
     @UseGuards(AuthGuard('google'))
     async googleAuth(@Request() req) {
-        console.log(req);
+        console.log(req.user);
     }
 
     @Get('google/redirect')
