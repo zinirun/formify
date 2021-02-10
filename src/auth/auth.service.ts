@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly jwtService = JwtService) {}
+    constructor(
+        @Inject('JwtService')
+        private readonly jwtService = JwtService,
+    ) {}
 
     googleLogin(req) {
         if (!req.user) {
