@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, Response } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Response, BadRequestException } from '@nestjs/common';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { User } from 'src/user/user.entity';
@@ -38,6 +38,23 @@ export class AuthService {
         } catch (err) {
             throw new UnauthorizedException(err);
         }
+    }
+
+    async logout(_, @Response() res): Promise<Response> {
+        try {
+            res.clearCookie('x-access-token');
+            return res.json({
+                message: 'Logout successfully',
+            });
+        } catch (err) {
+            throw new BadRequestException(err);
+        }
+    }
+
+    async verifyToken(token: string): Promise<User> {
+        return verify(token, this.jwtKey)
+            .then((decoded) => decoded)
+            .catch(() => null);
     }
 
     private createToken(user: User): string {
