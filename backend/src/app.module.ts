@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { FormModule } from './form/form.module';
@@ -6,16 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { DateScalar } from './scalars/date';
+import { AuthService } from './auth/auth.service';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(),
         GraphQLModule.forRoot({
-            typePaths: ['./**/*.graphql'],
-            definitions: {
-                path: join(process.cwd(), 'src/autogen/schema.graphql.ts'),
-                outputAs: 'class',
-            },
+            autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+            context: ({ req }) => ({ req }),
         }),
         AuthModule,
         UserModule,
@@ -24,3 +22,35 @@ import { DateScalar } from './scalars/date';
     providers: [DateScalar],
 })
 export class AppModule {}
+
+/*
+implements NestModule {
+    constructor(private readonly authService: AuthService) {}
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(async (req, res, next) => {
+                const token: string = req.cookies['x-access-token'] || req.query.token;
+                console.log(token);
+                if (!token) {
+                    return res.status(403).json({
+                        message: 'No Token',
+                    });
+                }
+                return await this.authService
+                    .verifyToken(token)
+                    .then((decoded) => {
+                        console.log(decoded);
+                        req.decoded = decoded;
+                        next();
+                    })
+                    .catch((error) =>
+                        res.status(403).json({
+                            message: 'Invalid Token',
+                            error,
+                        }),
+                    );
+            })
+            .forRoutes('/graphql');
+    }
+}
+*/

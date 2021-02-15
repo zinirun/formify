@@ -1,0 +1,38 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Form {
+  id: Float!
+  title: String!
+  content: String!
+  user: User!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type User {
+  id: Float!
+  provider: String!
+  providerId: String!
+  email: String!
+  username: String!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Query {
+  getFormById(id: Float!): Form!
+}
+
+type Mutation {
+  createForm(form: FormInput!): Form!
+}
+
+input FormInput {
+  title: String!
+  content: String!
+}

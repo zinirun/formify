@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Form } from './form.entity';
-import { FormInput } from '../autogen/schema.graphql';
+import { FormInput } from './form.inputs';
 
 @Injectable()
 export class FormService {

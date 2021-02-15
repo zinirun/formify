@@ -54,9 +54,11 @@ export class AuthService {
     }
 
     async verifyToken(token: string): Promise<User> {
-        return verify(token, this.jwtKey)
-            .then((decoded) => decoded)
-            .catch(() => null);
+        return new Promise((resolve, reject) => {
+            verify(token, this.jwtKey, (err, decoded) => {
+                err ? reject(err) : resolve(decoded);
+            });
+        });
     }
 
     private createToken(user: User): string {
