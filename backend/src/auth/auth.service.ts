@@ -30,17 +30,19 @@ export class AuthService {
 
             res.cookie('x-access-token', token, { httpOnly: true });
 
-            return res.json({
-                success: true,
-                message: 'User information from google',
-                user: req.user,
-            });
+            return res.redirect(`${process.env.CLIENT_ADDR}/workspace`);
+
+            // return res.json({
+            //     success: true,
+            //     message: 'User information from google',
+            //     user: req.user,
+            // });
         } catch (err) {
             throw new UnauthorizedException(err);
         }
     }
 
-    async logout(_, @Response() res): Promise<Response> {
+    async logout(res): Promise<Response> {
         try {
             res.clearCookie('x-access-token');
             return res.json({
