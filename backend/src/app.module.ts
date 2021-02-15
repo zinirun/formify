@@ -14,6 +14,10 @@ import { AuthService } from './auth/auth.service';
         GraphQLModule.forRoot({
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
             context: ({ req }) => ({ req }),
+            cors: {
+                credentials: true,
+                origin: true,
+            },
         }),
         AuthModule,
         UserModule,
