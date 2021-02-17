@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { FormModule } from './form/form.module';
@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { DateScalar } from './scalars/date';
-import { AuthService } from './auth/auth.service';
 
 @Module({
     imports: [

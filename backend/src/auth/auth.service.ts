@@ -53,11 +53,12 @@ export class AuthService {
         }
     }
 
-    async verifyToken(token: string): Promise<User> {
-        return new Promise((resolve, reject) => {
-            verify(token, this.jwtKey, (err, decoded) => {
-                err ? reject(err) : resolve(decoded);
-            });
+    verifyToken(token: string): User {
+        return verify(token, this.jwtKey, (err, decoded) => {
+            if (err) {
+                throw new UnauthorizedException(err);
+            }
+            return decoded;
         });
     }
 
