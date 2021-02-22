@@ -15,7 +15,7 @@ export class AuthController {
     @Get('google/redirect')
     @UseGuards(AuthGuard('google'))
     async googleAuthRedirect(@Request() req, @Response() res): Promise<Response> {
-        return await this.authService.googleLogin(req, res);
+        return await this.authService.oAuthLogin(req, res);
     }
 
     @Get('github')
@@ -27,7 +27,7 @@ export class AuthController {
     @Get('github/redirect')
     @UseGuards(AuthGuard('github'))
     async githubAuthRedirect(@Request() req, @Response() res): Promise<Response> {
-        return await this.authService.githubLogin(req, res);
+        return await this.authService.oAuthLogin(req, res);
     }
 
     @Post('logout')
