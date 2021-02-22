@@ -26,7 +26,7 @@ export class User {
     providerId: string;
 
     @Field(() => String)
-    @Column('text')
+    @Column('text', { nullable: true })
     email: string;
 
     @Field(() => String)

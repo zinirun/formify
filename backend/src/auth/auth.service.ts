@@ -31,12 +31,25 @@ export class AuthService {
             res.cookie('x-access-token', token, { httpOnly: true });
 
             return res.redirect(`${process.env.CLIENT_ADDR}/workspace`);
+        } catch (err) {
+            throw new UnauthorizedException(err);
+        }
+    }
 
-            // return res.json({
-            //     success: true,
-            //     message: 'User information from google',
-            //     user: req.user,
-            // });
+    async githubLogin(req, res): Promise<Response> {
+        if (!req.user) {
+            return res.json({
+                success: false,
+                message: 'No user provided',
+            });
+        }
+
+        try {
+            const token = this.createToken(req.user);
+
+            res.cookie('x-access-token', token, { httpOnly: true });
+
+            return res.redirect(`${process.env.CLIENT_ADDR}/workspace`);
         } catch (err) {
             throw new UnauthorizedException(err);
         }

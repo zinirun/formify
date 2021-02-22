@@ -18,6 +18,18 @@ export class AuthController {
         return await this.authService.googleLogin(req, res);
     }
 
+    @Get('github')
+    @UseGuards(AuthGuard('github'))
+    async githubAuth(@Request() req) {
+        console.log(req.user);
+    }
+
+    @Get('github/redirect')
+    @UseGuards(AuthGuard('github'))
+    async githubAuthRedirect(@Request() req, @Response() res): Promise<Response> {
+        return await this.authService.githubLogin(req, res);
+    }
+
     @Post('logout')
     async logout(@Response() res): Promise<Response> {
         return await this.authService.logout(res);
