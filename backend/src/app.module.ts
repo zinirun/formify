@@ -25,35 +25,3 @@ import { DateScalar } from './scalars/date';
     providers: [DateScalar],
 })
 export class AppModule {}
-
-/*
-implements NestModule {
-    constructor(private readonly authService: AuthService) {}
-    configure(consumer: MiddlewareConsumer) {
-        consumer
-            .apply(async (req, res, next) => {
-                const token: string = req.cookies['x-access-token'] || req.query.token;
-                console.log(token);
-                if (!token) {
-                    return res.status(403).json({
-                        message: 'No Token',
-                    });
-                }
-                return await this.authService
-                    .verifyToken(token)
-                    .then((decoded) => {
-                        console.log(decoded);
-                        req.decoded = decoded;
-                        next();
-                    })
-                    .catch((error) =>
-                        res.status(403).json({
-                            message: 'Invalid Token',
-                            error,
-                        }),
-                    );
-            })
-            .forRoutes('/graphql');
-    }
-}
-*/
