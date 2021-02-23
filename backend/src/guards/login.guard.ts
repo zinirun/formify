@@ -11,7 +11,12 @@ export class LoginGuard implements CanActivate {
         const request = GqlExecutionContext.create(context).getContext().req;
         const token = request.cookies && request.cookies['x-access-token'];
         if (token) {
-            return this.authService.verifyToken(token) ? true : false;
+            const user = this.authService.verifyToken(token);
+            if (!user) {
+                return false;
+            }
+            request.user = user;
+            return true;
         } else return false;
     }
 }
