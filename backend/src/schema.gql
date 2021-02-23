@@ -18,7 +18,7 @@ type User {
   id: Float!
   provider: String!
   providerId: String!
-  email: String!
+  email: String
   username: String!
   createdAt: Date!
   updatedAt: Date!
@@ -29,6 +29,7 @@ type Query {
 }
 
 type Mutation {
+  verifyUser: User!
   createForm(form: FormInput!): Form!
 }
 

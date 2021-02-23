@@ -62,6 +62,7 @@ export class AuthService {
             provider: user.provider,
             providerId: user.providerId,
             email: user.email,
+            username: user.username,
         };
 
         return sign(payload, this.jwtKey, this.jwtOptions);
