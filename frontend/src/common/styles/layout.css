@@ -6,3 +6,19 @@
 .top-wrapper {
     margin-top: 48px;
 }
+
+.formify-logo {
+    float: left;
+    margin-right: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.formify-logo-text {
+    margin-left: 5px;
+}
+
+.formify-user-section {
+    float: right;
+}

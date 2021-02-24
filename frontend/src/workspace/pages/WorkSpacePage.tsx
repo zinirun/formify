@@ -8,11 +8,11 @@ export default function WorkSpacePage() {
     return (
         <>
             <Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item>Formify</Breadcrumb.Item>
-                <Breadcrumb.Item>내 워크스페이스</Breadcrumb.Item>
+                <Breadcrumb.Item>워크스페이스</Breadcrumb.Item>
+                <Breadcrumb.Item>메인 워크스페이스</Breadcrumb.Item>
             </Breadcrumb>
             <Layout className="site-layout-background">
-                <Sider className="site-layout-background" width={200}>
+                <Sider className="site-layout-background" width={250}>
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
