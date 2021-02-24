@@ -14,13 +14,15 @@ function App() {
         <Router>
             <Layout>
                 <SiteHeader />
-                <Content style={{ padding: '0 50px' }}>
+                <Content style={{ background: 'white' }}>
                     <Route exact path="/" component={HomePage} />
                     <Route path="/workspace" component={WorkSpacePage} />
                     <Route path="/guide" component={GuidePage} />
                 </Content>
             </Layout>
-            <Footer style={{ textAlign: 'center' }}>Formify © 2021 Created by zini</Footer>
+            <Footer style={{ textAlign: 'center', background: 'white' }}>
+                Formify © 2021 Created by zini
+            </Footer>
         </Router>
     );
 }

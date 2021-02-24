@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -7,10 +7,6 @@ const { Content, Sider } = Layout;
 export default function WorkSpacePage() {
     return (
         <>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item>워크스페이스</Breadcrumb.Item>
-                <Breadcrumb.Item>메인 워크스페이스</Breadcrumb.Item>
-            </Breadcrumb>
             <Layout className="site-layout-background">
                 <Sider className="site-layout-background" width={250}>
                     <Menu
@@ -19,7 +15,7 @@ export default function WorkSpacePage() {
                         defaultOpenKeys={['sub1']}
                         style={{ height: '100%' }}
                     >
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
+                        <SubMenu key="sub1" icon={<UserOutlined />} title="사용자 이름">
                             <Menu.Item key="1">option1</Menu.Item>
                             <Menu.Item key="2">option2</Menu.Item>
                             <Menu.Item key="3">option3</Menu.Item>
@@ -39,7 +35,7 @@ export default function WorkSpacePage() {
                         </SubMenu>
                     </Menu>
                 </Sider>
-                <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>
+                <Content style={{ padding: '24px', minHeight: 280 }}>Content</Content>
             </Layout>
         </>
     );
