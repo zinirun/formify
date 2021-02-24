@@ -1,5 +1,4 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { Form } from './form.entity';
 import { FormInput } from './form.inputs';
@@ -7,10 +6,7 @@ import { FormRepository } from './form.repository';
 
 @Injectable()
 export class FormService {
-    constructor(
-        @InjectRepository(Form)
-        private formRepository: FormRepository,
-    ) {}
+    constructor(private formRepository: FormRepository) {}
 
     async getOne(id: number): Promise<Form> {
         const form = await this.formRepository.findOneByIdWithUser(id);
