@@ -1,20 +1,25 @@
 import React from 'react';
-import { Button } from 'antd';
-import { SERVER_ADDR } from './config/uri.config';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Layout } from 'antd';
+import SiteHeader from './header/SiteHeader';
+import './common/styles/layout.css';
+import HomePage from './common/pages/HomePage';
+import WorkSpacePage from './workspace/pages/WorkSpacePage';
+
+const { Content, Footer } = Layout;
 
 function App() {
-    const handleOAuthLogin = (authSource: string) => {
-        window.location.href = `${SERVER_ADDR}/auth/${authSource}`;
-    };
     return (
-        <div>
-            <Button type="primary" onClick={() => handleOAuthLogin('google')}>
-                Google Login
-            </Button>
-            <Button type="primary" onClick={() => handleOAuthLogin('github')}>
-                Github Login
-            </Button>
-        </div>
+        <Router>
+            <Layout>
+                <SiteHeader />
+                <Content style={{ padding: '0 50px' }}>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/workspace" component={WorkSpacePage} />
+                </Content>
+            </Layout>
+            <Footer style={{ textAlign: 'center' }}>Formify © 2021 Created by zini</Footer>
+        </Router>
     );
 }
 
