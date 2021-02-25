@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { UserOutlined, LaptopOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
@@ -8,30 +8,27 @@ export default function WorkSpacePage() {
     return (
         <>
             <Layout className="site-layout-background">
-                <Sider className="site-layout-background" width={250}>
+                <Sider className="site-layout-background" width={300}>
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
                         defaultOpenKeys={['sub1']}
                         style={{ height: '100%' }}
                     >
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="사용자 이름">
-                            <Menu.Item key="1">option1</Menu.Item>
-                            <Menu.Item key="2">option2</Menu.Item>
-                            <Menu.Item key="3">option3</Menu.Item>
-                            <Menu.Item key="4">option4</Menu.Item>
+                        <Menu.Item key="0">새로운 그룹 만들기</Menu.Item>
+                        <SubMenu key="sub1" icon={<UserOutlined />} title="그룹 1">
+                            <Menu.Item>폼 만들기</Menu.Item>
+                            <Menu.Item key="1">설문조사 1</Menu.Item>
+                            <Menu.Item key="2">설문조사 2</Menu.Item>
+                            <Menu.Item key="3">설문조사 3</Menu.Item>
+                            <Menu.Item key="4">설문조사 4</Menu.Item>
                         </SubMenu>
-                        <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-                            <Menu.Item key="5">option5</Menu.Item>
-                            <Menu.Item key="6">option6</Menu.Item>
-                            <Menu.Item key="7">option7</Menu.Item>
-                            <Menu.Item key="8">option8</Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
-                            <Menu.Item key="9">option9</Menu.Item>
-                            <Menu.Item key="10">option10</Menu.Item>
-                            <Menu.Item key="11">option11</Menu.Item>
-                            <Menu.Item key="12">option12</Menu.Item>
+                        <SubMenu key="sub2" icon={<LaptopOutlined />} title="그룹 2">
+                            <Menu.Item>폼 만들기</Menu.Item>
+                            <Menu.Item key="5">설문조사 5</Menu.Item>
+                            <Menu.Item key="6">설문조사 6</Menu.Item>
+                            <Menu.Item key="7">설문조사 7</Menu.Item>
+                            <Menu.Item key="8">설문조사 8</Menu.Item>
                         </SubMenu>
                     </Menu>
                 </Sider>
