@@ -7,10 +7,8 @@ import { ApolloProvider } from '@apollo/client';
 import { AplClient as client } from './config/graphql';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <ApolloProvider client={client}>
-            <App />
-        </ApolloProvider>
-    </React.StrictMode>,
+    <ApolloProvider client={client}>
+        <App />
+    </ApolloProvider>,
     document.getElementById('root'),
 );
