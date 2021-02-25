@@ -7,12 +7,21 @@ type Form {
   title: String!
   content: String!
   user: User!
+  group: Group!
   createdAt: Date!
   updatedAt: Date!
 }
 
 """Date custom scalar type"""
 scalar Date
+
+type Group {
+  id: Float!
+  name: String!
+  user: User!
+  createdAt: Date!
+  updatedAt: Date!
+}
 
 type User {
   id: Float!
@@ -25,15 +34,21 @@ type User {
 }
 
 type Query {
+  verifyUser: User!
   getFormById(id: Float!): Form!
+  getGroups: [Group!]!
 }
 
 type Mutation {
-  verifyUser: User!
   createForm(form: FormInput!): Form!
+  createGroup(group: GroupInput!): Group!
 }
 
 input FormInput {
   title: String!
   content: String!
+}
+
+input GroupInput {
+  name: String!
 }

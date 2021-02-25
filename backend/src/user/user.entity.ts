@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Group } from 'src/group/group.entity';
 import { DateScalar } from 'src/scalars/date';
 import {
     Column,
@@ -53,4 +54,7 @@ export class User {
 
     @OneToMany(() => Form, (form) => form.user)
     forms: Form[];
+
+    @OneToMany(() => Group, (group) => group.user)
+    groups: Group[];
 }

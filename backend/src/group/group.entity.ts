@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Group } from 'src/group/group.entity';
+import { Form } from 'src/form/form.entity';
 import { DateScalar } from 'src/scalars/date';
 import {
     Column,
@@ -7,6 +7,7 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -14,18 +15,14 @@ import { User } from '../user/user.entity';
 
 @Entity()
 @ObjectType()
-export class Form {
+export class Group {
     @Field(() => Number)
     @PrimaryGeneratedColumn()
     id: number;
 
     @Field(() => String)
     @Column({ length: 40 })
-    title: string;
-
-    @Field(() => String)
-    @Column('text')
-    content: string;
+    name: string;
 
     /**
      * Join with user -> userId
@@ -34,14 +31,6 @@ export class Form {
     @ManyToOne(() => User, (user) => user.forms)
     @JoinColumn()
     user: User;
-
-    /**
-     * Join with user -> userId
-     */
-    @Field(() => Group)
-    @ManyToOne(() => Group, (group) => group.forms)
-    @JoinColumn()
-    group: Group;
 
     /**
      * DB insert time.
@@ -60,4 +49,7 @@ export class Form {
         onUpdate: 'CURRENT_TIMESTAMP(6)',
     })
     updatedAt: Date;
+
+    @OneToMany(() => Form, (form) => form.user)
+    forms: Form[];
 }
