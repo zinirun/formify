@@ -26,11 +26,13 @@ export default function FormsContainer(props) {
     }, [formsData]);
 
     return (
-        <SubMenu key={`g-${props.group.id}`} title={props.group.name} {...props}>
-            <Menu.Item icon={<PlusCircleOutlined />}>새로운 폼</Menu.Item>
+        <SubMenu key={`group-${props.group.id}`} title={props.group.name} {...props}>
+            <Menu.Item key={`newform-${props.group.id}`} icon={<PlusCircleOutlined />}>
+                새로운 폼
+            </Menu.Item>
             {formsLoading && <LoadingSpin />}
             {forms.map((form, idx) => (
-                <Menu.Item key={`f-${props.group.id}-${idx}`}> {form.title}</Menu.Item>
+                <Menu.Item key={`form-${props.group.id}-${form.id}`}> {form.title}</Menu.Item>
             ))}
         </SubMenu>
     );
