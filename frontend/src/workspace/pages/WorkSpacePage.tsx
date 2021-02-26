@@ -5,11 +5,14 @@ import { GET_GROUPS } from '../../config/queries';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import AddGroupContainer from '../containers/AddGroupContainer';
 import FormsContainer from '../containers/FormsContainer';
+import AddFormContainer from '../containers/AddFormContainer';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
-    const [selectedForm, setSelectedForm] = useState({
-        key: null,
+    const [contentAction, setContentAction] = useState({
+        action: '',
+        groupId: 0,
+        formId: 0,
     });
     const [groups, setGroups]: any = useState([]);
     const {
@@ -28,12 +31,24 @@ export default function WorkSpacePage() {
 
     const handleSelectForm = useCallback(
         ({ key }) => {
-            setSelectedForm({
-                key,
-            });
+            const [type, groupId, formId] = key.split('-');
+            if (type === 'newform') {
+                setContentAction({
+                    action: 'createForm',
+                    groupId,
+                    formId: 0,
+                });
+            } else {
+                setContentAction({
+                    action: 'showForm',
+                    groupId,
+                    formId,
+                });
+            }
         },
-        [setSelectedForm],
+        [setContentAction],
     );
+
     return (
         <Layout className="site-layout-background">
             <Sider className="site-layout-background" width={300}>
@@ -51,7 +66,23 @@ export default function WorkSpacePage() {
                         ))}
                 </Menu>
             </Sider>
-            <Content style={{ padding: '24px', minHeight: 400 }}>Content</Content>
+            <Content style={{ padding: '24px', minHeight: 400 }}>
+                {contentAction.action === 'createForm' && <AddFormContainer />}
+                {contentAction.action === 'showForm' && (
+                    <ShowFormContainer
+                        formId={contentAction.formId}
+                        groupId={contentAction.groupId}
+                    />
+                )}
+            </Content>
         </Layout>
+    );
+}
+
+function ShowFormContainer({ formId, groupId }) {
+    return (
+        <div>
+            그룹 {groupId}의 폼 {formId} 정보
+        </div>
     );
 }

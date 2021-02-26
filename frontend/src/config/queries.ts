@@ -40,6 +40,17 @@ export const CREATE_FORM = gql`
     }
 `;
 
+export const GET_FORM_BY_ID = gql`
+    query getFormById {
+        getFormById(id: 1) {
+            id
+            title
+            content
+            createdAt
+        }
+    }
+`;
+
 export const GET_FORMS_BY_GROUP_ID = gql`
     query getFormsByGroupId($groupId: Float!) {
         getFormsByGroupId(groupId: $groupId) {
