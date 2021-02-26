@@ -29,3 +29,24 @@ export const CREATE_GROUP = gql`
         }
     }
 `;
+
+export const CREATE_FORM = gql`
+    mutation createForm($form: FormInput!) {
+        createForm(form: $form) {
+            id
+            title
+            content
+        }
+    }
+`;
+
+export const GET_FORMS_BY_GROUP_ID = gql`
+    query getFormsByGroupId($groupId: Float!) {
+        getFormsByGroupId(groupId: $groupId) {
+            id
+            title
+            content
+            createdAt
+        }
+    }
+`;
