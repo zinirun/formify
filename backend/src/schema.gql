@@ -36,6 +36,7 @@ type User {
 type Query {
   verifyUser: User!
   getFormById(id: Float!): Form!
+  getFormsByGroupId(groupId: Float!): [Form!]!
   getGroups: [Group!]!
 }
 
@@ -45,6 +46,7 @@ type Mutation {
 }
 
 input FormInput {
+  groupId: Float!
   title: String!
   content: String!
 }

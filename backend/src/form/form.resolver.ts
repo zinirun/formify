@@ -18,8 +18,17 @@ export class FormResolver {
     }
 
     @UseGuards(LoginGuard)
+    @Query(() => [Form])
+    async getFormsByGroupId(@Args('groupId') id: number): Promise<Form[]> {
+        return await this.formService.getAllByGroupId(id);
+    }
+
+    @UseGuards(LoginGuard)
     @Mutation(() => Form)
-    async createForm(@GetUser() user: User, @Args('form') form: FormInput): Promise<Form> {
+    async createForm(
+        @GetUser() user: User,
+        @Args('form') form: FormInput,
+    ): Promise<Form> {
         return await this.formService.create(user, form);
     }
 }

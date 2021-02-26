@@ -9,7 +9,7 @@ import { GroupInput } from './group.input';
 export class GroupService {
     constructor(@InjectRepository(Group) private groupRepository: Repository<Group>) {}
 
-    private async getOne(id: number): Promise<Group> {
+    async getOne(id: number): Promise<Group> {
         const group = await this.groupRepository.findOne(id);
         if (!group) {
             throw new NotFoundException(`Group with ID ${id}: Not Found`);

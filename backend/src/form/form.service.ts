@@ -1,4 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { GroupService } from 'src/group/group.service';
 import { User } from 'src/user/user.entity';
 import { Form } from './form.entity';
 import { FormInput } from './form.inputs';
@@ -6,7 +7,10 @@ import { FormRepository } from './form.repository';
 
 @Injectable()
 export class FormService {
-    constructor(private formRepository: FormRepository) {}
+    constructor(
+        private formRepository: FormRepository,
+        private readonly groupService: GroupService,
+    ) {}
 
     async getOne(id: number): Promise<Form> {
         const form = await this.formRepository.findOneByIdWithUser(id);
@@ -16,9 +20,18 @@ export class FormService {
         return form;
     }
 
+    async getAllByGroupId(groupId: number): Promise<Form[]> {
+        return await this.formRepository.find({
+            where: {
+                group: groupId,
+            },
+        });
+    }
+
     async create(user: User, form: FormInput): Promise<Form> {
         try {
-            const { id } = await this.formRepository.save({ ...form, user });
+            const group = await this.groupService.getOne(form.groupId);
+            const { id } = await this.formRepository.save({ ...form, user, group });
             return await this.getOne(id);
         } catch (err) {
             throw new ConflictException(err);
