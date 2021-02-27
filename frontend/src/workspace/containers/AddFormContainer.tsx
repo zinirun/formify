@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Card } from 'antd';
+import { Form, Input, Button, Card, Space } from 'antd';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QTextType from '../components/QuestionTypes/QTextType';
 
@@ -28,11 +28,7 @@ export default function AddFormContainer(props) {
                             rules={[{ required: true, message: '질문의 제목을 입력하세요.' }]}
                             style={{ margin: 0 }}
                         >
-                            <Input
-                                style={{ width: '90%' }}
-                                placeholder="질문의 제목을 입력하세요."
-                                bordered={false}
-                            />
+                            <Input placeholder="질문의 제목을 입력하세요." bordered={false} />
                         </Form.Item>
                     }
                     extra={<QuestionTypeDropdown />}
@@ -40,10 +36,13 @@ export default function AddFormContainer(props) {
                     <QTextType />
                 </Card>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        폼 생성
-                    </Button>
+                <Form.Item style={{ marginTop: 20, float: 'right' }}>
+                    <Space>
+                        <Button>미리보기</Button>
+                        <Button type="primary" htmlType="submit">
+                            폼 생성
+                        </Button>
+                    </Space>
                 </Form.Item>
             </Form>
         </div>
