@@ -67,7 +67,9 @@ export default function WorkSpacePage() {
                 </Menu>
             </Sider>
             <Content style={{ padding: '24px', minHeight: 400 }}>
-                {contentAction.action === 'createForm' && <AddFormContainer />}
+                {contentAction.action === 'createForm' && (
+                    <AddFormContainer groupId={contentAction.groupId} />
+                )}
                 {contentAction.action === 'showForm' && (
                     <ShowFormContainer
                         formId={contentAction.formId}

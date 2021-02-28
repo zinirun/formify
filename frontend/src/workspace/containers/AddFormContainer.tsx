@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { Form, Input, Button, Card, Space, Tooltip } from 'antd';
+import { Form, Input, Button, Card, Space, Tooltip, message } from 'antd';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QTextType from '../components/QuestionTypes/QTextType';
 import QOptions from '../components/QuestionTypes/QOptions';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { useMutation } from '@apollo/client';
+import { CREATE_FORM } from '../../config/queries';
 
 export default function AddFormContainer(props) {
     const [form, setForm] = useState({
@@ -17,6 +19,7 @@ export default function AddFormContainer(props) {
             options: [''],
         },
     ]);
+    const [createForm] = useMutation(CREATE_FORM);
     const removeItem = useCallback(
         (key) => {
             const updated = questions.filter((q) => q.seq !== key);
@@ -86,7 +89,20 @@ export default function AddFormContainer(props) {
         [questions],
     );
     const onFinish = () => {
-        console.log(form, questions);
+        const newForm = {
+            groupId: parseInt(props.groupId),
+            title: form.title,
+            content: JSON.stringify(questions),
+        };
+        createForm({
+            variables: {
+                form: newForm,
+            },
+        })
+            .then((res) => console.log(res))
+            .catch((err) => {
+                message.error(`폼을 생성하는 중 에러가 발생했습니다. [${err}]`);
+            });
     };
     return (
         <Form name="newform" onFinish={onFinish} size="large">

@@ -41,8 +41,8 @@ export const CREATE_FORM = gql`
 `;
 
 export const GET_FORM_BY_ID = gql`
-    query getFormById {
-        getFormById(id: 1) {
+    query getFormById($id: Float!) {
+        getFormById(id: $id) {
             id
             title
             content
