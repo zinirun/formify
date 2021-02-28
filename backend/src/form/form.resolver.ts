@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FormInput } from './form.inputs';
+import { FormInput, FormUpdateInput } from './form.inputs';
 import { Form } from './form.entity';
 import { FormService } from './form.service';
 import { UseGuards } from '@nestjs/common';
@@ -25,10 +25,17 @@ export class FormResolver {
 
     @UseGuards(LoginGuard)
     @Mutation(() => Form)
-    async createForm(
-        @GetUser() user: User,
-        @Args('form') form: FormInput,
-    ): Promise<Form> {
+    async createForm(@GetUser() user: User, @Args('form') form: FormInput): Promise<Form> {
         return await this.formService.create(user, form);
+    }
+
+    @UseGuards(LoginGuard)
+    @Mutation(() => Form)
+    async updateForm(
+        @GetUser() user: User,
+        @Args('id') id: number,
+        @Args('form') form: FormUpdateInput,
+    ): Promise<Form> {
+        return await this.formService.update(id, form);
     }
 }

@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { GroupService } from 'src/group/group.service';
 import { User } from 'src/user/user.entity';
 import { Form } from './form.entity';
-import { FormInput } from './form.inputs';
+import { FormInput, FormUpdateInput } from './form.inputs';
 import { FormRepository } from './form.repository';
 
 @Injectable()
@@ -32,6 +32,16 @@ export class FormService {
         try {
             const group = await this.groupService.getOne(form.groupId);
             const { id } = await this.formRepository.save({ ...form, user, group });
+            return await this.getOne(id);
+        } catch (err) {
+            throw new ConflictException(err);
+        }
+    }
+
+    async update(id: number, form: FormUpdateInput): Promise<Form> {
+        try {
+            await this.getOne(id);
+            await this.formRepository.update({ id }, form);
             return await this.getOne(id);
         } catch (err) {
             throw new ConflictException(err);

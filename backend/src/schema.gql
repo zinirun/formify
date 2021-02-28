@@ -42,11 +42,17 @@ type Query {
 
 type Mutation {
   createForm(form: FormInput!): Form!
+  updateForm(form: FormUpdateInput!, id: Float!): Form!
   createGroup(group: GroupInput!): Group!
 }
 
 input FormInput {
   groupId: Float!
+  title: String!
+  content: String!
+}
+
+input FormUpdateInput {
   title: String!
   content: String!
 }

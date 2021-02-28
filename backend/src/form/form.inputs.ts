@@ -11,3 +11,12 @@ export class FormInput {
     @Field(() => String)
     readonly content!: string;
 }
+
+@InputType()
+export class FormUpdateInput {
+    @Field(() => String)
+    readonly title!: string;
+
+    @Field(() => String)
+    readonly content!: string;
+}
