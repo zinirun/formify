@@ -71,7 +71,6 @@ export default function QShowOptions(props) {
                     style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}
                 >
                     <Input
-                        autoFocus
                         value={opt.value}
                         name={`opt-${props.seq}-${opt.key}`}
                         onChange={(e) => handleChange(e, opt.key)}

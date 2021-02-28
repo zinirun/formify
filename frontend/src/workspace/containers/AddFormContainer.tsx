@@ -107,7 +107,7 @@ export default function AddFormContainer(props) {
             });
     };
     return (
-        <Form name="newform" onFinish={onFinish} size="large">
+        <Form onFinish={onFinish} size="large">
             <Form.Item
                 name="title"
                 rules={[{ required: true, message: '폼의 이름을 입력하세요.' }]}

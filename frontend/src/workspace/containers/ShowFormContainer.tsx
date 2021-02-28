@@ -96,36 +96,53 @@ export default function ShowFormContainer({ formId, groupId }) {
         },
         [questions],
     );
-    const onFinish = () => {
-        const updatedForm = {
-            title: form.title,
-            content: JSON.stringify(questions),
-        };
-        updateForm({
-            variables: {
-                id: parseInt(formId),
-                form: updatedForm,
-            },
-        })
-            .then(() => {
-                window.location.href = '/workspace';
+    const emptyValidator = (value) => {
+        try {
+            const v = JSON.stringify(value);
+            if (v.includes('""')) {
+                throw new Error('Has Empty Value');
+            }
+        } catch (err) {
+            throw new Error(err);
+        }
+    };
+    const onFinish = async () => {
+        try {
+            const updatedForm = {
+                title: form.title,
+                content: JSON.stringify(questions),
+            };
+            await emptyValidator(updatedForm);
+
+            updateForm({
+                variables: {
+                    id: parseInt(formId),
+                    form: updatedForm,
+                },
             })
-            .catch((err) => {
-                message.error(`폼을 수정하는 중 에러가 발생했습니다. [${err}]`);
-            });
+                .then(() => {
+                    window.location.href = '/workspace';
+                })
+                .catch((err) => {
+                    message.error(`폼을 수정하는 중 에러가 발생했습니다. [${err}]`);
+                });
+        } catch (err) {
+            message.error('입력값 중 빈 칸이 존재합니다. 입력값을 다시 확인하세요.');
+        }
     };
 
     return (
         <div>
             {formLoading && <LoadingSpin />}
             {!formLoading && form && questions && (
-                <Form name="form" onFinish={onFinish} size="large">
+                <Form onFinish={onFinish} size="large">
                     <Input
                         autoFocus
                         value={form.title}
                         name="title"
                         onChange={handleTitleChange}
                         placeholder="폼의 이름을 입력하세요."
+                        style={{ marginBottom: 20 }}
                     />
 
                     {questions.map((q) => (

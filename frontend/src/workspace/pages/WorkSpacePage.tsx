@@ -57,7 +57,7 @@ export default function WorkSpacePage() {
                 <AddGroupContainer refetch={groupsRefetch} />
                 <Menu
                     mode="inline"
-                    defaultSelectedKeys={['new-group']}
+                    defaultSelectedKeys={['']}
                     style={{ height: '100%' }}
                     onSelect={handleSelectForm}
                 >
