@@ -42,22 +42,17 @@ export default function AddFormContainer(props) {
         },
         [form],
     );
-    const handleQuestionChange = useCallback(
-        (e) => {
-            const { name, value } = e.target;
-            const [type, seq] = name.split('-');
-            let updated;
-            switch (type) {
-                case 'title':
-                    updated = questions.map((q) => {
-                        if (q.seq === parseInt(seq)) {
-                            return {
-                                ...q,
-                                title: value,
-                            };
-                        } else return q;
-                    });
-            }
+    const handleQuestionTitleChange = useCallback(
+        (e, seq) => {
+            const { value } = e.target;
+            const updated = questions.map((q) => {
+                if (q.seq === seq) {
+                    return {
+                        ...q,
+                        title: value,
+                    };
+                } else return q;
+            });
             setQuestions(updated);
         },
         [questions],
@@ -90,15 +85,11 @@ export default function AddFormContainer(props) {
         },
         [questions],
     );
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
-    };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+    const onFinish = () => {
+        console.log(form, questions);
     };
     return (
-        <Form name="newform" onFinish={onFinish} onFinishFailed={onFinishFailed} size="large">
+        <Form name="newform" onFinish={onFinish} size="large">
             <Form.Item
                 name="title"
                 rules={[{ required: true, message: '폼의 이름을 입력하세요.' }]}
@@ -126,7 +117,7 @@ export default function AddFormContainer(props) {
                                 placeholder="질문의 제목을 입력하세요."
                                 bordered={false}
                                 value={q.title}
-                                onChange={handleQuestionChange}
+                                onChange={(e) => handleQuestionTitleChange(e, q.seq)}
                             />
                         </Form.Item>
                     }
