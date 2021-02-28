@@ -61,3 +61,17 @@ export const GET_FORMS_BY_GROUP_ID = gql`
         }
     }
 `;
+
+export const UPDATE_FORM = gql`
+    mutation updateForm($id: Float!, $form: FormUpdateInput!) {
+        updateForm(id: $id, form: $form) {
+            id
+            title
+            content
+            user {
+                id
+                username
+            }
+        }
+    }
+`;

@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Button, Card, Form, Input, message, Space, Tooltip } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
-import { CREATE_FORM, GET_FORM_BY_ID } from '../../config/queries';
+import { GET_FORM_BY_ID, UPDATE_FORM } from '../../config/queries';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QShowOptions from '../components/QuestionTypes/QShowOptions';
 import QTextType from '../components/QuestionTypes/QTextType';
@@ -13,7 +13,7 @@ export default function ShowFormContainer({ formId, groupId }) {
         title: '',
     });
     const [questions, setQuestions]: any = useState([]);
-    const [createForm] = useMutation(CREATE_FORM);
+    const [updateForm] = useMutation(UPDATE_FORM);
     const { data: formData, error: formError, loading: formLoading } = useQuery(GET_FORM_BY_ID, {
         variables: {
             id: parseInt(formId),
@@ -97,21 +97,21 @@ export default function ShowFormContainer({ formId, groupId }) {
         [questions],
     );
     const onFinish = () => {
-        const newForm = {
-            groupId: parseInt(groupId),
+        const updatedForm = {
             title: form.title,
             content: JSON.stringify(questions),
         };
-        createForm({
+        updateForm({
             variables: {
-                form: newForm,
+                id: parseInt(formId),
+                form: updatedForm,
             },
         })
             .then(() => {
                 window.location.href = '/workspace';
             })
             .catch((err) => {
-                message.error(`폼을 생성하는 중 에러가 발생했습니다. [${err}]`);
+                message.error(`폼을 수정하는 중 에러가 발생했습니다. [${err}]`);
             });
     };
 
