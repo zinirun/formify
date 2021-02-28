@@ -31,7 +31,7 @@ export default function FormsContainer(props) {
                 새로운 폼
             </Menu.Item>
             {formsLoading && <LoadingSpin />}
-            {forms.map((form, idx) => (
+            {forms.map((form) => (
                 <Menu.Item key={`form-${props.group.id}-${form.id}`}> {form.title}</Menu.Item>
             ))}
         </SubMenu>

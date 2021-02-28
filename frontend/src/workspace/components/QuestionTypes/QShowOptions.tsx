@@ -2,7 +2,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Tooltip } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 
-export default function QOptions(props) {
+export default function QShowOptions(props) {
     const [options, setOptions] = useState([
         {
             key: 0,
@@ -10,9 +10,7 @@ export default function QOptions(props) {
         },
     ]);
     useEffect(() => {
-        if (props.data) {
-            setOptions(props.data);
-        }
+        setOptions(props.data);
     }, [props]);
     const handleChange = useCallback(
         (e, key) => {
@@ -72,19 +70,13 @@ export default function QOptions(props) {
                     key={`opt-${props.seq}-${opt.key}`}
                     style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}
                 >
-                    <Form.Item
+                    <Input
+                        autoFocus
+                        value={opt.value}
                         name={`opt-${props.seq}-${opt.key}`}
-                        initialValue={opt.value}
-                        rules={[{ required: true, message: '보기를 입력하세요.' }]}
-                        style={{ margin: 0, width: '100%' }}
-                    >
-                        <Input
-                            autoFocus
-                            name={`opt-${props.seq}-${opt.key}`}
-                            onChange={(e) => handleChange(e, opt.key)}
-                            placeholder="보기를 입력하세요."
-                        />
-                    </Form.Item>
+                        onChange={(e) => handleChange(e, opt.key)}
+                        placeholder="보기를 입력하세요."
+                    />
                     {opt.key !== 0 && (
                         <div style={{ marginLeft: '10px' }}>
                             <Tooltip title="보기 삭제">

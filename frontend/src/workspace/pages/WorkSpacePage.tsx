@@ -6,6 +6,7 @@ import LoadingSpin from '../../common/components/LoadingSpin';
 import AddGroupContainer from '../containers/AddGroupContainer';
 import FormsContainer from '../containers/FormsContainer';
 import AddFormContainer from '../containers/AddFormContainer';
+import ShowFormContainer from '../containers/ShowFormContainer';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
@@ -34,19 +35,20 @@ export default function WorkSpacePage() {
             const [type, groupId, formId] = key.split('-');
             if (type === 'newform') {
                 setContentAction({
+                    ...contentAction,
                     action: 'createForm',
                     groupId,
-                    formId: 0,
                 });
             } else {
                 setContentAction({
+                    ...contentAction,
                     action: 'showForm',
                     groupId,
                     formId,
                 });
             }
         },
-        [setContentAction],
+        [setContentAction, contentAction],
     );
 
     return (
@@ -78,13 +80,5 @@ export default function WorkSpacePage() {
                 )}
             </Content>
         </Layout>
-    );
-}
-
-function ShowFormContainer({ formId, groupId }) {
-    return (
-        <div>
-            그룹 {groupId}의 폼 {formId} 정보
-        </div>
     );
 }

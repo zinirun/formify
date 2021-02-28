@@ -99,7 +99,9 @@ export default function AddFormContainer(props) {
                 form: newForm,
             },
         })
-            .then((res) => console.log(res))
+            .then(() => {
+                window.location.href = '/workspace';
+            })
             .catch((err) => {
                 message.error(`폼을 생성하는 중 에러가 발생했습니다. [${err}]`);
             });
@@ -132,7 +134,6 @@ export default function AddFormContainer(props) {
                                 name={`title-${q.seq}`}
                                 placeholder="질문의 제목을 입력하세요."
                                 bordered={false}
-                                value={q.title}
                                 onChange={(e) => handleQuestionTitleChange(e, q.seq)}
                             />
                         </Form.Item>
@@ -177,6 +178,7 @@ export default function AddFormContainer(props) {
             <Form.Item style={{ marginTop: 10, float: 'right' }}>
                 <Space>
                     <Button>미리보기</Button>
+                    <Button>임시 저장</Button>
                     <Button type="primary" htmlType="submit">
                         폼 생성
                     </Button>
