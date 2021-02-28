@@ -1,11 +1,11 @@
 import React from 'react';
-import { Select } from 'antd';
+import { Form, Select } from 'antd';
 
 const { Option } = Select;
 
-export default function QuestionTypeDropdown() {
+export default function QuestionTypeDropdown({ seq, value, onChange }) {
     return (
-        <Select defaultValue="text" style={{ width: '200px' }}>
+        <Select value={value} onChange={(value) => onChange(value, seq)} style={{ width: '200px' }}>
             <Option
                 value=""
                 disabled
