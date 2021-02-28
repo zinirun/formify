@@ -1,18 +1,11 @@
 import React from 'react';
-import { Form, Select } from 'antd';
+import { Select } from 'antd';
 
 const { Option } = Select;
 
 export default function QuestionTypeDropdown({ seq, value, onChange }) {
     return (
         <Select value={value} onChange={(value) => onChange(value, seq)} style={{ width: '200px' }}>
-            <Option
-                value=""
-                disabled
-                style={{ cursor: 'default', fontSize: '0.75rem', color: 'crimson' }}
-            >
-                변경시 입력 내용이 초기화됨
-            </Option>
             <Option value="text">텍스트 타입</Option>
             <Option value="selectOne">단일 선택 타입</Option>
             <Option value="selectAll">다중 선택 타입</Option>
