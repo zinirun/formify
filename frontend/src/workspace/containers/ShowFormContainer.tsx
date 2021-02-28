@@ -97,13 +97,9 @@ export default function ShowFormContainer({ formId, groupId }) {
         [questions],
     );
     const emptyValidator = (value) => {
-        try {
-            const v = JSON.stringify(value);
-            if (v.includes('""')) {
-                throw new Error('Has Empty Value');
-            }
-        } catch (err) {
-            throw new Error(err);
+        const v = JSON.stringify(value);
+        if (v.includes('""')) {
+            throw new Error('Has Empty Value');
         }
     };
     const onFinish = async () => {
