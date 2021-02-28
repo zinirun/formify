@@ -28,7 +28,12 @@ export default function AddGroupContainer({ refetch }) {
     return (
         <Popover
             content={
-                <Search placeholder="그룹 이름" enterButton="추가" onSearch={handleAddGroup} />
+                <Search
+                    placeholder="그룹 이름"
+                    enterButton="추가"
+                    onSearch={handleAddGroup}
+                    autoFocus
+                />
             }
             title="새 그룹을 생성합니다."
             trigger="click"

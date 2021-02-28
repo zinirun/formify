@@ -1,66 +1,102 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
-import { useState } from 'react';
+import { Button, Form, Input, Tooltip } from 'antd';
+import { useCallback, useState } from 'react';
 
 export default function QOptions({ seq, onChange }) {
-    const [options, setOptions] = useState(['']);
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        const [_, idx] = name.split('-');
-        let updated = options;
-        updated[idx] = value;
+    const [options, setOptions] = useState([
+        {
+            key: 0,
+            value: '',
+        },
+    ]);
+    const handleChange = useCallback(
+        (e, key) => {
+            const { value } = e.target;
+            const updated = options.map((opt) => {
+                if (opt.key === key) {
+                    return {
+                        ...opt,
+                        value,
+                    };
+                } else return opt;
+            });
+            setOptions(updated);
+            onChange(
+                seq,
+                updated.map((opt, idx) => {
+                    return { key: idx, value: opt.value };
+                }),
+            );
+        },
+        [onChange, options, seq],
+    );
+    const removeItem = useCallback(
+        (key) => {
+            const updated = options.filter((opt) => opt.key !== key);
+            setOptions(updated);
+            onChange(
+                seq,
+                updated.map((opt, idx) => {
+                    return { key: idx, value: opt.value };
+                }),
+            );
+        },
+        [onChange, options, seq],
+    );
+    const addItem = useCallback(() => {
+        const updated = [
+            ...options,
+            {
+                key: options[options.length - 1].key + 1,
+                value: '',
+            },
+        ];
         setOptions(updated);
-        onChange(seq, options);
-    };
-    const test = (f1) => {
-        console.log(f1);
-    };
+        onChange(
+            seq,
+            updated.map((opt, idx) => {
+                return { key: idx, value: opt.value };
+            }),
+        );
+    }, [onChange, options, seq]);
+
     return (
-        <Form.List name={`opt-${seq}`}>
-            {(fields, { add, remove }) => (
-                <>
-                    {fields.map((field) => (
-                        <div
-                            key={field.key}
-                            style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}
-                        >
-                            <Form.Item
-                                {...field}
-                                name={[field.name, 'opt']}
-                                fieldKey={[field.fieldKey, 'opt']}
-                                rules={[{ required: true, message: '보기를 입력하세요.' }]}
-                                style={{ margin: 0, width: '100%' }}
-                            >
-                                <Input
-                                    onChange={() => test(fields)}
-                                    placeholder="보기를 입력하세요."
-                                />
-                            </Form.Item>
-                            <div style={{ marginLeft: '10px' }}>
+        <>
+            {options.map((opt) => (
+                <div
+                    key={`opt-${seq}-${opt.key}`}
+                    style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}
+                >
+                    <Form.Item
+                        name={`opt-${seq}-${opt.key}`}
+                        rules={[{ required: true, message: '보기를 입력하세요.' }]}
+                        style={{ margin: 0, width: '100%' }}
+                    >
+                        <Input
+                            autoFocus
+                            name={`opt-${seq}-${opt.key}`}
+                            value={opt.value}
+                            onChange={(e) => handleChange(e, opt.key)}
+                            placeholder="보기를 입력하세요."
+                        />
+                    </Form.Item>
+                    {opt.key !== 0 && (
+                        <div style={{ marginLeft: '10px' }}>
+                            <Tooltip title="보기 삭제">
                                 <MinusCircleOutlined
                                     style={{ color: 'crimson', fontSize: '1.0rem' }}
-                                    onClick={() => remove(field.name)}
+                                    onClick={() => removeItem(opt.key)}
                                 />
-                            </div>
+                            </Tooltip>
                         </div>
-                    ))}
-                    <Form.Item>
-                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                            보기 추가
-                        </Button>
-                    </Form.Item>
-                </>
-            )}
-        </Form.List>
-
-        // {options.map((opt, idx) => (
-        //     <Input
-        //         name={`${seq}-${idx}`}
-        //         key={`${seq}-${idx}`}
-        //         placeholder="보기를 입력하세요."
-        //         value={opt}
-        //         onChange={handleChange}
-        //     />
-        // ))}
+                    )}
+                </div>
+            ))}
+            <Form.Item>
+                <Button type="dashed" onClick={() => addItem()} block icon={<PlusOutlined />}>
+                    보기 추가
+                </Button>
+            </Form.Item>
+        </>
     );
 }

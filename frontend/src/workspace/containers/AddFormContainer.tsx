@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Form, Input, Button, Card, Space } from 'antd';
+import { Form, Input, Button, Card, Space, Tooltip } from 'antd';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QTextType from '../components/QuestionTypes/QTextType';
-import QSelectOneType from '../components/QuestionTypes/QSelectOneType';
-import QSelectAllType from '../components/QuestionTypes/QSelectAllType';
-import QDropdownType from '../components/QuestionTypes/QDropdownType';
+import QOptions from '../components/QuestionTypes/QOptions';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 export default function AddFormContainer(props) {
     const [form, setForm] = useState({
@@ -18,6 +17,25 @@ export default function AddFormContainer(props) {
             options: [''],
         },
     ]);
+    const removeItem = useCallback(
+        (key) => {
+            const updated = questions.filter((q) => q.seq !== key);
+            setQuestions(updated);
+        },
+        [questions],
+    );
+    const addItem = useCallback(() => {
+        const updated = [
+            ...questions,
+            {
+                title: '',
+                seq: questions[questions.length - 1].seq + 1,
+                type: 'text',
+                options: [''],
+            },
+        ];
+        setQuestions(updated);
+    }, [questions]);
     const handleTitleChange = useCallback(
         (e) => {
             setForm({ ...form, title: e.target.value });
@@ -58,6 +76,20 @@ export default function AddFormContainer(props) {
         },
         [questions],
     );
+    const handleQuestionOptionsChange = useCallback(
+        (seq, options) => {
+            const updated = questions.map((q) => {
+                if (q.seq === seq) {
+                    return {
+                        ...q,
+                        options,
+                    };
+                } else return q;
+            });
+            setQuestions(updated);
+        },
+        [questions],
+    );
     const onFinish = (values: any) => {
         console.log('Success:', values);
     };
@@ -65,61 +97,84 @@ export default function AddFormContainer(props) {
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
-
-    console.log(questions);
     return (
-        <div>
-            <Form name="newform" onFinish={onFinish} onFinishFailed={onFinishFailed} size="large">
-                <Form.Item rules={[{ required: true, message: '폼의 이름을 입력하세요.' }]}>
-                    <Input
-                        name="title"
-                        onChange={handleTitleChange}
-                        value={form.title}
-                        placeholder="새로운 폼의 이름을 입력하세요."
-                    />
-                </Form.Item>
+        <Form name="newform" onFinish={onFinish} onFinishFailed={onFinishFailed} size="large">
+            <Form.Item
+                name="title"
+                rules={[{ required: true, message: '폼의 이름을 입력하세요.' }]}
+            >
+                <Input
+                    autoFocus
+                    name="title"
+                    onChange={handleTitleChange}
+                    value={form.title}
+                    placeholder="새로운 폼의 이름을 입력하세요."
+                />
+            </Form.Item>
 
-                {questions.map((q) => (
-                    <Card
-                        key={q.seq}
-                        title={
-                            <Form.Item
-                                rules={[{ required: true, message: '질문의 제목을 입력하세요.' }]}
-                                style={{ margin: 0 }}
-                            >
-                                <Input
-                                    name={`title-${q.seq}`}
-                                    placeholder="질문의 제목을 입력하세요."
-                                    bordered={false}
-                                    value={q.title}
-                                    onChange={handleQuestionChange}
-                                />
-                            </Form.Item>
-                        }
-                        extra={
+            {questions.map((q) => (
+                <Card
+                    key={q.seq}
+                    title={
+                        <Form.Item
+                            name={`title-${q.seq}`}
+                            rules={[{ required: true, message: '질문의 제목을 입력하세요.' }]}
+                            style={{ margin: 0 }}
+                        >
+                            <Input
+                                name={`title-${q.seq}`}
+                                placeholder="질문의 제목을 입력하세요."
+                                bordered={false}
+                                value={q.title}
+                                onChange={handleQuestionChange}
+                            />
+                        </Form.Item>
+                    }
+                    extra={
+                        <>
                             <QuestionTypeDropdown
                                 seq={q.seq}
                                 value={q.type}
                                 onChange={handleQuestionTypeChange}
                             />
-                        }
-                    >
-                        {q.type === 'text' && <QTextType />}
-                        {q.type === 'selectOne' && <QSelectOneType />}
-                        {q.type === 'selectAll' && <QSelectAllType />}
-                        {q.type === 'dropdown' && <QDropdownType />}
-                    </Card>
-                ))}
+                            {q.seq !== 1 && (
+                                <Tooltip title="질문 삭제">
+                                    <MinusCircleOutlined
+                                        style={{
+                                            color: 'crimson',
+                                            fontSize: '1.0rem',
+                                            marginLeft: 10,
+                                        }}
+                                        onClick={() => removeItem(q.seq)}
+                                    />
+                                </Tooltip>
+                            )}
+                        </>
+                    }
+                    style={{ marginBottom: 10 }}
+                >
+                    {q.type === 'text' ? (
+                        <QTextType />
+                    ) : (
+                        <QOptions seq={q.seq} onChange={handleQuestionOptionsChange} />
+                    )}
+                </Card>
+            ))}
 
-                <Form.Item style={{ marginTop: 20, float: 'right' }}>
-                    <Space>
-                        <Button>미리보기</Button>
-                        <Button type="primary" htmlType="submit">
-                            폼 생성
-                        </Button>
-                    </Space>
-                </Form.Item>
-            </Form>
-        </div>
+            <Form.Item>
+                <Button type="dashed" onClick={() => addItem()} block icon={<PlusOutlined />}>
+                    질문 추가
+                </Button>
+            </Form.Item>
+
+            <Form.Item style={{ marginTop: 10, float: 'right' }}>
+                <Space>
+                    <Button>미리보기</Button>
+                    <Button type="primary" htmlType="submit">
+                        폼 생성
+                    </Button>
+                </Space>
+            </Form.Item>
+        </Form>
     );
 }
