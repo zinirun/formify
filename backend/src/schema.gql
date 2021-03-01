@@ -6,6 +6,7 @@ type Form {
   id: Float!
   title: String!
   content: String!
+  pubUrl: String
   user: User!
   group: Group!
   createdAt: Date!
@@ -43,6 +44,7 @@ type Query {
 type Mutation {
   createForm(form: FormInput!): Form!
   updateForm(form: FormUpdateInput!, id: Float!): Form!
+  publishForm(id: Float!): Form!
   createGroup(group: GroupInput!): Group!
 }
 

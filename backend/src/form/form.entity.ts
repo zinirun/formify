@@ -27,6 +27,10 @@ export class Form {
     @Column('text')
     content: string;
 
+    @Field(() => String, { nullable: true })
+    @Column({ length: 10, nullable: true })
+    pubUrl: string;
+
     /**
      * Join with user -> userId
      */

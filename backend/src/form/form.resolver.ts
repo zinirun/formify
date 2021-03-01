@@ -38,4 +38,10 @@ export class FormResolver {
     ): Promise<Form> {
         return await this.formService.update(id, form);
     }
+
+    @UseGuards(LoginGuard)
+    @Mutation(() => Form)
+    async publishForm(@GetUser() user: User, @Args('id') id: number): Promise<Form> {
+        return await this.formService.publish(id);
+    }
 }

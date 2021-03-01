@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { GroupService } from 'src/group/group.service';
 import { User } from 'src/user/user.entity';
 import { Form } from './form.entity';
@@ -11,6 +16,16 @@ export class FormService {
         private formRepository: FormRepository,
         private readonly groupService: GroupService,
     ) {}
+
+    private async generatePubUrl(length: number = 5) {
+        const generatedValue = Math.random().toString(36).substr(2, length);
+        const isExist = await this.formRepository.findOne({
+            where: {
+                pubUrl: generatedValue,
+            },
+        });
+        return isExist ? this.generatePubUrl() : generatedValue;
+    }
 
     async getOne(id: number): Promise<Form> {
         const form = await this.formRepository.findOneByIdWithUser(id);
@@ -40,8 +55,25 @@ export class FormService {
 
     async update(id: number, form: FormUpdateInput): Promise<Form> {
         try {
-            await this.getOne(id);
+            const { pubUrl } = await this.getOne(id);
+            if (pubUrl) {
+                throw new BadRequestException(`Form #${id} Already exists: pubUrl, can't update`);
+            }
             await this.formRepository.update({ id }, form);
+            return await this.getOne(id);
+        } catch (err) {
+            throw new ConflictException(err);
+        }
+    }
+
+    async publish(id: number): Promise<Form> {
+        try {
+            const { pubUrl } = await this.getOne(id);
+            if (pubUrl) {
+                throw new BadRequestException(`Form #${id} Already exists: pubUrl`);
+            }
+            const generatedPubUrl = await this.generatePubUrl();
+            await this.formRepository.update({ id }, { pubUrl: generatedPubUrl });
             return await this.getOne(id);
         } catch (err) {
             throw new ConflictException(err);
