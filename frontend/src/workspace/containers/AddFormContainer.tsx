@@ -1,11 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { Form, Input, Button, Card, Space, Tooltip, message, Alert } from 'antd';
+import { Modal, Form, Input, Button, Card, Space, Tooltip, message, Alert } from 'antd';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QTextType from '../components/QuestionTypes/QTextType';
 import QOptions from '../components/QuestionTypes/QOptions';
-import { EditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    EditOutlined,
+    FileAddOutlined,
+    MinusCircleOutlined,
+    PlusOutlined,
+} from '@ant-design/icons';
 import { useMutation } from '@apollo/client';
 import { CREATE_FORM } from '../../config/queries';
+
+const { confirm } = Modal;
 
 export default function AddFormContainer(props) {
     const [form, setForm] = useState({
@@ -88,7 +95,7 @@ export default function AddFormContainer(props) {
         },
         [questions],
     );
-    const onFinish = () => {
+    const triggerCreateForm = () => {
         const newForm = {
             groupId: parseInt(props.groupId),
             title: form.title,
@@ -100,12 +107,24 @@ export default function AddFormContainer(props) {
             },
         })
             .then((res) => {
-                const { formId } = res.data.createForm;
-                window.location.href = `/workspace?f=${formId}&g=${props.groupId}`;
+                const { id } = res.data.createForm;
+                window.location.href = `/workspace?f=${id}&g=${props.groupId}`;
             })
             .catch((err) => {
                 message.error(`폼을 생성하는 중 에러가 발생했습니다. [${err}]`);
             });
+    };
+    const onFinish = () => {
+        confirm({
+            title: '폼을 생성합니다.',
+            icon: <FileAddOutlined style={{ color: 'dodgerblue' }} />,
+            content: '저장된 폼은 수정할 수 있습니다. 최종 검토 후 폼을 게시하세요.',
+            okText: '폼 생성',
+            cancelText: '취소',
+            onOk() {
+                triggerCreateForm();
+            },
+        });
     };
     return (
         <Form onFinish={onFinish} size="large">

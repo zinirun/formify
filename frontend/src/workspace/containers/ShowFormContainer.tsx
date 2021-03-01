@@ -1,9 +1,9 @@
 import {
     CheckOutlined,
     EditOutlined,
-    FormOutlined,
     MinusCircleOutlined,
     PlusOutlined,
+    ShareAltOutlined,
 } from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
 import { Modal, Button, Card, Form, Input, message, Space, Tooltip, Alert } from 'antd';
@@ -148,9 +148,9 @@ export default function ShowFormContainer({ formId }) {
     const onPublishConfirm = () => {
         confirm({
             title: '폼을 게시합니다.',
-            icon: <FormOutlined />,
+            icon: <ShareAltOutlined style={{ color: 'dodgerblue' }} />,
             content:
-                '폼을 공개적으로 접근할 수 있는 주소를 만들고, 게시된 폼은 수정할 수 없습니다.',
+                '폼을 공개적으로 접근할 수 있는 주소를 생성합니다. 게시된 폼은 수정할 수 없습니다.',
             okText: '폼 게시 시작',
             cancelText: '취소',
             onOk() {

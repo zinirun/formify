@@ -81,7 +81,7 @@ export default function WorkSpacePage() {
                     </Menu>
                 )}
             </Sider>
-            <Content style={{ padding: '24px', minHeight: 400 }}>
+            <Content style={{ padding: '24px', minHeight: '85vh' }}>
                 {(!search || selectedAfterQuery) && contentAction.action === 'createForm' && (
                     <AddFormContainer groupId={contentAction.groupId} />
                 )}
