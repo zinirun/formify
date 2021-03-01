@@ -94,7 +94,7 @@ export default function WorkSpacePage() {
                 {!selectedAfterQuery && query.f && query.g && (
                     <ShowFormContainer formId={query.f} />
                 )}
-                {(!search || !selectedAfterQuery) && !contentAction.action && (
+                {(!search || !(query.f && query.g)) && !contentAction.action && (
                     <WelcomeWorkspaceContainer />
                 )}
             </Content>
