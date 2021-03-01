@@ -137,7 +137,7 @@ export default function ShowFormContainer({ formId, groupId }) {
                     message.success('폼이 수정되었습니다.');
                 })
                 .catch((err) => {
-                    message.error(`폼을 수정하는 중 에러가 발생했습니다. [${err}]`);
+                    message.error(`폼을 수정하는 중 오류가 발생했습니다. [${err}]`);
                 });
         } catch (err) {
             message.error('입력값 중 빈 칸이 존재합니다. 입력값을 다시 확인하세요.');
@@ -170,7 +170,7 @@ export default function ShowFormContainer({ formId, groupId }) {
             })
             .catch((err) => {
                 console.info(err);
-                message.error(`폼을 게시하는 중 에러가 발생했습니다. [${err}]`);
+                message.error(`폼을 게시하는 중 오류가 발생했습니다. [${err}]`);
             });
     };
 
@@ -179,9 +179,9 @@ export default function ShowFormContainer({ formId, groupId }) {
     };
 
     return (
-        <div>
+        <>
             {formLoading && <LoadingSpin />}
-            {!formLoading && form.pubUrl ? (
+            {!formLoading && form && form.pubUrl ? (
                 <Alert
                     message="게시된 폼"
                     description="이 폼은 게시되었으며 답변을 처리할 수 있습니다."
@@ -295,6 +295,6 @@ export default function ShowFormContainer({ formId, groupId }) {
                     </Form.Item>
                 </Form>
             )}
-        </div>
+        </>
     );
 }
