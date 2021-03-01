@@ -1,20 +1,36 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    CheckOutlined,
+    EditOutlined,
+    FormOutlined,
+    MinusCircleOutlined,
+    PlusOutlined,
+} from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Card, Form, Input, message, Space, Tooltip } from 'antd';
+import { Modal, Button, Card, Form, Input, message, Space, Tooltip, Alert } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
-import { GET_FORM_BY_ID, UPDATE_FORM } from '../../config/queries';
+import { emptyValidator } from '../../common/utils/validator';
+import { GET_FORM_BY_ID, PUBLISH_FORM, UPDATE_FORM } from '../../config/queries';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QShowOptions from '../components/QuestionTypes/QShowOptions';
 import QTextType from '../components/QuestionTypes/QTextType';
 
+const { confirm } = Modal;
+
 export default function ShowFormContainer({ formId, groupId }) {
     const [form, setForm] = useState({
         title: '',
+        pubUrl: null,
     });
     const [questions, setQuestions]: any = useState([]);
     const [updateForm] = useMutation(UPDATE_FORM);
-    const { data: formData, error: formError, loading: formLoading } = useQuery(GET_FORM_BY_ID, {
+    const [publishForm] = useMutation(PUBLISH_FORM);
+    const {
+        data: formData,
+        error: formError,
+        loading: formLoading,
+        refetch: formRefetch,
+    } = useQuery(GET_FORM_BY_ID, {
         variables: {
             id: parseInt(formId),
         },
@@ -24,6 +40,7 @@ export default function ShowFormContainer({ formId, groupId }) {
             const data = formData.getFormById;
             setForm({
                 title: data.title,
+                pubUrl: data.pubUrl,
             });
             setQuestions(JSON.parse(data.content));
         }
@@ -49,12 +66,14 @@ export default function ShowFormContainer({ formId, groupId }) {
     }, [questions]);
     const handleTitleChange = useCallback(
         (e) => {
+            if (form.pubUrl) return;
             setForm({ ...form, title: e.target.value });
         },
         [form],
     );
     const handleQuestionTitleChange = useCallback(
         (e, seq) => {
+            if (form.pubUrl) return;
             const { value } = e.target;
             const updated = questions.map((q) => {
                 if (q.seq === seq) {
@@ -66,10 +85,11 @@ export default function ShowFormContainer({ formId, groupId }) {
             });
             setQuestions(updated);
         },
-        [questions],
+        [questions, form.pubUrl],
     );
     const handleQuestionTypeChange = useCallback(
         (value, seq) => {
+            if (form.pubUrl) return;
             const updated = questions.map((q) => {
                 if (q.seq === seq) {
                     return {
@@ -80,10 +100,11 @@ export default function ShowFormContainer({ formId, groupId }) {
             });
             setQuestions(updated);
         },
-        [questions],
+        [questions, form.pubUrl],
     );
     const handleQuestionOptionsChange = useCallback(
         (seq, options) => {
+            if (form.pubUrl) return;
             const updated = questions.map((q) => {
                 if (q.seq === seq) {
                     return {
@@ -94,14 +115,9 @@ export default function ShowFormContainer({ formId, groupId }) {
             });
             setQuestions(updated);
         },
-        [questions],
+        [questions, form.pubUrl],
     );
-    const emptyValidator = (value) => {
-        const v = JSON.stringify(value);
-        if (v.includes('""')) {
-            throw new Error('Has Empty Value');
-        }
-    };
+
     const onFinish = async () => {
         try {
             const updatedForm = {
@@ -117,7 +133,8 @@ export default function ShowFormContainer({ formId, groupId }) {
                 },
             })
                 .then(() => {
-                    window.location.href = '/workspace';
+                    formRefetch();
+                    message.success('폼이 수정되었습니다.');
                 })
                 .catch((err) => {
                     message.error(`폼을 수정하는 중 에러가 발생했습니다. [${err}]`);
@@ -127,9 +144,64 @@ export default function ShowFormContainer({ formId, groupId }) {
         }
     };
 
+    const onPublishConfirm = () => {
+        confirm({
+            title: '폼을 공개적으로 게시합니다.',
+            icon: <FormOutlined />,
+            content: '게시된 폼은 수정할 수 없습니다.',
+            okText: '폼 게시 시작',
+            cancelText: '취소',
+            onOk() {
+                triggerPublishForm();
+            },
+        });
+    };
+
+    const triggerPublishForm = () => {
+        publishForm({
+            variables: {
+                id: parseInt(formId),
+            },
+        })
+            .then((res) => {
+                formRefetch();
+                const { pubUrl } = res.data.publishForm;
+                message.success(`폼이 게시되었습니다. [${pubUrl}]`);
+            })
+            .catch((err) => {
+                console.info(err);
+                message.error(`폼을 게시하는 중 에러가 발생했습니다. [${err}]`);
+            });
+    };
+
+    const onOpenForm = (pubUrl: string | null) => {
+        pubUrl && window.open(`/do/${pubUrl}`);
+    };
+
     return (
         <div>
             {formLoading && <LoadingSpin />}
+            {!formLoading && form.pubUrl ? (
+                <Alert
+                    message="게시된 폼"
+                    description="이 폼은 게시되었으며 답변을 처리할 수 있습니다."
+                    type="info"
+                    icon={<CheckOutlined />}
+                    showIcon
+                    closable
+                    style={{ marginBottom: 20 }}
+                />
+            ) : (
+                <Alert
+                    message="수정 중인 폼"
+                    description="이 폼은 수정 중인 상태입니다. 게시 준비가 완료되면 폼 게시를 시작하세요."
+                    type="warning"
+                    icon={<EditOutlined />}
+                    showIcon
+                    closable
+                    style={{ marginBottom: 20 }}
+                />
+            )}
             {!formLoading && form && questions && (
                 <Form onFinish={onFinish} size="large">
                     <Input
@@ -160,7 +232,7 @@ export default function ShowFormContainer({ formId, groupId }) {
                                         value={q.type}
                                         onChange={handleQuestionTypeChange}
                                     />
-                                    {q.seq !== 1 && (
+                                    {q.seq !== 1 && !form.pubUrl && (
                                         <Tooltip title="질문 삭제">
                                             <MinusCircleOutlined
                                                 style={{
@@ -183,29 +255,42 @@ export default function ShowFormContainer({ formId, groupId }) {
                                     seq={q.seq}
                                     onChange={handleQuestionOptionsChange}
                                     data={q.options}
+                                    isPublished={form.pubUrl ? true : false}
                                 />
                             )}
                         </Card>
                     ))}
 
-                    <Form.Item>
-                        <Button
-                            type="dashed"
-                            onClick={() => addItem()}
-                            block
-                            icon={<PlusOutlined />}
-                        >
-                            질문 추가
-                        </Button>
-                    </Form.Item>
+                    {!form.pubUrl && (
+                        <Form.Item>
+                            <Button
+                                type="dashed"
+                                onClick={() => addItem()}
+                                block
+                                icon={<PlusOutlined />}
+                            >
+                                질문 추가
+                            </Button>
+                        </Form.Item>
+                    )}
 
                     <Form.Item style={{ marginTop: 10, float: 'right' }}>
                         <Space>
                             <Button>미리보기</Button>
-                            <Button type="primary" htmlType="submit">
-                                폼 수정
-                            </Button>
-                            <Button type="primary">폼 게시 시작</Button>
+                            {form.pubUrl ? (
+                                <Button type="primary" onClick={() => onOpenForm(form.pubUrl)}>
+                                    게시된 폼 열기
+                                </Button>
+                            ) : (
+                                <>
+                                    <Button type="primary" htmlType="submit">
+                                        폼 수정
+                                    </Button>
+                                    <Button type="primary" onClick={onPublishConfirm}>
+                                        폼 게시 시작
+                                    </Button>
+                                </>
+                            )}
                         </Space>
                     </Form.Item>
                 </Form>

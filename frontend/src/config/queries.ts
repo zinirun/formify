@@ -47,6 +47,7 @@ export const GET_FORM_BY_ID = gql`
             title
             content
             createdAt
+            pubUrl
         }
     }
 `;
@@ -57,6 +58,7 @@ export const GET_FORMS_BY_GROUP_ID = gql`
             id
             title
             content
+            pubUrl
             createdAt
         }
     }
@@ -68,6 +70,21 @@ export const UPDATE_FORM = gql`
             id
             title
             content
+            user {
+                id
+                username
+            }
+        }
+    }
+`;
+
+export const PUBLISH_FORM = gql`
+    mutation publishForm($id: Float!) {
+        publishForm(id: $id) {
+            id
+            title
+            content
+            pubUrl
             user {
                 id
                 username

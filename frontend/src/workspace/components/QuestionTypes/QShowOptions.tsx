@@ -14,6 +14,7 @@ export default function QShowOptions(props) {
     }, [props]);
     const handleChange = useCallback(
         (e, key) => {
+            if (props.isPublished) return;
             const { value } = e.target;
             const updated = options.map((opt) => {
                 if (opt.key === key) {
@@ -76,7 +77,7 @@ export default function QShowOptions(props) {
                         onChange={(e) => handleChange(e, opt.key)}
                         placeholder="보기를 입력하세요."
                     />
-                    {opt.key !== 0 && (
+                    {opt.key !== 0 && !props.isPublished && (
                         <div style={{ marginLeft: '10px' }}>
                             <Tooltip title="보기 삭제">
                                 <MinusCircleOutlined
@@ -88,11 +89,13 @@ export default function QShowOptions(props) {
                     )}
                 </div>
             ))}
-            <Form.Item>
-                <Button type="dashed" onClick={() => addItem()} block icon={<PlusOutlined />}>
-                    보기 추가
-                </Button>
-            </Form.Item>
+            {!props.isPublished && (
+                <Form.Item>
+                    <Button type="dashed" onClick={() => addItem()} block icon={<PlusOutlined />}>
+                        보기 추가
+                    </Button>
+                </Form.Item>
+            )}
         </>
     );
 }
