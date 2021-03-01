@@ -25,11 +25,16 @@ export default function SiteHeader({ user }) {
                 {user ? <LoginedDropdown username={user.username} /> : <SocialLoginDropdown />}
             </div>
             <Menu theme="dark" mode="horizontal" selectedKeys={currentMenu}>
-                {SITE_MENU.map((m) => (
-                    <Menu.Item key={m.id}>
-                        <Link to={m.uri}>{m.name}</Link>
-                    </Menu.Item>
-                ))}
+                {SITE_MENU.map((m) => {
+                    if (m.uri === '/workspace' && !user) {
+                        return <></>;
+                    }
+                    return (
+                        <Menu.Item key={m.id}>
+                            <Link to={m.uri}>{m.name}</Link>
+                        </Menu.Item>
+                    );
+                })}
             </Menu>
         </Header>
     );
