@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
 import SiteHeader from './header/SiteHeader';
 import './common/styles/layout.css';
@@ -8,6 +8,7 @@ import WorkSpacePage from './workspace/pages/WorkSpacePage';
 import GuidePage from './common/pages/GuidePage';
 import { useQuery } from '@apollo/client';
 import { VERIFY_USER } from './config/queries';
+import Result404 from './common/components/Result404';
 
 const { Content, Footer } = Layout;
 
@@ -24,9 +25,13 @@ function App() {
             <Layout>
                 <SiteHeader user={user} />
                 <Content style={{ background: 'white' }}>
-                    <Route exact path="/" component={HomePage} />
-                    <Route path="/workspace" component={WorkSpacePage} />
-                    <Route path="/guide" component={GuidePage} />
+                    <Switch>
+                        <Route exact path="/" component={HomePage} />
+                        <Route path="/workspace" component={WorkSpacePage} />
+                        <Route path="/guide" component={GuidePage} />
+
+                        <Route component={Result404} />
+                    </Switch>
                 </Content>
             </Layout>
             <Footer style={{ textAlign: 'center', background: 'white' }}>

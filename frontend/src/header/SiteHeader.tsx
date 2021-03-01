@@ -27,7 +27,7 @@ export default function SiteHeader({ user }) {
             <Menu theme="dark" mode="horizontal" selectedKeys={currentMenu}>
                 {SITE_MENU.map((m) => {
                     if (m.uri === '/workspace' && !user) {
-                        return <></>;
+                        return null;
                     }
                     return (
                         <Menu.Item key={m.id}>
