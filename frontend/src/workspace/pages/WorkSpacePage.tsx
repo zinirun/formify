@@ -7,9 +7,15 @@ import AddGroupContainer from '../containers/AddGroupContainer';
 import FormsContainer from '../containers/FormsContainer';
 import AddFormContainer from '../containers/AddFormContainer';
 import ShowFormContainer from '../containers/ShowFormContainer';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
+    let { search } = useLocation();
+    let query = queryString.parse(search);
+
+    const [selectedAfterQuery, setSelectedAfterQuery] = useState(false);
     const [contentAction, setContentAction] = useState({
         action: '',
         groupId: 0,
@@ -32,6 +38,9 @@ export default function WorkSpacePage() {
 
     const handleSelectForm = useCallback(
         ({ key }) => {
+            if (!selectedAfterQuery) {
+                setSelectedAfterQuery(true);
+            }
             const [type, groupId, formId] = key.split('-');
             if (type === 'newform') {
                 setContentAction({
@@ -48,35 +57,39 @@ export default function WorkSpacePage() {
                 });
             }
         },
-        [setContentAction, contentAction],
+        [setContentAction, contentAction, selectedAfterQuery],
     );
 
     return (
         <Layout className="site-layout-background">
             <Sider className="site-layout-background" width={300}>
                 <AddGroupContainer refetch={groupsRefetch} />
-                <Menu
-                    mode="inline"
-                    defaultSelectedKeys={['']}
-                    style={{ height: '100%' }}
-                    onSelect={handleSelectForm}
-                >
-                    {groupsLoading && <LoadingSpin />}
-                    {groups &&
-                        groups.map((group) => (
-                            <FormsContainer {...group} key={group.id} group={group} />
+                {groupsLoading && <LoadingSpin />}
+                {!groupsLoading && groups && (
+                    <Menu
+                        mode="inline"
+                        defaultOpenKeys={query.f && query.g ? [`group-${query.g}`] : ['']}
+                        defaultSelectedKeys={
+                            query.f && query.g ? [`form-${query.g}-${query.f}`] : ['']
+                        }
+                        style={{ height: '100%' }}
+                        onSelect={handleSelectForm}
+                    >
+                        {groups.map((group) => (
+                            <FormsContainer {...group} key={`group-${group.id}`} group={group} />
                         ))}
-                </Menu>
+                    </Menu>
+                )}
             </Sider>
             <Content style={{ padding: '24px', minHeight: 400 }}>
-                {contentAction.action === 'createForm' && (
+                {(!search || selectedAfterQuery) && contentAction.action === 'createForm' && (
                     <AddFormContainer groupId={contentAction.groupId} />
                 )}
-                {contentAction.action === 'showForm' && (
-                    <ShowFormContainer
-                        formId={contentAction.formId}
-                        groupId={contentAction.groupId}
-                    />
+                {(!search || selectedAfterQuery) && contentAction.action === 'showForm' && (
+                    <ShowFormContainer formId={contentAction.formId} />
+                )}
+                {!selectedAfterQuery && query.f && query.g && (
+                    <ShowFormContainer formId={query.f} />
                 )}
             </Content>
         </Layout>

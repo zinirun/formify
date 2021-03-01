@@ -9,6 +9,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Modal, Button, Card, Form, Input, message, Space, Tooltip, Alert } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
+import Result404 from '../../common/components/Result404';
 import { emptyValidator } from '../../common/utils/validator';
 import { GET_FORM_BY_ID, PUBLISH_FORM, UPDATE_FORM } from '../../config/queries';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
@@ -17,7 +18,7 @@ import QTextType from '../components/QuestionTypes/QTextType';
 
 const { confirm } = Modal;
 
-export default function ShowFormContainer({ formId, groupId }) {
+export default function ShowFormContainer({ formId }) {
     const [form, setForm] = useState({
         title: '',
         pubUrl: null,
@@ -146,9 +147,10 @@ export default function ShowFormContainer({ formId, groupId }) {
 
     const onPublishConfirm = () => {
         confirm({
-            title: '폼을 공개적으로 게시합니다.',
+            title: '폼을 게시합니다.',
             icon: <FormOutlined />,
-            content: '게시된 폼은 수정할 수 없습니다.',
+            content:
+                '폼을 공개적으로 접근할 수 있는 주소를 만들고, 게시된 폼은 수정할 수 없습니다.',
             okText: '폼 게시 시작',
             cancelText: '취소',
             onOk() {
@@ -178,6 +180,10 @@ export default function ShowFormContainer({ formId, groupId }) {
         pubUrl && window.open(`/do/${pubUrl}`);
     };
 
+    if (formError) {
+        return <Result404 />;
+    }
+
     return (
         <>
             {formLoading && <LoadingSpin />}
@@ -194,7 +200,7 @@ export default function ShowFormContainer({ formId, groupId }) {
             ) : (
                 <Alert
                     message="수정 중인 폼"
-                    description="이 폼은 수정 중인 상태입니다. 게시 준비가 완료되면 폼 게시를 시작하세요."
+                    description="이 폼은 수정 중인 상태입니다. 최종 검토가 완료되면 폼 게시를 시작하세요."
                     type="warning"
                     icon={<EditOutlined />}
                     showIcon

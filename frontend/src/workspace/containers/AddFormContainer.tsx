@@ -99,8 +99,9 @@ export default function AddFormContainer(props) {
                 form: newForm,
             },
         })
-            .then(() => {
-                window.location.href = '/workspace';
+            .then((res) => {
+                const { formId } = res.data.createForm;
+                window.location.href = `/workspace?f=${formId}&g=${props.groupId}`;
             })
             .catch((err) => {
                 message.error(`폼을 생성하는 중 에러가 발생했습니다. [${err}]`);
@@ -110,7 +111,7 @@ export default function AddFormContainer(props) {
         <Form onFinish={onFinish} size="large">
             <Alert
                 message="새로운 폼"
-                description="폼을 생성하면 수정중인 폼으로 저장됩니다."
+                description="폼을 생성하면 수정중인 폼으로 저장됩니다. 수정 중인 폼에서 최종 검토 후 폼을 게시하세요."
                 type="info"
                 icon={<EditOutlined />}
                 showIcon
