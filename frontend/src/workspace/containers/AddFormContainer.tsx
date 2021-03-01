@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Form, Input, Button, Card, Space, Tooltip, message } from 'antd';
+import { Form, Input, Button, Card, Space, Tooltip, message, Alert } from 'antd';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QTextType from '../components/QuestionTypes/QTextType';
 import QOptions from '../components/QuestionTypes/QOptions';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useMutation } from '@apollo/client';
 import { CREATE_FORM } from '../../config/queries';
 
@@ -108,6 +108,15 @@ export default function AddFormContainer(props) {
     };
     return (
         <Form onFinish={onFinish} size="large">
+            <Alert
+                message="새로운 폼"
+                description="폼을 생성하면 수정중인 폼으로 저장됩니다."
+                type="info"
+                icon={<EditOutlined />}
+                showIcon
+                closable
+                style={{ marginBottom: 20 }}
+            />
             <Form.Item
                 name="title"
                 rules={[{ required: true, message: '폼의 이름을 입력하세요.' }]}
