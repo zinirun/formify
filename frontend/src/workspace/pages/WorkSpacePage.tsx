@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Layout, Menu } from 'antd';
+import { Empty, Layout, Menu } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_GROUPS } from '../../config/queries';
 import LoadingSpin from '../../common/components/LoadingSpin';
@@ -9,6 +9,7 @@ import AddFormContainer from '../containers/AddFormContainer';
 import ShowFormContainer from '../containers/ShowFormContainer';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
+import WelcomeWorkspaceContainer from '../containers/WelcomeWorkspaceContainer';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
@@ -65,7 +66,7 @@ export default function WorkSpacePage() {
             <Sider className="site-layout-background" width={300}>
                 <AddGroupContainer refetch={groupsRefetch} />
                 {groupsLoading && <LoadingSpin />}
-                {!groupsLoading && groups && (
+                {!groupsLoading && groups.length > 0 ? (
                     <Menu
                         mode="inline"
                         defaultOpenKeys={query.f && query.g ? [`group-${query.g}`] : ['']}
@@ -79,6 +80,8 @@ export default function WorkSpacePage() {
                             <FormsContainer {...group} key={`group-${group.id}`} group={group} />
                         ))}
                     </Menu>
+                ) : (
+                    <Empty description="그룹이 없습니다." image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 )}
             </Sider>
             <Content style={{ padding: '24px', minHeight: '85vh' }}>
@@ -90,6 +93,9 @@ export default function WorkSpacePage() {
                 )}
                 {!selectedAfterQuery && query.f && query.g && (
                     <ShowFormContainer formId={query.f} />
+                )}
+                {(!search || !selectedAfterQuery) && !contentAction.action && (
+                    <WelcomeWorkspaceContainer />
                 )}
             </Content>
         </Layout>
