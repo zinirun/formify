@@ -1,3 +1,12 @@
+.App-header {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 10%;
+    margin: 10px;
+}
 .do-form-input {
     margin-bottom: 5% !important;
     border: none !important;
@@ -9,15 +18,6 @@
 .do-form-input:focus {
     box-shadow: none !important;
     border-bottom: 1px solid #443a3a !important;
-}
-.App-header {
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-right: 10%;
-    margin: 10px;
 }
 .press-enter {
     font-size: 12px;
@@ -52,4 +52,7 @@
 }
 .text-center {
     text-align: center !important;
+}
+.Navigation {
+    right: 0px !important;
 }
