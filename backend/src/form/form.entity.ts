@@ -5,6 +5,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    Index,
     JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
@@ -29,6 +30,7 @@ export class Form {
 
     @Field(() => String, { nullable: true })
     @Column({ length: 10, nullable: true })
+    @Index({ unique: true })
     pubUrl: string;
 
     /**
