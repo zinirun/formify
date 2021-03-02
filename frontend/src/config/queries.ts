@@ -52,6 +52,18 @@ export const GET_FORM_BY_ID = gql`
     }
 `;
 
+export const GET_FORM_BY_PUB_URL = gql`
+    query getFormByPubUrl($pubUrl: String!) {
+        getFormByPubUrl(pubUrl: $pubUrl) {
+            id
+            title
+            content
+            createdAt
+            pubUrl
+        }
+    }
+`;
+
 export const GET_FORMS_BY_GROUP_ID = gql`
     query getFormsByGroupId($groupId: Float!) {
         getFormsByGroupId(groupId: $groupId) {

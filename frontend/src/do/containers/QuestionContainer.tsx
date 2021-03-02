@@ -1,34 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Input, Button } from 'antd';
 import { isMobile } from 'react-device-detect';
 import { ArrowRightOutlined, CheckOutlined } from '@ant-design/icons';
+import { ANIMATE_DELAY } from '../doConfig';
 
-export default function QuestionContainer({
-    item,
-    index,
-    isSubmit,
-    inputDataHandler,
-    submitBtnHandler,
-}) {
+export default function QuestionContainer({ item, isSubmit, inputDataHandler, submitBtnHandler }) {
     const [value, setValue] = useState({});
 
     useEffect(() => {
-        // Update the document title using the browser API
-        //document.getElementById('0').focus();
-        console.log('render');
+        document.getElementById('0')?.focus();
     }, []);
 
     const clickHandler = (link, i) => {
-        console.log(i);
         window.location.href = `#${link}`;
         setTimeout(() => {
-            //document.getElementById(i.toString()).focus();
-        }, 1100);
+            document.getElementById(i.toString())?.focus();
+        }, ANIMATE_DELAY + 10);
     };
 
     const inputHandler = (e) => {
-        console.log(e.target.name, e.target.value);
-        console.log(value);
         setValue({
             ...value,
             [e.target.name]: e.target.value,
@@ -41,30 +31,30 @@ export default function QuestionContainer({
     };
 
     return (
-        <div>
+        <div className="section">
             <div className="title">
                 <h2>
                     <span className="count">
-                        {index + 1} &nbsp;
-                        <ArrowRightOutlined />
+                        {item.i}
+                        <ArrowRightOutlined style={{ marginLeft: 5 }} />
                     </span>
-                    &nbsp;
-                    <span className="title">{item.title}</span>
+                    <span className="title" style={{ marginLeft: 5 }}>
+                        {item.title}
+                    </span>
                 </h2>
             </div>
             <Input
                 placeholder="Type your answer here..."
                 name={item.id}
-                id={index}
-                className="typeform-input"
-                onPressEnter={() => clickHandler(item.link, item.i)}
-                // style={{ marginBottom: '5%', backgroundColor: '#F1ECE2' }}
+                id={item.i}
+                className="do-form-input"
+                onPressEnter={() => clickHandler(item.link, item.i + 1)}
                 onChange={inputHandler}
             />
             <br />
             {isSubmit ? (
-                <Button id="submit-btn" onClick={submitHandler}>
-                    SUBMIT
+                <Button icon={<CheckOutlined />} id="submit-btn" onClick={submitHandler}>
+                    제출
                 </Button>
             ) : (
                 <div>
@@ -72,7 +62,7 @@ export default function QuestionContainer({
                         hidden={isMobile}
                         icon={<CheckOutlined />}
                         id="enter-btn"
-                        onClick={() => clickHandler(item.link, item.i)}
+                        onClick={() => clickHandler(item.link, item.i + 1)}
                     >
                         OK
                     </Button>
