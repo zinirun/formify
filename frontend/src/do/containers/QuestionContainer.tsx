@@ -8,14 +8,14 @@ export default function QuestionContainer({ item, isSubmit, inputDataHandler, su
     const [value, setValue] = useState({});
 
     useEffect(() => {
-        document.getElementById('0')?.focus();
+        document.getElementById('1')?.focus();
     }, []);
 
     const clickHandler = (link, i) => {
         window.location.href = `#${link}`;
         setTimeout(() => {
             document.getElementById(i.toString())?.focus();
-        }, ANIMATE_DELAY + 10);
+        }, ANIMATE_DELAY);
     };
 
     const inputHandler = (e) => {
@@ -44,7 +44,7 @@ export default function QuestionContainer({ item, isSubmit, inputDataHandler, su
                 </h2>
             </div>
             <Input
-                placeholder="Type your answer here..."
+                placeholder="여기에 답변을 입력하세요"
                 name={item.id}
                 id={item.i}
                 className="do-form-input"
