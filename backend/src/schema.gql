@@ -37,6 +37,7 @@ type User {
 type Query {
   verifyUser: User!
   getFormById(id: Float!): Form!
+  getFormByPubUrl(pubUrl: String!): Form!
   getFormsByGroupId(groupId: Float!): [Form!]!
   getGroups: [Group!]!
 }

@@ -18,6 +18,12 @@ export class FormResolver {
     }
 
     @UseGuards(LoginGuard)
+    @Query(() => Form)
+    async getFormByPubUrl(@Args('pubUrl') pubUrl: string): Promise<Form> {
+        return await this.formService.getOneByPubUrl(pubUrl);
+    }
+
+    @UseGuards(LoginGuard)
     @Query(() => [Form])
     async getFormsByGroupId(@Args('groupId') id: number): Promise<Form[]> {
         return await this.formService.getAllByGroupId(id);

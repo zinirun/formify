@@ -35,6 +35,18 @@ export class FormService {
         return form;
     }
 
+    async getOneByPubUrl(pubUrl: string): Promise<Form> {
+        const form = await this.formRepository.findOne({
+            where: {
+                pubUrl,
+            },
+        });
+        if (!form) {
+            throw new NotFoundException(`Form with PUB_URL ${pubUrl}: Not Found`);
+        }
+        return form;
+    }
+
     async getAllByGroupId(groupId: number): Promise<Form[]> {
         return await this.formRepository.find({
             where: {
@@ -57,7 +69,7 @@ export class FormService {
         try {
             const { pubUrl } = await this.getOne(id);
             if (pubUrl) {
-                throw new BadRequestException(`Form #${id} Already exists: pubUrl, can't update`);
+                throw new BadRequestException(`Form #${id} Already published, can't update`);
             }
             await this.formRepository.update({ id }, form);
             return await this.getOne(id);
