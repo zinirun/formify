@@ -7,15 +7,15 @@
     padding-right: 10%;
     margin: 10px;
 }
-.do-form-input {
+.form-text-input {
     margin-bottom: 5% !important;
     border: none !important;
     border-radius: 0 !important;
-    background-color: #f1ece2 !important;
+    background-color: transparent !important;
     font-size: x-large !important;
     padding: 10px 0px !important;
 }
-.do-form-input:focus {
+.form-text-input:focus {
     box-shadow: none !important;
     border-bottom: 1px solid #443a3a !important;
 }

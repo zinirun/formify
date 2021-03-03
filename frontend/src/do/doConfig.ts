@@ -57,3 +57,15 @@ export const sampleData = [
         i: 4,
     },
 ];
+
+export const optionsStyle = {
+    display: 'block',
+    fontSize: 'large',
+    height: '30px',
+    lineHeight: '30px',
+    marginLeft: 5,
+};
+
+export const dropdownStyle = {
+    fontSize: 'large',
+};

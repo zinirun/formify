@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { Form, Input } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { SectionsContainer, Section, ScrollToTopOnMount } from 'react-fullpage';
 import LoadingSpin from '../../common/components/LoadingSpin';
@@ -31,7 +32,7 @@ export default function DoPage(props) {
         }
     }, [data]);
 
-    const inputDataHandler = (name, value) => {
+    const inputHandler = (name, value) => {
         console.log(name, value);
         console.log(obj);
         setObj({
@@ -40,9 +41,8 @@ export default function DoPage(props) {
         });
     };
 
-    const submitBtnHandler = () => {
-        console.log(obj);
-        //API call here
+    const onSubmit = (e) => {
+        console.log(e);
     };
 
     if (error) {
@@ -54,22 +54,28 @@ export default function DoPage(props) {
             <ScrollToTopOnMount />
             {loading && <LoadingSpin />}
             <SectionsContainer {...generateSectionOptions(questions)}>
-                {questions && (
-                    <>
-                        {questions.map((item, i) => (
-                            <Section key={i}>
-                                <header className="App-header">
-                                    <QuestionContainer
-                                        item={item}
-                                        isSubmit={i === questions.length - 1 ? true : false}
-                                        inputDataHandler={inputDataHandler}
-                                        submitBtnHandler={submitBtnHandler}
-                                    />
-                                </header>
-                            </Section>
-                        ))}
-                    </>
-                )}
+                <Form
+                    name="form"
+                    onFinish={onSubmit}
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter') e.preventDefault();
+                    }}
+                >
+                    {questions && (
+                        <>
+                            {questions.map((item, i) => (
+                                <Section key={i}>
+                                    <header className="App-header">
+                                        <QuestionContainer
+                                            item={item}
+                                            inputHandler={inputHandler}
+                                        />
+                                    </header>
+                                </Section>
+                            ))}
+                        </>
+                    )}
+                </Form>
             </SectionsContainer>
         </div>
     );
