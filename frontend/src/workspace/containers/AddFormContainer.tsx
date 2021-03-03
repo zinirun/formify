@@ -5,6 +5,7 @@ import QTextType from '../components/QuestionTypes/QTextType';
 import QOptions from '../components/QuestionTypes/QOptions';
 import {
     EditOutlined,
+    EyeOutlined,
     FileAddOutlined,
     MinusCircleOutlined,
     PlusOutlined,
@@ -206,8 +207,7 @@ export default function AddFormContainer(props) {
 
             <Form.Item style={{ marginTop: 10, float: 'right' }}>
                 <Space>
-                    <Button>미리보기</Button>
-                    <Button>임시 저장</Button>
+                    <Button icon={<EyeOutlined />}>미리보기</Button>
                     <Button type="primary" htmlType="submit">
                         폼 생성
                     </Button>

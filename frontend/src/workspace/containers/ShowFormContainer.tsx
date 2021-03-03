@@ -1,6 +1,7 @@
 import {
     CheckOutlined,
     EditOutlined,
+    EyeOutlined,
     MinusCircleOutlined,
     PlusOutlined,
     ShareAltOutlined,
@@ -282,7 +283,7 @@ export default function ShowFormContainer({ formId }) {
 
                     <Form.Item style={{ marginTop: 10, float: 'right' }}>
                         <Space>
-                            <Button>미리보기</Button>
+                            <Button icon={<EyeOutlined />}>미리보기</Button>
                             {form.pubUrl ? (
                                 <Button type="primary" onClick={() => onOpenForm(form.pubUrl)}>
                                     게시된 폼 열기
