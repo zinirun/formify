@@ -13,7 +13,7 @@ export class AnswerService {
     ) {}
 
     async getOne(id: number): Promise<Answer> {
-        const answer = await this.answerRepository.findOne(id);
+        const answer = await this.answerRepository.findOneByIdWithForm(id);
         if (!answer) {
             throw new NotFoundException(`Answer with ID ${id}: Not Found`);
         }
