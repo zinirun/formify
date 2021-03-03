@@ -15,7 +15,7 @@ export default function SubmittedContainer() {
                             fontWeight: 'bold',
                         }}
                     >
-                        응답해주셔서 감사합니다.
+                        응답해주셔서 감사합니다!
                     </p>
                 }
                 extra={
