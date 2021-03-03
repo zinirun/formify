@@ -68,6 +68,7 @@ export default function DoPage(props) {
     const onSubmit = () => {
         if (done.percent !== 100) {
             message.error(`질문 ${done.notDone.map((d) => ` ${d}번`)}에 답변하지 않았습니다.`);
+            window.location.href = `#q${done.notDone[0]}`;
         }
         console.log(answer);
     };
