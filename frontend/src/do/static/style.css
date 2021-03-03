@@ -45,10 +45,19 @@
     border-radius: 5px;
     font-weight: bold;
 }
+.enter-btn:hover {
+    color: #1d1919;
+    border-color: #1d1919;
+}
 #submit-btn {
     color: white;
+    border-color: rgb(77, 94, 255);
     border-radius: 5px;
     font-weight: bold;
+}
+#submit-btn:hover {
+    background-color: white !important;
+    color: rgb(77, 94, 255);
 }
 #start-btn {
     background-color: rgb(77, 94, 255);

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FormOutlined } from '@ant-design/icons';
 
 export default function FixedLogo() {
@@ -12,8 +11,9 @@ export default function FixedLogo() {
                 left: '20px',
             }}
         >
-            <Link
-                to="/"
+            <a
+                href="/"
+                target="_blank"
                 style={{
                     fontSize: '0.8rem',
                 }}
@@ -30,7 +30,7 @@ export default function FixedLogo() {
                 </p>
                 <FormOutlined />
                 <span className="formify-logo-text">Formify</span>
-            </Link>
+            </a>
         </div>
     );
 }

@@ -1,16 +1,17 @@
-import { useQuery } from '@apollo/client';
-import { Button, Form, message, Progress } from 'antd';
-import { isMobile } from 'react-device-detect';
+import { useMutation, useQuery } from '@apollo/client';
+import { Form, message } from 'antd';
 import React, { useState, useEffect, useCallback } from 'react';
 import { SectionsContainer, Section, ScrollToTopOnMount } from 'react-fullpage';
 import LoadingSpin from '../../common/components/LoadingSpin';
-import { GET_FORM_BY_PUB_URL } from '../../config/queries';
+import { CREATE_ANSWER, GET_FORM_BY_PUB_URL } from '../../config/queries';
 import QuestionContainer from '../containers/QuestionContainer';
 import { answerInitMapper, generateSectionOptions, questionMapper } from '../doConfig';
-import '../static/style.css';
 import { checkAnswerHandler } from '../tools/handler';
-import { CheckOutlined } from '@ant-design/icons';
 import FixedLogo from '../../header/components/FixedLogo';
+import StartContainer from '../containers/StartContainer';
+import FixedPercentView from '../components/FixedPercentView';
+import SubmittedContainer from '../containers/SubmittedContainer';
+import '../static/style.css';
 
 export default function DoPage(props) {
     const { pubUrl } = props.match.params;
@@ -19,6 +20,7 @@ export default function DoPage(props) {
         percent: 0,
         notDone: [],
     });
+    const [submitted, setSubmitted] = useState(true);
     const [form, setForm]: any = useState({});
     const [questions, setQuestions] = useState([]);
     const [isStart, setIsStart] = useState(false);
@@ -28,6 +30,8 @@ export default function DoPage(props) {
             pubUrl,
         },
     });
+
+    const [createAnswer] = useMutation(CREATE_ANSWER);
 
     useEffect(() => {
         if (data) {
@@ -66,9 +70,20 @@ export default function DoPage(props) {
     const onSubmit = () => {
         if (done.percent !== 100) {
             message.error(`질문 ${done.notDone.map((d) => ` ${d}번`)}에 답변하지 않았습니다.`);
-            window.location.href = `#q${done.notDone[0]}`;
+            return (window.location.href = `#q${done.notDone[0]}`);
         }
-        console.log(answer);
+        createAnswer({
+            variables: {
+                answer: {
+                    formId: form.id,
+                    content: JSON.stringify(answer),
+                },
+            },
+        })
+            .then(() => {
+                setSubmitted(true);
+            })
+            .catch((err) => console.log(err));
     };
 
     const handleStartClick = useCallback(() => {
@@ -82,6 +97,7 @@ export default function DoPage(props) {
     return (
         <div style={{ backgroundColor: 'white', overflow: 'hidden' }}>
             <ScrollToTopOnMount />
+            <FixedLogo />
             {loading && <LoadingSpin />}
             {isStart ? (
                 <SectionsContainer {...generateSectionOptions(questions)}>
@@ -92,11 +108,6 @@ export default function DoPage(props) {
                             if (e.key === 'Enter') e.preventDefault();
                         }}
                     >
-                        {/* <Section key="main">
-                        <header className="App-header">
-                            <h2>{form.title}</h2>
-                        </header>
-                    </Section> */}
                         {questions && (
                             <>
                                 {questions.map((item, i) => (
@@ -114,53 +125,12 @@ export default function DoPage(props) {
                         )}
                     </Form>
                 </SectionsContainer>
+            ) : submitted ? (
+                <SubmittedContainer />
             ) : (
-                <header className="App-header Description">
-                    <FixedLogo />
-                    <p
-                        style={{
-                            fontSize: isMobile ? 'large' : 'x-large',
-                            maxWidth: '100%',
-                            whiteSpace: 'normal',
-                            wordBreak: 'break-all',
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        {form.title}
-                    </p>
-                    <div>
-                        <Button
-                            size="large"
-                            id="start-btn"
-                            icon={<CheckOutlined />}
-                            onClick={handleStartClick}
-                            onKeyPress={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleStartClick();
-                                }
-                            }}
-                            autoFocus
-                        >
-                            시작하기
-                        </Button>
-                        <span className="press-enter">
-                            press <span className="bold">ENTER</span>
-                        </span>
-                    </div>
-                </header>
+                <StartContainer handleStartClick={handleStartClick} form={form} />
             )}
-            <FixedLogo />
-            <div
-                style={{
-                    width: 100,
-                    position: 'fixed',
-                    zIndex: 10,
-                    top: '20px',
-                    right: '20px',
-                }}
-            >
-                <Progress percent={done.percent} size="small" />
-            </div>
+            {!submitted && <FixedPercentView done={done} />}
         </div>
     );
 }

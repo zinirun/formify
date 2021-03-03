@@ -104,3 +104,16 @@ export const PUBLISH_FORM = gql`
         }
     }
 `;
+
+export const CREATE_ANSWER = gql`
+    mutation createAnswer($answer: AnswerInput!) {
+        createAnswer(answer: $answer) {
+            id
+            content
+            form {
+                id
+                title
+            }
+        }
+    }
+`;

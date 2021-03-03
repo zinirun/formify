@@ -133,6 +133,7 @@ export default function QuestionContainer({ item, inputHandler, done }) {
                         htmlType="submit"
                         style={{
                             backgroundColor: done.percent === 100 ? 'rgb(77, 94, 255)' : 'grey',
+                            borderColor: done.percent === 100 ? 'rgb(77, 94, 255)' : 'grey',
                         }}
                     >
                         제출
