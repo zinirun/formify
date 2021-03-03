@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Answer } from 'src/answer/answer.entity';
 import { Group } from 'src/group/group.entity';
 import { DateScalar } from 'src/scalars/date';
 import {
@@ -8,6 +9,7 @@ import {
     Index,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -48,6 +50,9 @@ export class Form {
     @ManyToOne(() => Group, (group) => group.forms)
     @JoinColumn()
     group: Group;
+
+    @OneToMany(() => Answer, (answer) => answer.form)
+    answers: Answer[];
 
     /**
      * DB insert time.

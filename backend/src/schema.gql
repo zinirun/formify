@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Answer {
+  id: Float!
+  content: String!
+  form: Form!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
 type Form {
   id: Float!
   title: String!
@@ -12,9 +23,6 @@ type Form {
   createdAt: Date!
   updatedAt: Date!
 }
-
-"""Date custom scalar type"""
-scalar Date
 
 type Group {
   id: Float!
@@ -40,6 +48,8 @@ type Query {
   getFormByPubUrl(pubUrl: String!): Form!
   getFormsByGroupId(groupId: Float!): [Form!]!
   getGroups: [Group!]!
+  getAnswerById(id: Float!): Answer!
+  getAnswersByFormId(formId: Float!): [Answer!]!
 }
 
 type Mutation {
@@ -47,6 +57,7 @@ type Mutation {
   updateForm(form: FormUpdateInput!, id: Float!): Form!
   publishForm(id: Float!): Form!
   createGroup(group: GroupInput!): Group!
+  createAnswer(answer: AnswerInput!): Answer!
 }
 
 input FormInput {
@@ -62,4 +73,9 @@ input FormUpdateInput {
 
 input GroupInput {
   name: String!
+}
+
+input AnswerInput {
+  formId: Float!
+  content: String!
 }
