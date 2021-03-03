@@ -1,3 +1,6 @@
+.section {
+    min-width: 60vw;
+}
 .App-header {
     min-height: 70vh;
     display: flex;
@@ -7,12 +10,14 @@
     padding-right: 10%;
     margin: 10px;
 }
+.Description {
+    margin-top: 10%;
+    padding-left: 10%;
+}
 .form-text-input {
-    margin-bottom: 5% !important;
     border: none !important;
     border-radius: 0 !important;
     background-color: transparent !important;
-    font-size: x-large !important;
     padding: 10px 0px !important;
 }
 .form-text-input:focus {
@@ -20,6 +25,7 @@
     border-bottom: 1px solid #443a3a !important;
 }
 .press-enter {
+    width: 70px;
     font-size: 12px;
     color: black;
     margin-left: 5px;
@@ -28,23 +34,28 @@
     font-weight: bolder;
 }
 .count {
-    font-size: 12px;
+    font-size: 1.15rem;
 }
 .title {
-    font-size: 24px;
     margin-bottom: 5%;
 }
-#enter-btn {
+.enter-btn {
     background-color: #1d1919;
     color: white;
     border-radius: 5px;
     font-weight: bold;
 }
 #submit-btn {
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+}
+#start-btn {
     background-color: rgb(77, 94, 255);
     color: white;
     border-radius: 5px;
     font-weight: bold;
+    margin-left: 70px;
 }
 .page-wrapper {
     overflow: hidden;

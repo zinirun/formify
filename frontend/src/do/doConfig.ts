@@ -1,4 +1,4 @@
-export const ANIMATE_DELAY = 700;
+export const ANIMATE_DELAY = 650;
 
 const anchorMapper = (anchor_data) => {
     return anchor_data.map((item) => item.id.toString());
@@ -30,6 +30,15 @@ export const questionMapper = (data) => {
         };
     });
 };
+
+export const answerInitMapper = (data) => {
+    const answer = {};
+    for (let d of data) {
+        answer[d.seq] = '';
+    }
+    return answer;
+};
+
 export const optionsStyle = {
     display: 'block',
     fontSize: 'large',
