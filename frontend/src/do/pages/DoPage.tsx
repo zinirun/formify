@@ -20,7 +20,7 @@ export default function DoPage(props) {
         percent: 0,
         notDone: [],
     });
-    const [submitted, setSubmitted] = useState(true);
+    const [submitted, setSubmitted] = useState(false);
     const [form, setForm]: any = useState({});
     const [questions, setQuestions] = useState([]);
     const [isStart, setIsStart] = useState(false);
@@ -72,6 +72,7 @@ export default function DoPage(props) {
             message.error(`질문 ${done.notDone.map((d) => ` ${d}번`)}에 답변하지 않았습니다.`);
             return (window.location.href = `#q${done.notDone[0]}`);
         }
+        document.getElementById('submit-btn')?.setAttribute('disabled', 'true');
         createAnswer({
             variables: {
                 answer: {
@@ -81,6 +82,7 @@ export default function DoPage(props) {
             },
         })
             .then(() => {
+                setIsStart(false);
                 setSubmitted(true);
             })
             .catch((err) => console.log(err));
@@ -125,11 +127,10 @@ export default function DoPage(props) {
                         )}
                     </Form>
                 </SectionsContainer>
-            ) : submitted ? (
-                <SubmittedContainer />
             ) : (
-                <StartContainer handleStartClick={handleStartClick} form={form} />
+                !submitted && <StartContainer handleStartClick={handleStartClick} form={form} />
             )}
+            {!isStart && submitted && <SubmittedContainer />}
             {!submitted && <FixedPercentView done={done} />}
         </div>
     );
