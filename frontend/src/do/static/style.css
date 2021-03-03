@@ -61,10 +61,15 @@
 }
 #start-btn {
     background-color: rgb(77, 94, 255);
+    border-color: rgb(77, 94, 255);
     color: white;
     border-radius: 5px;
     font-weight: bold;
     margin-left: 70px;
+}
+#start-btn:hover {
+    background-color: white !important;
+    color: rgb(77, 94, 255);
 }
 .page-wrapper {
     overflow: hidden;
