@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Form, Input } from 'antd';
+import { Form } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { SectionsContainer, Section, ScrollToTopOnMount } from 'react-fullpage';
 import LoadingSpin from '../../common/components/LoadingSpin';
@@ -10,7 +10,7 @@ import '../static/style.css';
 
 export default function DoPage(props) {
     const { pubUrl } = props.match.params;
-    const [obj, setObj] = useState({});
+    const [answer, setAnswer] = useState({});
 
     const [form, setForm]: any = useState({});
     const [questions, setQuestions] = useState([]);
@@ -23,8 +23,9 @@ export default function DoPage(props) {
 
     useEffect(() => {
         if (data) {
-            const { title, createdAt, content } = data.getFormByPubUrl;
+            const { id, title, createdAt, content } = data.getFormByPubUrl;
             setForm({
+                id,
                 title,
                 createdAt,
             });
@@ -34,12 +35,13 @@ export default function DoPage(props) {
 
     const inputHandler = (name, value) => {
         console.log(name, value);
-        console.log(obj);
-        setObj({
-            ...obj,
+        setAnswer({
+            ...answer,
             [name]: value,
         });
     };
+
+    console.log(answer);
 
     const onSubmit = (e) => {
         console.log(e);
@@ -55,7 +57,7 @@ export default function DoPage(props) {
             {loading && <LoadingSpin />}
             <SectionsContainer {...generateSectionOptions(questions)}>
                 <Form
-                    name="form"
+                    name={`form-${form.id}`}
                     onFinish={onSubmit}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') e.preventDefault();
