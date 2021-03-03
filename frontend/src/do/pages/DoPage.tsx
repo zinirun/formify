@@ -1,16 +1,21 @@
 import { useQuery } from '@apollo/client';
-import { Form } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Form, message, Progress } from 'antd';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SectionsContainer, Section, ScrollToTopOnMount } from 'react-fullpage';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import { GET_FORM_BY_PUB_URL } from '../../config/queries';
 import QuestionContainer from '../containers/QuestionContainer';
 import { generateSectionOptions, questionMapper } from '../doConfig';
 import '../static/style.css';
+import { checkAnswerHandler } from '../tools/handler';
 
 export default function DoPage(props) {
     const { pubUrl } = props.match.params;
     const [answer, setAnswer] = useState({});
+    const [done, setDone]: any = useState({
+        percent: 0,
+        notDone: [],
+    });
 
     const [form, setForm]: any = useState({});
     const [questions, setQuestions] = useState([]);
@@ -21,30 +26,50 @@ export default function DoPage(props) {
         },
     });
 
+    const answerInitMapper = (data) => {
+        const answer = {};
+        for (let d of data) {
+            answer[d.seq] = '';
+        }
+        return answer;
+    };
+
     useEffect(() => {
         if (data) {
             const { id, title, createdAt, content } = data.getFormByPubUrl;
+            const questionsParsed = JSON.parse(content);
             setForm({
                 id,
                 title,
                 createdAt,
             });
-            setQuestions(questionMapper(JSON.parse(content)));
+            setQuestions(questionMapper(questionsParsed));
+            setAnswer(answerInitMapper(questionsParsed));
         }
     }, [data]);
 
+    const handleAnswerDone = useCallback(checkAnswerHandler, []);
+
+    useEffect(() => {
+        const { notDone, percent } = handleAnswerDone(answer);
+        setDone({
+            notDone,
+            percent,
+        });
+    }, [answer, handleAnswerDone]);
+
     const inputHandler = (name, value) => {
-        console.log(name, value);
         setAnswer({
             ...answer,
             [name]: value,
         });
     };
 
-    console.log(answer);
-
-    const onSubmit = (e) => {
-        console.log(e);
+    const onSubmit = () => {
+        if (done.percent !== 100) {
+            message.error(`질문 ${done.notDone.map((d) => ` ${d}번`)}에 답변하지 않았습니다.`);
+        }
+        console.log(answer);
     };
 
     if (error) {
@@ -79,6 +104,17 @@ export default function DoPage(props) {
                     )}
                 </Form>
             </SectionsContainer>
+            <div
+                style={{
+                    width: 100,
+                    position: 'fixed',
+                    zIndex: 10,
+                    top: '20px',
+                    right: '20px',
+                }}
+            >
+                <Progress percent={done.percent} size="small" />
+            </div>
         </div>
     );
 }

@@ -30,34 +30,6 @@ export const questionMapper = (data) => {
         };
     });
 };
-
-export const sampleData = [
-    {
-        title: 'lets start with your first name? *',
-        id: 'first_name',
-        link: 'last_name',
-        i: 1,
-    },
-    {
-        title: 'and your last name? *',
-        id: 'last_name',
-        link: 'city',
-        i: 2,
-    },
-    {
-        title: 'what city and state are you from? (or put a zipcode) *',
-        id: 'city',
-        link: 'occupation',
-        i: 3,
-    },
-    {
-        title: 'got a job? or are you a student? *',
-        id: 'occupation',
-        link: '',
-        i: 4,
-    },
-];
-
 export const optionsStyle = {
     display: 'block',
     fontSize: 'large',
