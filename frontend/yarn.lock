@@ -5218,6 +5218,11 @@ damerau-levenshtein@^1.0.6:
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.6.tgz#143c1641cb3d85c60c32329e26899adea8701791"
   integrity sha512-JVrozIeElnj3QzfUIt8tB8YMluBJom4Vw9qTPpjGYQ9fYlB3D/rb6OordUxf3xeFB35LKWs0xqcO5U6ySvBtug==
 
+darkreader@^4.9.26:
+  version "4.9.27"
+  resolved "https://registry.yarnpkg.com/darkreader/-/darkreader-4.9.27.tgz#69b641d6a3c22b07fb0424406dfd9a3661b37197"
+  integrity sha512-DG8zsicuCbAYKaKvLUaiikeei5jN5dIpe0jyaPw4kDa2L5zVnWc/ZxNUYOFriKVAmicwqE5gH5EOfyI0MVt3KA==
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -11121,6 +11126,14 @@ react-content-loader@^5.0.4:
   resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-5.1.4.tgz#854bafe4415dd9de07174621375bc308edd0ebb5"
   integrity sha512-hTq7pZi2GKCK6a9d3u6XStozm0QGCEjw8cSqQReiWnh2up6IwCha5R5TF0o6SY5qUDpByloEZEZtnFxpJyENFw==
 
+react-darkreader@^1.5.5:
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/react-darkreader/-/react-darkreader-1.5.5.tgz#8736799ec3fe9c0acadc2a6bbad03f4d8547fef1"
+  integrity sha512-ebLUofdjYIiqaBbAPJjK2RPzord6Zw7b496+GTNnSjJGu+AWv8024RK/U1+xj7P1iWZGpD5iCWhkPJVDU06FsA==
+  dependencies:
+    darkreader "^4.9.26"
+    react-switch "^6.0.0"
+
 react-dev-utils@^11.0.2:
   version "11.0.2"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.2.tgz#98aed16ef50f808ee17b32def75eb15f89655802"
@@ -11300,6 +11313,13 @@ react-scripts@4.0.2:
     workbox-webpack-plugin "5.1.4"
   optionalDependencies:
     fsevents "^2.1.3"
+
+react-switch@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-switch/-/react-switch-6.0.0.tgz#bd4a2dea08f211b8a32e55e8314fd44bc1ec947e"
+  integrity sha512-QV3/6eRK5/5epdQzIqvDAHRoGLbCv/wDpHUi6yBMXY1Xco5XGuIZxvB49PHoV1v/SpEgOCJLD/Zo43iic+aEIw==
+  dependencies:
+    prop-types "^15.7.2"
 
 react@16.4.2:
   version "16.4.2"
