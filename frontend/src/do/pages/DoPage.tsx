@@ -7,16 +7,18 @@ import { CREATE_ANSWER, GET_FORM_BY_PUB_URL } from '../../config/queries';
 import QuestionContainer from '../containers/QuestionContainer';
 import { answerInitMapper, generateSectionOptions, questionMapper } from '../doConfig';
 import { checkAnswerHandler } from '../tools/handler';
-import FixedLogo from '../../header/components/FixedLogo';
+import { FixedLogoWithDarkSwitch } from '../../header/components/Logo';
 import ClosedContainer from '../containers/ClosedContainer';
 import StartContainer from '../containers/StartContainer';
 import FixedPercentView from '../components/FixedPercentView';
 import SubmittedContainer from '../containers/SubmittedContainer';
 import '../static/style.css';
 import { isMobile } from 'react-device-detect';
+import { useDarkreader } from 'react-darkreader';
 
 export default function DoPage(props) {
     const { pubUrl } = props.match.params;
+    const [isDark, { toggle }] = useDarkreader(false);
     const [answer, setAnswer] = useState({});
     const [status, setStatus] = useState('start');
     const [done, setDone]: any = useState({
@@ -107,7 +109,7 @@ export default function DoPage(props) {
             }}
         >
             <ScrollToTopOnMount />
-            <FixedLogo />
+            <FixedLogoWithDarkSwitch isDark={isDark} toggle={toggle} />
             {loading && <LoadingSpin />}
             {status === 'start' &&
                 form &&
