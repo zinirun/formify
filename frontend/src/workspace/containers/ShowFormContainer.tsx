@@ -1,28 +1,32 @@
 import {
-    CheckOutlined,
+    BarChartOutlined,
+    CheckCircleOutlined,
     EditOutlined,
     EyeOutlined,
+    FormOutlined,
     MinusCircleOutlined,
     PlusOutlined,
     ShareAltOutlined,
 } from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
-import { Modal, Button, Card, Form, Input, message, Space, Tooltip, Alert } from 'antd';
+import { Modal, Button, Card, Form, Input, message, Space, Tooltip } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import Result404 from '../../common/components/Result404';
 import { emptyValidator } from '../../common/utils/validator';
 import { GET_FORM_BY_ID, PUBLISH_FORM, UPDATE_FORM } from '../../config/queries';
+import { FormAlertClosed, FormAlertModify, FormAlertOpen } from '../components/FormAlerts';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QShowOptions from '../components/QuestionTypes/QShowOptions';
 import QTextType from '../components/QuestionTypes/QTextType';
 
 const { confirm } = Modal;
 
-export default function ShowFormContainer({ formId }) {
+export default function ShowFormContainer({ formId, setContentAction }) {
     const [form, setForm] = useState({
         title: '',
         pubUrl: null,
+        status: '',
     });
     const [questions, setQuestions]: any = useState([]);
     const [updateForm] = useMutation(UPDATE_FORM);
@@ -43,6 +47,7 @@ export default function ShowFormContainer({ formId }) {
             setForm({
                 title: data.title,
                 pubUrl: data.pubUrl,
+                status: data.status,
             });
             setQuestions(JSON.parse(data.content));
         }
@@ -180,6 +185,13 @@ export default function ShowFormContainer({ formId }) {
             });
     };
 
+    const onAnalysisForm = () => {
+        setContentAction({
+            action: 'analysisForm',
+            formId,
+        });
+    };
+
     const onOpenForm = (pubUrl: string | null) => {
         pubUrl && window.open(`/do/${pubUrl}`);
     };
@@ -191,28 +203,10 @@ export default function ShowFormContainer({ formId }) {
     return (
         <>
             {formLoading && <LoadingSpin />}
-            {!formLoading && form && form.pubUrl ? (
-                <Alert
-                    message="게시된 폼"
-                    description="이 폼은 게시되었으며 답변을 처리할 수 있습니다."
-                    type="info"
-                    icon={<CheckOutlined />}
-                    showIcon
-                    closable
-                    style={{ marginBottom: 20 }}
-                />
-            ) : (
-                <Alert
-                    message="수정 중인 폼"
-                    description="이 폼은 수정 중인 상태입니다. 최종 검토가 완료되면 폼 게시를 시작하세요."
-                    type="warning"
-                    icon={<EditOutlined />}
-                    showIcon
-                    closable
-                    style={{ marginBottom: 20 }}
-                />
-            )}
-            {!formLoading && form && questions && (
+            {form && form.status === 'open' && <FormAlertOpen />}
+            {form && form.status === 'modify' && <FormAlertModify />}
+            {form && form.status === 'closed' && <FormAlertClosed />}
+            {form && questions && (
                 <Form onFinish={onFinish} size="large">
                     <Input
                         autoFocus
@@ -288,15 +282,36 @@ export default function ShowFormContainer({ formId }) {
                         <Space>
                             <Button icon={<EyeOutlined />}>미리보기</Button>
                             {form.pubUrl ? (
-                                <Button type="primary" onClick={() => onOpenForm(form.pubUrl)}>
-                                    게시된 폼 열기
-                                </Button>
+                                <>
+                                    <Button
+                                        icon={<BarChartOutlined />}
+                                        type="primary"
+                                        onClick={onAnalysisForm}
+                                    >
+                                        답변 처리하기
+                                    </Button>
+                                    <Button
+                                        icon={<FormOutlined />}
+                                        type="primary"
+                                        onClick={() => onOpenForm(form.pubUrl)}
+                                    >
+                                        게시된 폼 열기
+                                    </Button>
+                                </>
                             ) : (
                                 <>
-                                    <Button type="primary" htmlType="submit">
+                                    <Button
+                                        icon={<EditOutlined />}
+                                        type="primary"
+                                        htmlType="submit"
+                                    >
                                         폼 수정
                                     </Button>
-                                    <Button type="primary" onClick={onPublishConfirm}>
+                                    <Button
+                                        icon={<CheckCircleOutlined />}
+                                        type="primary"
+                                        onClick={onPublishConfirm}
+                                    >
                                         폼 게시 시작
                                     </Button>
                                 </>

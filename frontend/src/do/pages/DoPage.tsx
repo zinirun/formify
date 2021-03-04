@@ -8,6 +8,7 @@ import QuestionContainer from '../containers/QuestionContainer';
 import { answerInitMapper, generateSectionOptions, questionMapper } from '../doConfig';
 import { checkAnswerHandler } from '../tools/handler';
 import FixedLogo from '../../header/components/FixedLogo';
+import ClosedContainer from '../containers/ClosedContainer';
 import StartContainer from '../containers/StartContainer';
 import FixedPercentView from '../components/FixedPercentView';
 import SubmittedContainer from '../containers/SubmittedContainer';
@@ -35,16 +36,18 @@ export default function DoPage(props) {
 
     useEffect(() => {
         if (data) {
-            const { id, title, createdAt, content } = data.getFormByPubUrl;
+            const { id, title, status, createdAt, content } = data.getFormByPubUrl;
             const questionsParsed = JSON.parse(content);
             setForm({
                 id,
                 title,
                 createdAt,
+                status,
             });
             setQuestions(questionMapper(questionsParsed));
             setAnswer(answerInitMapper(questionsParsed));
-            if (!isMobile) message.info(`키보드만을 이용해서 답변할 수 있습니다.`);
+            if (!isMobile && status !== 'closed')
+                message.info(`키보드만을 이용해서 답변할 수 있습니다.`);
         }
     }, [data]);
 
@@ -106,9 +109,13 @@ export default function DoPage(props) {
             <ScrollToTopOnMount />
             <FixedLogo />
             {loading && <LoadingSpin />}
-            {status === 'start' && (
-                <StartContainer handleStartClick={handleStartClick} form={form} />
-            )}
+            {status === 'start' &&
+                form &&
+                (form.status === 'open' ? (
+                    <StartContainer handleStartClick={handleStartClick} form={form} />
+                ) : (
+                    <ClosedContainer />
+                ))}
             {status === 'progress' && (
                 <SectionsContainer {...generateSectionOptions(questions)}>
                     <Form

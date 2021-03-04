@@ -10,6 +10,7 @@ import ShowFormContainer from '../containers/ShowFormContainer';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import WelcomeWorkspaceContainer from '../containers/WelcomeWorkspaceContainer';
+import AnalysisContainer from '../containers/AnalysisContainer';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
@@ -89,10 +90,19 @@ export default function WorkSpacePage() {
                     <AddFormContainer groupId={contentAction.groupId} />
                 )}
                 {(!search || selectedAfterQuery) && contentAction.action === 'showForm' && (
-                    <ShowFormContainer formId={contentAction.formId} />
+                    <ShowFormContainer
+                        formId={contentAction.formId}
+                        setContentAction={setContentAction}
+                    />
+                )}
+                {(!search || selectedAfterQuery) && contentAction.action === 'analysisForm' && (
+                    <AnalysisContainer
+                        formId={contentAction.formId}
+                        setContentAction={setContentAction}
+                    />
                 )}
                 {!selectedAfterQuery && query.f && query.g && (
-                    <ShowFormContainer formId={query.f} />
+                    <ShowFormContainer formId={query.f} setContentAction={setContentAction} />
                 )}
                 {(!search || !(query.f && query.g)) && !contentAction.action && (
                     <WelcomeWorkspaceContainer />
