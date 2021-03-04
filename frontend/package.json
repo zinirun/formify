@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:4000",
   "dependencies": {
+    "@ant-design/charts": "^1.0.18",
     "@ant-design/icons": "^4.5.0",
     "@apollo/client": "^3.3.11",
     "@testing-library/jest-dom": "^5.11.4",
