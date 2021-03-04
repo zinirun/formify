@@ -27,8 +27,35 @@
 .press-enter {
     width: 70px;
     font-size: 12px;
-    color: black;
+    color: #777;
     margin-left: 5px;
+    -webkit-animation: blink 0.8s ease-in-out infinite alternate;
+    -moz-animation: blink 0.8s ease-in-out infinite alternate;
+    animation: blink 0.8s ease-in-out infinite alternate;
+}
+@-webkit-keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-moz-keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 .bold {
     font-weight: bolder;

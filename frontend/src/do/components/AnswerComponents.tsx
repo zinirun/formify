@@ -1,7 +1,8 @@
-import { Checkbox, Radio, Space } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import { Checkbox, Radio, Space, Input } from 'antd';
 import { isMobile } from 'react-device-detect';
 import { ALPHA_HOTKEY, optionsStyle } from '../doConfig';
+
+const { TextArea } = Input;
 
 function AnswerRadio({ item, handleInputChange, handleKeyPress }) {
     return (

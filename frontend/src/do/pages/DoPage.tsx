@@ -12,6 +12,7 @@ import StartContainer from '../containers/StartContainer';
 import FixedPercentView from '../components/FixedPercentView';
 import SubmittedContainer from '../containers/SubmittedContainer';
 import '../static/style.css';
+import { isMobile } from 'react-device-detect';
 
 export default function DoPage(props) {
     const { pubUrl } = props.match.params;
@@ -43,6 +44,7 @@ export default function DoPage(props) {
             });
             setQuestions(questionMapper(questionsParsed));
             setAnswer(answerInitMapper(questionsParsed));
+            if (!isMobile) message.info(`키보드만을 이용해서 답변할 수 있습니다.`);
         }
     }, [data]);
 

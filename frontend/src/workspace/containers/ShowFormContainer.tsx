@@ -55,6 +55,9 @@ export default function ShowFormContainer({ formId }) {
         [questions],
     );
     const addItem = useCallback(() => {
+        if (questions.length >= 10) {
+            return message.error('질문은 10개까지 생성할 수 있습니다.');
+        }
         const updated = [
             ...questions,
             {

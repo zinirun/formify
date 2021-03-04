@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Tooltip } from 'antd';
+import { Button, Form, Input, message, Tooltip } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function QOptions(props) {
@@ -49,6 +49,9 @@ export default function QOptions(props) {
         [props, options],
     );
     const addItem = useCallback(() => {
+        if (options.length > 10) {
+            return message.error('옵션은 10개까지 생성할 수 있습니다.');
+        }
         const updated = [
             ...options,
             {

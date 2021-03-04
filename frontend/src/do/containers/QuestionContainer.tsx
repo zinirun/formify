@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { Input, Button, Checkbox, Space } from 'antd';
+import { Button } from 'antd';
 import { isMobile } from 'react-device-detect';
 import { CheckOutlined } from '@ant-design/icons';
-import { ANIMATE_DELAY, optionsStyle, ALPHA_TO_KEY, ALPHA_HOTKEY } from '../doConfig';
+import { ANIMATE_DELAY, ALPHA_TO_KEY } from '../doConfig';
 import { AnswerCheckbox, AnswerRadio, AnswerTextInput } from '../components/AnswerComponents';
-
-const { TextArea } = Input;
 
 export default function QuestionContainer({ item, inputHandler, done }) {
     useEffect(() => {
