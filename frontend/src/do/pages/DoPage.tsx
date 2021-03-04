@@ -97,7 +97,12 @@ export default function DoPage(props) {
     }
 
     return (
-        <div style={{ backgroundColor: 'white', overflow: 'hidden' }}>
+        <div
+            style={{
+                backgroundColor: 'white',
+                overflow: 'hidden',
+            }}
+        >
             <ScrollToTopOnMount />
             <FixedLogo />
             {loading && <LoadingSpin />}
