@@ -30,6 +30,10 @@ export class Form {
     @Column('text')
     content: string;
 
+    @Field(() => String)
+    @Column({ length: 10, default: 'modify' })
+    status: string;
+
     @Field(() => String, { nullable: true })
     @Column({ length: 10, nullable: true })
     @Index({ unique: true })

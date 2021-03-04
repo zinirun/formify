@@ -17,6 +17,7 @@ type Form {
   id: Float!
   title: String!
   content: String!
+  status: String!
   pubUrl: String
   user: User!
   group: Group!
@@ -56,6 +57,7 @@ type Mutation {
   createForm(form: FormInput!): Form!
   updateForm(form: FormUpdateInput!, id: Float!): Form!
   publishForm(id: Float!): Form!
+  updateFormStatusClosed(id: Float!): Form!
   createGroup(group: GroupInput!): Group!
   createAnswer(answer: AnswerInput!): Answer!
 }

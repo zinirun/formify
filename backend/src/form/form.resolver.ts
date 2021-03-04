@@ -50,4 +50,10 @@ export class FormResolver {
     async publishForm(@GetUser() user: User, @Args('id') id: number): Promise<Form> {
         return await this.formService.publish(id);
     }
+
+    @UseGuards(LoginGuard)
+    @Mutation(() => Form)
+    async updateFormStatusClosed(@GetUser() user: User, @Args('id') id: number): Promise<Form> {
+        return await this.formService.updateStatusClosed(id);
+    }
 }

@@ -67,11 +67,24 @@ export class FormService {
 
     async update(id: number, form: FormUpdateInput): Promise<Form> {
         try {
-            const { pubUrl } = await this.getOne(id);
-            if (pubUrl) {
-                throw new BadRequestException(`Form #${id} Already published, can't update`);
+            const { status } = await this.getOne(id);
+            if (status !== 'modify') {
+                throw new BadRequestException(`Form #${id} has not modifying status, can't update`);
             }
             await this.formRepository.update({ id }, form);
+            return await this.getOne(id);
+        } catch (err) {
+            throw new ConflictException(err);
+        }
+    }
+
+    async updateStatusClosed(id: number): Promise<Form> {
+        try {
+            const { status } = await this.getOne(id);
+            if (status === 'closed') {
+                throw new BadRequestException(`Form #${id} Already closed, can't update`);
+            }
+            await this.formRepository.update({ id }, { status: 'closed' });
             return await this.getOne(id);
         } catch (err) {
             throw new ConflictException(err);
@@ -85,7 +98,7 @@ export class FormService {
                 throw new BadRequestException(`Form #${id} Already exists: pubUrl`);
             }
             const generatedPubUrl = await this.generatePubUrl();
-            await this.formRepository.update({ id }, { pubUrl: generatedPubUrl });
+            await this.formRepository.update({ id }, { pubUrl: generatedPubUrl, status: 'open' });
             return await this.getOne(id);
         } catch (err) {
             throw new ConflictException(err);

@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { FormService } from 'src/form/form.service';
 import { Answer } from './answer.entity';
 import { AnswerInput } from './answer.inputs';
@@ -8,7 +13,6 @@ import { AnswerRepository } from './answer.repository';
 export class AnswerService {
     constructor(
         private answerRepository: AnswerRepository,
-
         private readonly formService: FormService,
     ) {}
 
@@ -31,6 +35,9 @@ export class AnswerService {
     async create(answer: AnswerInput): Promise<Answer> {
         try {
             const form = await this.formService.getOne(answer.formId);
+            if (form.status !== 'open') {
+                throw new BadRequestException(`Form #${form.id} is not opened, can't create`);
+            }
             const { id } = await this.answerRepository.save({ ...answer, form });
             return await this.getOne(id);
         } catch (err) {
