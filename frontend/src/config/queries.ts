@@ -123,3 +123,12 @@ export const CREATE_ANSWER = gql`
         }
     }
 `;
+
+export const GET_ANSWERS_BY_FORM_ID = gql`
+    query getAnswersByFormId($formId: Float!) {
+        getAnswersByFormId(formId: $formId) {
+            id
+            content
+        }
+    }
+`;
