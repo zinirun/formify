@@ -16,14 +16,13 @@ import '../static/style.css';
 export default function DoPage(props) {
     const { pubUrl } = props.match.params;
     const [answer, setAnswer] = useState({});
+    const [status, setStatus] = useState('start');
     const [done, setDone]: any = useState({
         percent: 0,
         notDone: [],
     });
-    const [submitted, setSubmitted] = useState(false);
     const [form, setForm]: any = useState({});
     const [questions, setQuestions] = useState([]);
-    const [isStart, setIsStart] = useState(false);
 
     const { data, error, loading } = useQuery(GET_FORM_BY_PUB_URL, {
         variables: {
@@ -82,14 +81,13 @@ export default function DoPage(props) {
             },
         })
             .then(() => {
-                setIsStart(false);
-                setSubmitted(true);
+                setStatus('submitted');
             })
             .catch((err) => console.log(err));
     };
 
     const handleStartClick = useCallback(() => {
-        setIsStart(true);
+        setStatus('progress');
     }, []);
 
     if (error) {
@@ -101,7 +99,10 @@ export default function DoPage(props) {
             <ScrollToTopOnMount />
             <FixedLogo />
             {loading && <LoadingSpin />}
-            {isStart ? (
+            {status === 'start' && (
+                <StartContainer handleStartClick={handleStartClick} form={form} />
+            )}
+            {status === 'progress' && (
                 <SectionsContainer {...generateSectionOptions(questions)}>
                     <Form
                         name={`form-${form.id}`}
@@ -127,11 +128,9 @@ export default function DoPage(props) {
                         )}
                     </Form>
                 </SectionsContainer>
-            ) : (
-                !submitted && <StartContainer handleStartClick={handleStartClick} form={form} />
             )}
-            {!isStart && submitted && <SubmittedContainer />}
-            {!submitted && <FixedPercentView done={done} />}
+            {status === 'submitted' && <SubmittedContainer />}
+            {status === 'progress' && <FixedPercentView done={done} />}
         </div>
     );
 }

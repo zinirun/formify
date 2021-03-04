@@ -9,7 +9,6 @@ export default function QuestionTypeDropdown({ seq, value, onChange }) {
             <Option value="text">텍스트 타입</Option>
             <Option value="selectOne">단일 선택 타입</Option>
             <Option value="selectAll">다중 선택 타입</Option>
-            <Option value="dropdown">드롭다운 타입</Option>
         </Select>
     );
 }
