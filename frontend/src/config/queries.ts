@@ -36,6 +36,7 @@ export const CREATE_FORM = gql`
             id
             title
             content
+            status
         }
     }
 `;
@@ -47,6 +48,7 @@ export const GET_FORM_BY_ID = gql`
             title
             content
             createdAt
+            status
             pubUrl
         }
     }
@@ -58,6 +60,7 @@ export const GET_FORM_BY_PUB_URL = gql`
             id
             title
             content
+            status
             createdAt
             pubUrl
         }
@@ -70,6 +73,7 @@ export const GET_FORMS_BY_GROUP_ID = gql`
             id
             title
             content
+            status
             pubUrl
             createdAt
         }
@@ -82,6 +86,7 @@ export const UPDATE_FORM = gql`
             id
             title
             content
+            status
             user {
                 id
                 username
@@ -96,6 +101,7 @@ export const PUBLISH_FORM = gql`
             id
             title
             content
+            status
             pubUrl
             user {
                 id
