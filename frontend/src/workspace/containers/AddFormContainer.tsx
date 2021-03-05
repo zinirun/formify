@@ -151,7 +151,7 @@ export default function AddFormContainer(props) {
                     onChange={handleTitleChange}
                     value={form.title}
                     placeholder="새로운 폼의 이름을 입력하세요."
-                    style={{ borderRadius: 5 }}
+                    style={{ borderRadius: 5, border: 'none' }}
                 />
             </Form.Item>
 
@@ -193,7 +193,7 @@ export default function AddFormContainer(props) {
                             )}
                         </>
                     }
-                    style={{ marginBottom: 20, borderRadius: 5 }}
+                    style={{ marginBottom: 20, borderRadius: 5, border: 'none' }}
                 >
                     {q.type === 'text' ? (
                         <QTextType />

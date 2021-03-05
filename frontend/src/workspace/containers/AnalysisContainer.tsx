@@ -93,8 +93,12 @@ export default function AnalysisContainer({ formId, setContentAction }) {
             {answers && (
                 <>
                     {analyzed && (
-                        <Collapse style={{ marginBottom: 20, borderRadius: 5 }}>
-                            <Panel key="personal-panel" header="개인별 답변"></Panel>
+                        <Collapse bordered={false} style={{ marginBottom: 20, borderRadius: 5 }}>
+                            <Panel
+                                style={{ border: 'none' }}
+                                key="personal-panel"
+                                header="개인별 답변"
+                            ></Panel>
                         </Collapse>
                     )}
                     {analyzed &&
@@ -102,7 +106,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
                             <Card
                                 key={q.seq}
                                 title={<span style={{ fontWeight: 'bold' }}>{q.title}</span>}
-                                style={{ marginBottom: 20, borderRadius: 5 }}
+                                style={{ marginBottom: 20, borderRadius: 5, border: 'none' }}
                             >
                                 {(q.type === 'selectOne' || q.type === 'selectAll') &&
                                     (charts[q.seq] ? (
