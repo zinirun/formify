@@ -1,8 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormOutlined } from '@ant-design/icons';
-import { Switch } from 'react-darkreader';
-import { Space } from 'antd';
 
 export default function Logo() {
     return (
@@ -15,15 +12,14 @@ export default function Logo() {
     );
 }
 
-export function FixedLogoWithDarkSwitch({ isDark, toggle }) {
+export function FixedLogo() {
     return (
-        <Space
+        <div
             style={{
                 position: 'fixed',
                 zIndex: 10,
                 top: '15px',
                 left: '20px',
-                display: 'flex',
             }}
         >
             <a
@@ -46,7 +42,6 @@ export function FixedLogoWithDarkSwitch({ isDark, toggle }) {
                 <FormOutlined />
                 <span className="formify-logo-text">Formify</span>
             </a>
-            <Switch checked={isDark} onChange={toggle} styling="github" />
-        </Space>
+        </div>
     );
 }

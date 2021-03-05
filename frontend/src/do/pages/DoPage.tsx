@@ -7,7 +7,7 @@ import { CREATE_ANSWER, GET_FORM_BY_PUB_URL } from '../../config/queries';
 import QuestionContainer from '../containers/QuestionContainer';
 import { answerInitMapper, generateSectionOptions, questionMapper } from '../doConfig';
 import { checkAnswerHandler } from '../tools/handler';
-import { FixedLogoWithDarkSwitch } from '../../header/components/Logo';
+import { FixedLogo } from '../../header/components/Logo';
 import ClosedContainer from '../containers/ClosedContainer';
 import StartContainer from '../containers/StartContainer';
 import FixedPercentView from '../components/FixedPercentView';
@@ -109,7 +109,7 @@ export default function DoPage(props) {
             }}
         >
             <ScrollToTopOnMount />
-            <FixedLogoWithDarkSwitch isDark={isDark} toggle={toggle} />
+            <FixedLogo />
             {loading && <LoadingSpin />}
             {status === 'start' &&
                 form &&
@@ -146,7 +146,7 @@ export default function DoPage(props) {
                 </SectionsContainer>
             )}
             {status === 'submitted' && <SubmittedContainer />}
-            {status === 'progress' && <FixedPercentView done={done} />}
+            <FixedPercentView isDark={isDark} toggle={toggle} done={done} />
         </div>
     );
 }

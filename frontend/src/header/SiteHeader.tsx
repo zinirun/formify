@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, withRouter } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Space } from 'antd';
 import { SITE_MENU } from './headerConfig';
 import SocialLoginDropdown from './components/SocialLoginDropdown';
 import Logo from './components/Logo';
 import LoginedDropdown from './components/LoginedDropdown';
 import { useQuery } from '@apollo/client';
 import { VERIFY_USER } from '../config/queries';
+import { useDarkreader } from 'react-darkreader';
+import { Switch } from 'react-darkreader';
 
 const { Header } = Layout;
 
 export default withRouter(function SiteHeader(props: any) {
     const [currentMenu, setCurrentMenu] = useState(['0']);
     const { pathname } = useLocation();
+    const [isDark, { toggle }] = useDarkreader(false);
     const [user, setUser]: any = useState(null);
     const { data: userData, error: userError } = useQuery(VERIFY_USER);
     useEffect(() => {
@@ -33,9 +36,16 @@ export default withRouter(function SiteHeader(props: any) {
     return (
         <Header className="header">
             <Logo />
-            <div className="formify-user-section">
+            <Space style={{ display: 'flex', float: 'right' }}>
                 {user ? <LoginedDropdown username={user.username} /> : <SocialLoginDropdown />}
-            </div>
+                <div
+                    style={{
+                        height: 28,
+                    }}
+                >
+                    <Switch checked={isDark} onChange={toggle} styling="github" />
+                </div>
+            </Space>
             <Menu theme="dark" mode="horizontal" selectedKeys={currentMenu}>
                 {SITE_MENU.map((m) => {
                     if (m.uri === '/workspace' && !user) {
