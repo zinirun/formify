@@ -151,6 +151,7 @@ export default function AddFormContainer(props) {
                     onChange={handleTitleChange}
                     value={form.title}
                     placeholder="새로운 폼의 이름을 입력하세요."
+                    style={{ borderRadius: 5 }}
                 />
             </Form.Item>
 
@@ -192,7 +193,7 @@ export default function AddFormContainer(props) {
                             )}
                         </>
                     }
-                    style={{ marginBottom: 10 }}
+                    style={{ marginBottom: 20, borderRadius: 5 }}
                 >
                     {q.type === 'text' ? (
                         <QTextType />
@@ -203,7 +204,13 @@ export default function AddFormContainer(props) {
             ))}
 
             <Form.Item>
-                <Button type="dashed" onClick={() => addItem()} block icon={<PlusOutlined />}>
+                <Button
+                    type="dashed"
+                    onClick={() => addItem()}
+                    block
+                    icon={<PlusOutlined />}
+                    style={{ borderRadius: 5 }}
+                >
                     질문 추가
                 </Button>
             </Form.Item>

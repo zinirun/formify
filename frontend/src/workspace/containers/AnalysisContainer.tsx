@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Button, Card, Collapse, Descriptions, message, PageHeader } from 'antd';
+import { Card, Collapse, message } from 'antd';
 import { useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import Result404 from '../../common/components/Result404';
@@ -7,7 +7,7 @@ import { GET_ANSWERS_BY_FORM_ID, GET_FORM_BY_ID } from '../../config/queries';
 import { analysisAnswerData } from '../tools/analyzer';
 import AnalSelects from '../components/Analysis/AnalSelects';
 import AnalTexts from '../components/Analysis/AnalTexts';
-import moment from 'moment';
+import AnalHeader from '../components/Analysis/AnalHeader';
 const { Panel } = Collapse;
 
 export default function AnalysisContainer({ formId, setContentAction }) {
@@ -34,6 +34,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
         if (formData) {
             const data = formData.getFormById;
             setForm({
+                id: data.id,
                 title: data.title,
                 pubUrl: data.pubUrl,
                 createdAt: data.createdAt,
@@ -68,18 +69,6 @@ export default function AnalysisContainer({ formId, setContentAction }) {
         }
     }, [questions, answers]);
 
-    const handleGoBack = () => {
-        setContentAction({
-            action: 'showForm',
-            formId,
-            groupId: -1,
-        });
-    };
-
-    const dateMapper = (date) => {
-        return moment(date).format('YYYY년 MM월 DD일 hh:mm');
-    };
-
     if (formError) {
         return <Result404 />;
     }
@@ -88,36 +77,23 @@ export default function AnalysisContainer({ formId, setContentAction }) {
         message.error('답변 데이터를 가져오는 중 문제가 발생했습니다.');
     }
 
+    console.log(questions);
+    console.log(answers);
+
     return (
         <>
             {(formLoading || answerLoading) && <LoadingSpin />}
-            {form && (
-                <PageHeader
-                    onBack={handleGoBack}
-                    title={form.title}
-                    subTitle="결과 분석"
-                    extra={<Button type="primary">EXCEL 다운로드</Button>}
-                >
-                    <Descriptions size="small" column={3}>
-                        <Descriptions.Item label="생성일">
-                            {dateMapper(form.createdAt)}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="상태">
-                            {form.status === 'open' && <span>게시됨</span>}
-                            {form.status === 'closed' && <span>종료됨</span>}
-                        </Descriptions.Item>
-                        {answers ? (
-                            <Descriptions.Item label="답변">{answers.length}개</Descriptions.Item>
-                        ) : (
-                            <LoadingSpin />
-                        )}
-                    </Descriptions>
-                </PageHeader>
+            {form && answers && (
+                <AnalHeader
+                    setContentAction={setContentAction}
+                    form={form}
+                    answerCount={answers.length}
+                />
             )}
             {answers && (
                 <>
                     {analyzed && (
-                        <Collapse style={{ marginBottom: 20 }}>
+                        <Collapse style={{ marginBottom: 20, borderRadius: 5 }}>
                             <Panel key="personal-panel" header="개인별 답변"></Panel>
                         </Collapse>
                     )}
@@ -126,7 +102,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
                             <Card
                                 key={q.seq}
                                 title={<span style={{ fontWeight: 'bold' }}>{q.title}</span>}
-                                style={{ marginBottom: 20 }}
+                                style={{ marginBottom: 20, borderRadius: 5 }}
                             >
                                 {(q.type === 'selectOne' || q.type === 'selectAll') &&
                                     (charts[q.seq] ? (

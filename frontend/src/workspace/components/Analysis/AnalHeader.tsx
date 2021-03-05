@@ -14,7 +14,8 @@ export default function AnalHeader({ setContentAction, form, answerCount }) {
             onBack={handleGoBack}
             title={form.title}
             subTitle="결과 분석"
-            extra={<Button type="primary">EXCEL 다운로드</Button>}
+            extra={<Button type="primary">CSV 다운로드</Button>}
+            style={{ borderRadius: 5, backgroundColor: 'white', marginBottom: 20 }}
         >
             <Descriptions size="small" column={3}>
                 <Descriptions.Item label="생성일">{dateFormater(form.createdAt)}</Descriptions.Item>

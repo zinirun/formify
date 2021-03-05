@@ -214,7 +214,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                         name="title"
                         onChange={handleTitleChange}
                         placeholder="폼의 이름을 입력하세요."
-                        style={{ marginBottom: 20 }}
+                        style={{ marginBottom: 20, borderRadius: 5 }}
                     />
 
                     {questions.map((q) => (
@@ -250,7 +250,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                                     )}
                                 </>
                             }
-                            style={{ marginBottom: 10 }}
+                            style={{ marginBottom: 20, borderRadius: 5 }}
                         >
                             {q.type === 'text' ? (
                                 <QTextType />
@@ -272,6 +272,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                                 onClick={() => addItem()}
                                 block
                                 icon={<PlusOutlined />}
+                                style={{ borderRadius: 5 }}
                             >
                                 질문 추가
                             </Button>

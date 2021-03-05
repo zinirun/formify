@@ -93,6 +93,7 @@ export default function WorkSpacePage() {
                 style={{
                     padding: '24px',
                     minHeight: '85vh',
+                    backgroundColor: '#eee',
                 }}
             >
                 {(!search || selectedAfterQuery) && contentAction.action === 'createForm' && (

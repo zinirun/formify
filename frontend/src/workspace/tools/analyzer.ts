@@ -85,3 +85,24 @@ export const analysisAnswerData = async (questions: any, answers: any) => {
         throw new Error('ANALYSIS_ANSWER_DATA: ERROR');
     }
 };
+
+export const personalAnswerMapper = (questions, answers) => {
+    return answers.map((answer) => {
+        const { id, answer: data } = answer;
+        const mapped = {};
+        for (const key in data) {
+            const value = data[key];
+            const { type, options } = questions[key];
+            switch (type) {
+                case 'selectOne':
+                case 'selectAll':
+                default:
+            }
+            mapped[key] = {};
+        }
+        return {
+            id,
+            data: mapped,
+        };
+    });
+};
