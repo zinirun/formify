@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Empty, Layout, Menu } from 'antd';
+import { Empty, Layout, Menu, message } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_GROUPS } from '../../config/queries';
 import LoadingSpin from '../../common/components/LoadingSpin';
@@ -62,6 +62,10 @@ export default function WorkSpacePage() {
         [setContentAction, contentAction, selectedAfterQuery],
     );
 
+    if (groupsError) {
+        message.error('그룹 데이터를 가져오는 중 문제가 발생했습니다.');
+    }
+
     return (
         <Layout className="site-layout-background">
             <Sider className="site-layout-background" width={300}>
@@ -85,7 +89,12 @@ export default function WorkSpacePage() {
                     <Empty description="그룹이 없습니다." image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 )}
             </Sider>
-            <Content style={{ padding: '24px', minHeight: '85vh' }}>
+            <Content
+                style={{
+                    padding: '24px',
+                    minHeight: '85vh',
+                }}
+            >
                 {(!search || selectedAfterQuery) && contentAction.action === 'createForm' && (
                     <AddFormContainer groupId={contentAction.groupId} />
                 )}

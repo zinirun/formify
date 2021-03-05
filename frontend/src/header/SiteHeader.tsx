@@ -36,15 +36,9 @@ export default withRouter(function SiteHeader(props: any) {
     return (
         <Header className="header">
             <Logo />
-            <Space style={{ display: 'flex', float: 'right' }}>
+            <Space className="user-section" style={{ display: 'flex', float: 'right' }}>
                 {user ? <LoginedDropdown username={user.username} /> : <SocialLoginDropdown />}
-                <div
-                    style={{
-                        height: 28,
-                    }}
-                >
-                    <Switch checked={isDark} onChange={toggle} styling="github" />
-                </div>
+                <Switch checked={isDark} onChange={toggle} styling="github" />
             </Space>
             <Menu theme="dark" mode="horizontal" selectedKeys={currentMenu}>
                 {SITE_MENU.map((m) => {

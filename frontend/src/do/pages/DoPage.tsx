@@ -116,7 +116,7 @@ export default function DoPage(props) {
                 (form.status === 'open' ? (
                     <StartContainer handleStartClick={handleStartClick} form={form} />
                 ) : (
-                    <ClosedContainer />
+                    form.status === 'closed' && <ClosedContainer />
                 ))}
             {status === 'progress' && (
                 <SectionsContainer {...generateSectionOptions(questions)}>

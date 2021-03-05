@@ -99,17 +99,17 @@
 }
 #submit-btn {
     color: white;
-    border-color: rgb(77, 94, 255);
+    border-color: rgb(83, 30, 255);
     border-radius: 5px;
     font-weight: bold;
 }
 #submit-btn:hover {
     background-color: white !important;
-    color: rgb(77, 94, 255);
+    color: rgb(83, 30, 255);
 }
 #start-btn {
-    background-color: rgb(77, 94, 255);
-    border-color: rgb(77, 94, 255);
+    background-color: rgb(83, 30, 255);
+    border-color: rgb(83, 30, 255);
     color: white;
     border-radius: 5px;
     font-weight: bold;
@@ -117,7 +117,7 @@
 }
 #start-btn:hover {
     background-color: white !important;
-    color: rgb(77, 94, 255);
+    color: rgb(83, 30, 255);
 }
 .page-wrapper {
     overflow: hidden;

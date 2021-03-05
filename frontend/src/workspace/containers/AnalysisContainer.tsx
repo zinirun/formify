@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Card, message } from 'antd';
+import { Button, Card, Collapse, Descriptions, message, PageHeader } from 'antd';
 import { useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import Result404 from '../../common/components/Result404';
@@ -7,6 +7,8 @@ import { GET_ANSWERS_BY_FORM_ID, GET_FORM_BY_ID } from '../../config/queries';
 import { analysisAnswerData } from '../tools/analyzer';
 import AnalSelects from '../components/Analysis/AnalSelects';
 import AnalTexts from '../components/Analysis/AnalTexts';
+import moment from 'moment';
+const { Panel } = Collapse;
 
 export default function AnalysisContainer({ formId, setContentAction }) {
     const [form, setForm]: any = useState({});
@@ -66,6 +68,18 @@ export default function AnalysisContainer({ formId, setContentAction }) {
         }
     }, [questions, answers]);
 
+    const handleGoBack = () => {
+        setContentAction({
+            action: 'showForm',
+            formId,
+            groupId: -1,
+        });
+    };
+
+    const dateMapper = (date) => {
+        return moment(date).format('YYYY년 MM월 DD일 hh:mm');
+    };
+
     if (formError) {
         return <Result404 />;
     }
@@ -77,15 +91,42 @@ export default function AnalysisContainer({ formId, setContentAction }) {
     return (
         <>
             {(formLoading || answerLoading) && <LoadingSpin />}
-            {form && <h3>{form.title}</h3>}
+            {form && (
+                <PageHeader
+                    onBack={handleGoBack}
+                    title={form.title}
+                    subTitle="결과 분석"
+                    extra={<Button type="primary">EXCEL 다운로드</Button>}
+                >
+                    <Descriptions size="small" column={3}>
+                        <Descriptions.Item label="생성일">
+                            {dateMapper(form.createdAt)}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="상태">
+                            {form.status === 'open' && <span>게시됨</span>}
+                            {form.status === 'closed' && <span>종료됨</span>}
+                        </Descriptions.Item>
+                        {answers ? (
+                            <Descriptions.Item label="답변">{answers.length}개</Descriptions.Item>
+                        ) : (
+                            <LoadingSpin />
+                        )}
+                    </Descriptions>
+                </PageHeader>
+            )}
             {answers && (
                 <>
+                    {analyzed && (
+                        <Collapse style={{ marginBottom: 20 }}>
+                            <Panel key="personal-panel" header="개인별 답변"></Panel>
+                        </Collapse>
+                    )}
                     {analyzed &&
                         questions.map((q) => (
                             <Card
                                 key={q.seq}
                                 title={<span style={{ fontWeight: 'bold' }}>{q.title}</span>}
-                                style={{ marginBottom: 10 }}
+                                style={{ marginBottom: 20 }}
                             >
                                 {(q.type === 'selectOne' || q.type === 'selectAll') &&
                                     (charts[q.seq] ? (

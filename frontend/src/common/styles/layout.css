@@ -18,3 +18,9 @@
 .formify-logo-text {
     margin-left: 5px;
 }
+.user-section {
+    height: 64px;
+}
+.user-section * {
+    vertical-align: middle !important;
+}
