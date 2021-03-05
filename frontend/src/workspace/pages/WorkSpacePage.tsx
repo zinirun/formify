@@ -78,8 +78,8 @@ export default function WorkSpacePage() {
                         defaultSelectedKeys={
                             query.f && query.g ? [`form-${query.g}-${query.f}`] : ['']
                         }
-                        style={{ height: '100%' }}
                         onSelect={handleSelectForm}
+                        style={{ height: 'calc(100% - 48px)' }}
                     >
                         {groups.map((group) => (
                             <FormsContainer {...group} key={`group-${group.id}`} group={group} />
