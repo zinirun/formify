@@ -1,4 +1,4 @@
-export const initDataToAnalysis = (questions) => {
+const initDataToAnalysis = (questions) => {
     const data = {};
     for (const question of questions) {
         data[question.seq] = {
