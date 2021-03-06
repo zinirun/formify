@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Empty, Layout, Menu, message } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_GROUPS } from '../../config/queries';
@@ -14,8 +14,8 @@ import AnalysisContainer from '../containers/AnalysisContainer';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
-    let { search } = useLocation();
-    let query = queryString.parse(search);
+    const { search } = useLocation();
+    const query = queryString.parse(search);
 
     const [selectedAfterQuery, setSelectedAfterQuery] = useState(false);
     const [contentAction, setContentAction] = useState({
