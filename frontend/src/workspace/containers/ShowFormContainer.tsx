@@ -208,6 +208,46 @@ export default function ShowFormContainer({ formId, setContentAction }) {
             {form && form.status === 'closed' && <FormAlertClosed />}
             {form && questions && (
                 <Form onFinish={onFinish} size="large">
+                    <Form.Item style={{ marginTop: 5, marginBottom: 20, float: 'right' }}>
+                        <Space>
+                            <Button icon={<EyeOutlined />}>미리보기</Button>
+                            {form.pubUrl ? (
+                                <>
+                                    <Button
+                                        icon={<BarChartOutlined />}
+                                        type="primary"
+                                        onClick={onAnalysisForm}
+                                    >
+                                        답변 처리하기
+                                    </Button>
+                                    <Button
+                                        icon={<FormOutlined />}
+                                        type="primary"
+                                        onClick={() => onOpenForm(form.pubUrl)}
+                                    >
+                                        게시된 폼 열기
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        icon={<EditOutlined />}
+                                        type="primary"
+                                        htmlType="submit"
+                                    >
+                                        폼 수정
+                                    </Button>
+                                    <Button
+                                        icon={<CheckCircleOutlined />}
+                                        type="primary"
+                                        onClick={onPublishConfirm}
+                                    >
+                                        폼 게시 시작
+                                    </Button>
+                                </>
+                            )}
+                        </Space>
+                    </Form.Item>
                     <Input
                         autoFocus
                         value={form.title}
@@ -216,7 +256,6 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                         placeholder="폼의 이름을 입력하세요."
                         style={{ marginBottom: 20, borderRadius: 5, border: 'none' }}
                     />
-
                     {questions.map((q) => (
                         <Card
                             key={q.seq}
@@ -264,7 +303,6 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                             )}
                         </Card>
                     ))}
-
                     {!form.pubUrl && (
                         <Form.Item>
                             <Button
@@ -278,47 +316,6 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                             </Button>
                         </Form.Item>
                     )}
-
-                    <Form.Item style={{ marginTop: 10, float: 'right' }}>
-                        <Space>
-                            <Button icon={<EyeOutlined />}>미리보기</Button>
-                            {form.pubUrl ? (
-                                <>
-                                    <Button
-                                        icon={<BarChartOutlined />}
-                                        type="primary"
-                                        onClick={onAnalysisForm}
-                                    >
-                                        답변 처리하기
-                                    </Button>
-                                    <Button
-                                        icon={<FormOutlined />}
-                                        type="primary"
-                                        onClick={() => onOpenForm(form.pubUrl)}
-                                    >
-                                        게시된 폼 열기
-                                    </Button>
-                                </>
-                            ) : (
-                                <>
-                                    <Button
-                                        icon={<EditOutlined />}
-                                        type="primary"
-                                        htmlType="submit"
-                                    >
-                                        폼 수정
-                                    </Button>
-                                    <Button
-                                        icon={<CheckCircleOutlined />}
-                                        type="primary"
-                                        onClick={onPublishConfirm}
-                                    >
-                                        폼 게시 시작
-                                    </Button>
-                                </>
-                            )}
-                        </Space>
-                    </Form.Item>
                 </Form>
             )}
         </>

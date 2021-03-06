@@ -4,9 +4,15 @@ const { TabPane } = Tabs;
 
 export default function AnalPersonals({ personals }) {
     return (
-        <Collapse bordered={false} style={{ marginBottom: 20, borderRadius: 5 }}>
+        <Collapse
+            bordered={false}
+            style={{ marginBottom: 20, borderRadius: 5, backgroundColor: 'white' }}
+        >
             <Panel style={{ border: 'none' }} key="personal-panel" header="개인별 답변">
-                <Tabs tabPosition="left" style={{ height: 300 }}>
+                <Tabs
+                    tabPosition="left"
+                    style={{ height: 300, border: '1px solid #ddd', borderRadius: 5 }}
+                >
                     {personals.map((p, idx) => (
                         <TabPane
                             key={`p-${p.id}`}

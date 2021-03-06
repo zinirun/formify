@@ -48,6 +48,7 @@ export const GET_FORM_BY_ID = gql`
             title
             content
             createdAt
+            updatedAt
             status
             pubUrl
         }

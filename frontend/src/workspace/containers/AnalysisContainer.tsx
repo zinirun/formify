@@ -23,16 +23,14 @@ export default function AnalysisContainer({ formId, setContentAction }) {
             id: parseInt(formId),
         },
     });
-    const {
-        data: answerData,
-        error: answerError,
-        loading: answerLoading,
-        refetch: answerRefetch,
-    } = useQuery(GET_ANSWERS_BY_FORM_ID, {
-        variables: {
-            formId: parseInt(formId),
+    const { data: answerData, error: answerError, loading: answerLoading } = useQuery(
+        GET_ANSWERS_BY_FORM_ID,
+        {
+            variables: {
+                formId: parseInt(formId),
+            },
         },
-    });
+    );
 
     useEffect(() => {
         if (formData) {
@@ -42,6 +40,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
                 title: data.title,
                 pubUrl: data.pubUrl,
                 createdAt: data.createdAt,
+                updatedAt: data.updatedAt,
                 status: data.status,
             });
             setQuestions(JSON.parse(data.content));
@@ -94,29 +93,39 @@ export default function AnalysisContainer({ formId, setContentAction }) {
             )}
             {answers.length > 0 ? (
                 <>
-                    {analyzed && <AnalPersonals personals={personals} />}
-                    {analyzed &&
-                        questions.map((q) => (
-                            <Card
-                                key={q.seq}
-                                title={<span style={{ fontWeight: 'bold' }}>{q.title}</span>}
-                                style={{ marginBottom: 20, borderRadius: 5, border: 'none' }}
-                            >
-                                {(q.type === 'selectOne' || q.type === 'selectAll') &&
-                                    (charts[q.seq] ? (
-                                        <AnalSelects config={charts[q.seq]} />
-                                    ) : (
-                                        <LoadingSpin />
-                                    ))}
-                                {q.type === 'text' &&
-                                    (analyzed[q.seq] ? (
-                                        <AnalTexts texts={analyzed[q.seq].result.texts} />
-                                    ) : (
-                                        <LoadingSpin />
-                                    ))}
-                            </Card>
-                        ))}
+                    {analyzed ? (
+                        <>
+                            <AnalPersonals personals={personals} />
+                            {questions.map((q) => (
+                                <Card
+                                    key={q.seq}
+                                    title={<span style={{ fontWeight: 'bold' }}>{q.title}</span>}
+                                    style={{ marginBottom: 20, borderRadius: 5, border: 'none' }}
+                                >
+                                    {(q.type === 'selectOne' || q.type === 'selectAll') &&
+                                        (charts[q.seq] ? (
+                                            <AnalSelects config={charts[q.seq]} />
+                                        ) : (
+                                            <LoadingSpin />
+                                        ))}
+                                    {q.type === 'text' &&
+                                        (analyzed[q.seq] ? (
+                                            <AnalTexts texts={analyzed[q.seq].result.texts} />
+                                        ) : (
+                                            <LoadingSpin />
+                                        ))}
+                                </Card>
+                            ))}
+                        </>
+                    ) : (
+                        <Result
+                            icon={<EllipsisOutlined />}
+                            title={<h5>처리할 답변이 없습니다.</h5>}
+                        />
+                    )}
                 </>
+            ) : answerLoading ? (
+                <LoadingSpin tip="답변 데이터를 분석하고 있습니다" />
             ) : (
                 <Result icon={<EllipsisOutlined />} title={<h5>처리할 답변이 없습니다.</h5>} />
             )}
