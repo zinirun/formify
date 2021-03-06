@@ -62,7 +62,7 @@ const chartDataMapper = (data: any) => {
 const personalAnswerMapper = (initData, answers) => {
     return answers.map((answer) => {
         const { id, answer: data } = answer;
-        const newData = {};
+        const newData: any[] = [];
         for (const seq in data) {
             const newAnswerBySeq: string[] = [];
             const userAnswerBySeq = data[seq];
@@ -80,11 +80,11 @@ const personalAnswerMapper = (initData, answers) => {
                 default:
                     newAnswerBySeq.push(userAnswerBySeq);
             }
-            newData[seq] = {
+            newData.push({
                 title,
                 type,
                 answer: newAnswerBySeq,
-            };
+            });
         }
         return {
             id,

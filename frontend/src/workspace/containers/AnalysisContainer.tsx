@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Card, Collapse, message } from 'antd';
+import { Card, message } from 'antd';
 import { useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import Result404 from '../../common/components/Result404';
@@ -8,13 +8,14 @@ import { analysisAnswerData } from '../tools/analyzer';
 import AnalSelects from '../components/Analysis/AnalSelects';
 import AnalTexts from '../components/Analysis/AnalTexts';
 import AnalHeader from '../components/Analysis/AnalHeader';
-const { Panel } = Collapse;
+import AnalPersonals from '../components/Analysis/AnalPersonals';
 
 export default function AnalysisContainer({ formId, setContentAction }) {
     const [form, setForm]: any = useState({});
     const [questions, setQuestions]: any = useState([]);
     const [answers, setAnswers]: any = useState([]);
     const [analyzed, setAnalyzed]: any = useState([]);
+    const [personals, setPersonals]: any = useState([]);
     const [charts, setCharts]: any = useState({});
     const { data: formData, error: formError, loading: formLoading } = useQuery(GET_FORM_BY_ID, {
         variables: {
@@ -61,9 +62,10 @@ export default function AnalysisContainer({ formId, setContentAction }) {
     useEffect(() => {
         if (questions && answers) {
             analysisAnswerData(questions, answers)
-                .then(({ data, configs }) => {
+                .then(({ data, configs, personal }) => {
                     setAnalyzed(data);
                     setCharts(configs);
+                    setPersonals(personal);
                 })
                 .catch(() => message.error('답변 데이터를 처리하는 중 문제가 발생했습니다.'));
         }
@@ -77,9 +79,6 @@ export default function AnalysisContainer({ formId, setContentAction }) {
         message.error('답변 데이터를 가져오는 중 문제가 발생했습니다.');
     }
 
-    console.log(questions);
-    console.log(answers);
-
     return (
         <>
             {(formLoading || answerLoading) && <LoadingSpin />}
@@ -92,15 +91,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
             )}
             {answers && (
                 <>
-                    {analyzed && (
-                        <Collapse bordered={false} style={{ marginBottom: 20, borderRadius: 5 }}>
-                            <Panel
-                                style={{ border: 'none' }}
-                                key="personal-panel"
-                                header="개인별 답변"
-                            ></Panel>
-                        </Collapse>
-                    )}
+                    {analyzed && <AnalPersonals personals={personals} />}
                     {analyzed &&
                         questions.map((q) => (
                             <Card
