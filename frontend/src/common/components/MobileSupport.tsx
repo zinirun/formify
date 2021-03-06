@@ -1,10 +1,10 @@
 import { MobileOutlined } from '@ant-design/icons';
-import { Result } from 'antd';
+import { Layout, Result } from 'antd';
 import { FixedLogo } from '../../header/components/Logo';
 
 export default function MobileSupport() {
     return (
-        <>
+        <Layout style={{ backgroundColor: 'white' }}>
             <FixedLogo />
             <Result
                 title={<p style={{ fontSize: 'large', fontWeight: 'bold' }}>죄송합니다</p>}
@@ -18,6 +18,6 @@ export default function MobileSupport() {
                 icon={<MobileOutlined />}
                 style={{ marginTop: 70 }}
             />
-        </>
+        </Layout>
     );
 }
