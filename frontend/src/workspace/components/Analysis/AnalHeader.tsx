@@ -14,7 +14,11 @@ export default function AnalHeader({ setContentAction, form, answerCount }) {
             onBack={handleGoBack}
             title={form.title}
             subTitle="결과 분석"
-            extra={<Button type="primary">CSV 다운로드</Button>}
+            extra={[
+                <Button key="download-csv" type="primary">
+                    CSV 다운로드
+                </Button>,
+            ]}
             style={{ borderRadius: 5, backgroundColor: 'white', marginBottom: 20 }}
         >
             <Descriptions size="small" column={3}>

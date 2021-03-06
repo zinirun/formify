@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Card, message } from 'antd';
+import { Card, message, Result } from 'antd';
 import { useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import Result404 from '../../common/components/Result404';
@@ -9,6 +9,7 @@ import AnalSelects from '../components/Analysis/AnalSelects';
 import AnalTexts from '../components/Analysis/AnalTexts';
 import AnalHeader from '../components/Analysis/AnalHeader';
 import AnalPersonals from '../components/Analysis/AnalPersonals';
+import { EllipsisOutlined } from '@ant-design/icons';
 
 export default function AnalysisContainer({ formId, setContentAction }) {
     const [form, setForm]: any = useState({});
@@ -22,14 +23,16 @@ export default function AnalysisContainer({ formId, setContentAction }) {
             id: parseInt(formId),
         },
     });
-    const { data: answerData, error: answerError, loading: answerLoading } = useQuery(
-        GET_ANSWERS_BY_FORM_ID,
-        {
-            variables: {
-                formId: parseInt(formId),
-            },
+    const {
+        data: answerData,
+        error: answerError,
+        loading: answerLoading,
+        refetch: answerRefetch,
+    } = useQuery(GET_ANSWERS_BY_FORM_ID, {
+        variables: {
+            formId: parseInt(formId),
         },
-    );
+    });
 
     useEffect(() => {
         if (formData) {
@@ -89,7 +92,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
                     answerCount={answers.length}
                 />
             )}
-            {answers && (
+            {answers.length > 0 ? (
                 <>
                     {analyzed && <AnalPersonals personals={personals} />}
                     {analyzed &&
@@ -114,6 +117,8 @@ export default function AnalysisContainer({ formId, setContentAction }) {
                             </Card>
                         ))}
                 </>
+            ) : (
+                <Result icon={<EllipsisOutlined />} title={<h5>처리할 답변이 없습니다.</h5>} />
             )}
         </>
     );

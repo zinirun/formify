@@ -146,7 +146,7 @@ export default function DoPage(props) {
                 </SectionsContainer>
             )}
             {status === 'submitted' && <SubmittedContainer />}
-            <FixedPercentView isDark={isDark} toggle={toggle} done={done} />
+            <FixedPercentView status={status} isDark={isDark} toggle={toggle} done={done} />
         </div>
     );
 }

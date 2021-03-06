@@ -6,9 +6,13 @@ export default function AnalPersonals({ personals }) {
     return (
         <Collapse bordered={false} style={{ marginBottom: 20, borderRadius: 5 }}>
             <Panel style={{ border: 'none' }} key="personal-panel" header="개인별 답변">
-                <Tabs tabPosition="left">
+                <Tabs tabPosition="left" style={{ height: 300 }}>
                     {personals.map((p, idx) => (
-                        <TabPane key={`p-${p.id}`} tab={`${idx + 1}`}>
+                        <TabPane
+                            key={`p-${p.id}`}
+                            tab={`${idx + 1}`}
+                            style={{ height: 300, overflow: 'auto' }}
+                        >
                             {p.data.map((d, idx) => (
                                 <div key={`p-answer-${idx}`}>
                                     <p
