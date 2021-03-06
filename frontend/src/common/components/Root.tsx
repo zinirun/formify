@@ -2,13 +2,24 @@ import { Layout } from 'antd';
 import { Content, Footer } from 'antd/lib/layout/layout';
 import { useLocation } from 'react-router-dom';
 import SiteHeader from '../../header/SiteHeader';
+import { isMobile } from 'react-device-detect';
+import MobileSupport from './MobileSupport';
 
 import '../styles/layout.css';
-
 export default function Root(props) {
     const { pathname } = useLocation();
     const isDoPage = pathname.split('/')[1] === 'do';
-    return <>{isDoPage ? props.children : <LayoutWithHeader {...props} />}</>;
+    return (
+        <>
+            {isDoPage ? (
+                props.children
+            ) : isMobile ? (
+                <MobileSupport />
+            ) : (
+                <LayoutWithHeader {...props} />
+            )}
+        </>
+    );
 }
 
 function LayoutWithHeader(props) {
