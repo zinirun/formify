@@ -59,6 +59,40 @@ const chartDataMapper = (data: any) => {
     }
 };
 
+const personalAnswerMapper = (initData, answers) => {
+    return answers.map((answer) => {
+        const { id, answer: data } = answer;
+        const newData = {};
+        for (const seq in data) {
+            const newAnswerBySeq: string[] = [];
+            const userAnswerBySeq = data[seq];
+            const { title, type, result } = initData[seq];
+            const { options } = result;
+            switch (type) {
+                case 'selectOne':
+                    newAnswerBySeq.push(options[userAnswerBySeq].value);
+                    break;
+                case 'selectAll':
+                    userAnswerBySeq.forEach((key) => {
+                        newAnswerBySeq.push(options[key].value);
+                    });
+                    break;
+                default:
+                    newAnswerBySeq.push(userAnswerBySeq);
+            }
+            newData[seq] = {
+                title,
+                type,
+                answer: newAnswerBySeq,
+            };
+        }
+        return {
+            id,
+            data: newData,
+        };
+    });
+};
+
 export const analysisAnswerData = async (questions: any, answers: any) => {
     try {
         const data = await initDataToAnalysis(questions);
@@ -80,29 +114,12 @@ export const analysisAnswerData = async (questions: any, answers: any) => {
                 }
             }
         }
-        return { data, configs: chartDataMapper(data) };
+        return {
+            data,
+            configs: chartDataMapper(data),
+            personal: personalAnswerMapper(data, answers),
+        };
     } catch (err) {
         throw new Error('ANALYSIS_ANSWER_DATA: ERROR');
     }
-};
-
-export const personalAnswerMapper = (questions, answers) => {
-    return answers.map((answer) => {
-        const { id, answer: data } = answer;
-        const mapped = {};
-        for (const key in data) {
-            const value = data[key];
-            const { type, options } = questions[key];
-            switch (type) {
-                case 'selectOne':
-                case 'selectAll':
-                default:
-            }
-            mapped[key] = {};
-        }
-        return {
-            id,
-            data: mapped,
-        };
-    });
 };
