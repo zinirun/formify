@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Form, message } from 'antd';
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { SectionsContainer, Section, ScrollToTopOnMount } from 'react-fullpage';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import { CREATE_ANSWER, GET_FORM_BY_PUB_URL } from '../../config/queries';
