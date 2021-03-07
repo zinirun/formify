@@ -12,8 +12,8 @@ export default function FixedIsPreview() {
             <span
                 style={{
                     color: 'white',
-                    fontSize: '0.85rem',
-                    padding: '2px 5px',
+                    fontSize: '0.8rem',
+                    padding: '3px 5px',
                     borderRadius: 5,
                     backgroundColor: '#333',
                 }}
