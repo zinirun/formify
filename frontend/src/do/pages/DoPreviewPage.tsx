@@ -38,6 +38,7 @@ export default function DoPreviewPage(props) {
         if (data) {
             const { id, title, subtitle, status, createdAt, content } = data.getFormById;
             const questionsParsed = JSON.parse(content);
+            document.title = `${title} - Formify 폼 미리보기`;
             setForm({
                 id,
                 title,

@@ -40,6 +40,7 @@ export default function DoPage(props) {
         if (data) {
             const { id, title, subtitle, status, createdAt, content } = data.getFormByPubUrl;
             const questionsParsed = JSON.parse(content);
+            document.title = `${title} - Formify 폼`;
             setForm({
                 id,
                 title,
