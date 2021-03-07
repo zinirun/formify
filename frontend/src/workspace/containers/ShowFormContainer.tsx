@@ -1,24 +1,16 @@
-import {
-    BarChartOutlined,
-    CheckCircleOutlined,
-    EditOutlined,
-    EyeOutlined,
-    FormOutlined,
-    MinusCircleOutlined,
-    PlusOutlined,
-    ShareAltOutlined,
-} from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
-import { Modal, Button, Card, Form, Input, message, Space, Tooltip } from 'antd';
+import { Modal, Button, Card, Form, Input, message, Tooltip } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import Result404 from '../../common/components/Result404';
-import { emptyValidator } from '../../common/utils/validator';
+import { emptyValidatorOnUpdateForm } from '../../common/utils/validator';
 import { GET_FORM_BY_ID, PUBLISH_FORM, UPDATE_FORM } from '../../config/queries';
 import { FormAlertClosed, FormAlertModify, FormAlertOpen } from '../components/FormAlerts';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QShowOptions from '../components/QuestionTypes/QShowOptions';
 import QTextType from '../components/QuestionTypes/QTextType';
+import ShowFormHeader from '../components/ShowFormHeader';
 
 const { TextArea } = Input;
 const { confirm } = Modal;
@@ -137,10 +129,10 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         try {
             const updatedForm = {
                 title: form.title,
-                subtitle: form.subtitle.replaceAll('\n', '<br />'),
+                subtitle: form.subtitle ? form.subtitle.replaceAll('\n', '<br />') : '',
                 content: JSON.stringify(questions),
             };
-            await emptyValidator(updatedForm);
+            await emptyValidatorOnUpdateForm(updatedForm);
 
             updateForm({
                 variables: {
@@ -156,6 +148,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                     message.error(`폼을 수정하는 중 오류가 발생했습니다. [${err}]`);
                 });
         } catch (err) {
+            console.log(err);
             message.error('입력값 중 빈 칸이 존재합니다. 입력값을 다시 확인하세요.');
         }
     };
@@ -198,14 +191,6 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         });
     };
 
-    const onOpenForm = (pubUrl: string | null) => {
-        pubUrl && window.open(`/do/${pubUrl}`);
-    };
-
-    const onOpenPreview = (formId: number | null) => {
-        formId && window.open(`/preview/${formId}`);
-    };
-
     if (formError) {
         return <Result404 />;
     }
@@ -218,55 +203,18 @@ export default function ShowFormContainer({ formId, setContentAction }) {
             {form && form.status === 'closed' && <FormAlertClosed />}
             {form && questions && (
                 <Form onFinish={onFinish} size="large">
-                    <Form.Item style={{ marginTop: 5, marginBottom: 20, float: 'right' }}>
-                        <Space>
-                            <Button onClick={() => onOpenPreview(form.id)} icon={<EyeOutlined />}>
-                                미리보기
-                            </Button>
-                            {form.pubUrl ? (
-                                <>
-                                    <Button
-                                        icon={<BarChartOutlined />}
-                                        type="primary"
-                                        onClick={onAnalysisForm}
-                                    >
-                                        답변 처리하기
-                                    </Button>
-                                    <Button
-                                        icon={<FormOutlined />}
-                                        type="primary"
-                                        onClick={() => onOpenForm(form.pubUrl)}
-                                    >
-                                        게시된 폼 열기
-                                    </Button>
-                                </>
-                            ) : (
-                                <>
-                                    <Button
-                                        icon={<EditOutlined />}
-                                        type="primary"
-                                        htmlType="submit"
-                                    >
-                                        폼 수정
-                                    </Button>
-                                    <Button
-                                        icon={<CheckCircleOutlined />}
-                                        type="primary"
-                                        onClick={onPublishConfirm}
-                                    >
-                                        폼 게시 시작
-                                    </Button>
-                                </>
-                            )}
-                        </Space>
-                    </Form.Item>
+                    <ShowFormHeader
+                        form={form}
+                        onAnalysisForm={onAnalysisForm}
+                        onPublishConfirm={onPublishConfirm}
+                    />
                     <Input
                         autoFocus
-                        value={form.title}
                         name="title"
                         onChange={handleTitleChange}
-                        placeholder="폼의 이름을 입력하세요."
-                        style={{ marginBottom: 20, borderRadius: 5, border: 'none' }}
+                        value={form.title}
+                        placeholder="새로운 폼의 이름을 입력하세요."
+                        style={{ borderRadius: 5, border: 'none', marginBottom: 20 }}
                     />
                     <Form.Item name="subtitle">
                         <TextArea

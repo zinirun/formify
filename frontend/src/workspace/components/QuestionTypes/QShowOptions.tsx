@@ -75,8 +75,8 @@ export default function QShowOptions(props) {
                     style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}
                 >
                     <Input
-                        value={opt.value}
                         name={`opt-${props.seq}-${opt.key}`}
+                        value={opt.value}
                         onChange={(e) => handleChange(e, opt.key)}
                         placeholder="보기를 입력하세요."
                     />
