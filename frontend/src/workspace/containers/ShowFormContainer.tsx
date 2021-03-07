@@ -209,7 +209,6 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                         onPublishConfirm={onPublishConfirm}
                     />
                     <Input
-                        autoFocus
                         name="title"
                         onChange={handleTitleChange}
                         value={form.title}
