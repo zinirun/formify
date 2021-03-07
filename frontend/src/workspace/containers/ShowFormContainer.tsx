@@ -125,14 +125,14 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         [questions, form.pubUrl],
     );
 
-    const onFinish = async () => {
+    const onUpdate = async () => {
         try {
             const updatedForm = {
                 title: form.title,
                 subtitle: form.subtitle ? form.subtitle.replaceAll('\n', '<br />') : '',
                 content: JSON.stringify(questions),
             };
-            await emptyValidatorOnUpdateForm(updatedForm);
+            emptyValidatorOnUpdateForm(updatedForm);
 
             updateForm({
                 variables: {
@@ -146,10 +146,12 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                 })
                 .catch((err) => {
                     message.error(`폼을 수정하는 중 오류가 발생했습니다. [${err}]`);
+                    return false;
                 });
+            return true;
         } catch (err) {
-            console.log(err);
             message.error('입력값 중 빈 칸이 존재합니다. 입력값을 다시 확인하세요.');
+            return false;
         }
     };
 
@@ -167,21 +169,23 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         });
     };
 
-    const triggerPublishForm = () => {
-        publishForm({
-            variables: {
-                id: parseInt(formId),
-            },
-        })
-            .then((res) => {
-                formRefetch();
-                const { pubUrl } = res.data.publishForm;
-                message.success(`폼이 게시되었습니다. [${pubUrl}]`);
+    const triggerPublishForm = async () => {
+        if (await onUpdate()) {
+            publishForm({
+                variables: {
+                    id: parseInt(formId),
+                },
             })
-            .catch((err) => {
-                console.info(err);
-                message.error(`폼을 게시하는 중 오류가 발생했습니다. [${err}]`);
-            });
+                .then((res) => {
+                    formRefetch();
+                    const { pubUrl } = res.data.publishForm;
+                    message.success(`폼이 게시되었습니다. [${pubUrl}]`);
+                })
+                .catch((err) => {
+                    console.info(err);
+                    message.error(`폼을 게시하는 중 오류가 발생했습니다. [${err}]`);
+                });
+        }
     };
 
     const onAnalysisForm = () => {
@@ -202,7 +206,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
             {form && form.status === 'modify' && <FormAlertModify />}
             {form && form.status === 'closed' && <FormAlertClosed />}
             {form && questions && (
-                <Form onFinish={onFinish} size="large">
+                <Form onFinish={onUpdate} size="large">
                     <ShowFormHeader
                         form={form}
                         onAnalysisForm={onAnalysisForm}
