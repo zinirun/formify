@@ -1,4 +1,4 @@
-const ERROR_HAS_EMPTY = new Error(`ERROR: has empty value on required field`);
+const ERROR_HAS_EMPTY = new Error(`has empty value on required field`);
 
 const emptyValidatorInOptions = (options) => {
     for (const option of options) {
