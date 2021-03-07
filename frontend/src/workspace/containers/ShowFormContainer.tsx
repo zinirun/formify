@@ -23,11 +23,7 @@ import QTextType from '../components/QuestionTypes/QTextType';
 const { confirm } = Modal;
 
 export default function ShowFormContainer({ formId, setContentAction }) {
-    const [form, setForm] = useState({
-        title: '',
-        pubUrl: null,
-        status: '',
-    });
+    const [form, setForm]: any = useState({});
     const [questions, setQuestions]: any = useState([]);
     const [updateForm] = useMutation(UPDATE_FORM);
     const [publishForm] = useMutation(PUBLISH_FORM);
@@ -45,6 +41,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         if (formData) {
             const data = formData.getFormById;
             setForm({
+                id: data.id,
                 title: data.title,
                 pubUrl: data.pubUrl,
                 status: data.status,
@@ -196,6 +193,10 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         pubUrl && window.open(`/do/${pubUrl}`);
     };
 
+    const onOpenPreview = (formId: number | null) => {
+        formId && window.open(`/preview/${formId}`);
+    };
+
     if (formError) {
         return <Result404 />;
     }
@@ -210,7 +211,9 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                 <Form onFinish={onFinish} size="large">
                     <Form.Item style={{ marginTop: 5, marginBottom: 20, float: 'right' }}>
                         <Space>
-                            <Button icon={<EyeOutlined />}>미리보기</Button>
+                            <Button onClick={() => onOpenPreview(form.id)} icon={<EyeOutlined />}>
+                                미리보기
+                            </Button>
                             {form.pubUrl ? (
                                 <>
                                     <Button

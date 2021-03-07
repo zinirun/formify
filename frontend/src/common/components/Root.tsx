@@ -8,7 +8,7 @@ import MobileSupport from './MobileSupport';
 import '../styles/layout.css';
 export default function Root(props) {
     const { pathname } = useLocation();
-    const isDoPage = pathname.split('/')[1] === 'do';
+    const isDoPage = pathname.split('/')[1] === 'do' || pathname.split('/')[1] === 'preview';
     return (
         <>
             {isDoPage ? (
