@@ -118,7 +118,7 @@ export default function DoPage(props) {
                 ) : (
                     form.status === 'closed' && <ClosedContainer />
                 ))}
-            {status === 'progress' && (
+            {status === 'progress' && form && (
                 <SectionsContainer {...generateSectionOptions(questions)}>
                     <Form
                         name={`form-${form.id}`}
