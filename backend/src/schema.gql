@@ -16,6 +16,7 @@ scalar Date
 type Form {
   id: Float!
   title: String!
+  subtitle: String
   content: String!
   status: String!
   pubUrl: String
@@ -65,11 +66,13 @@ type Mutation {
 input FormInput {
   groupId: Float!
   title: String!
+  subtitle: String!
   content: String!
 }
 
 input FormUpdateInput {
   title: String!
+  subtitle: String!
   content: String!
 }
 

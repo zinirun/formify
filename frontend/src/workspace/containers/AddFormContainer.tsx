@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Modal, Form, Input, Button, Card, Space, Tooltip, message, Alert } from 'antd';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QTextType from '../components/QuestionTypes/QTextType';
@@ -13,11 +13,13 @@ import {
 import { useMutation } from '@apollo/client';
 import { CREATE_FORM } from '../../config/queries';
 
+const { TextArea } = Input;
 const { confirm } = Modal;
 
 export default function AddFormContainer(props) {
     const [form, setForm] = useState({
         title: '',
+        subtitle: '',
     });
     const [questions, setQuestions] = useState([
         {
@@ -53,6 +55,12 @@ export default function AddFormContainer(props) {
     const handleTitleChange = useCallback(
         (e) => {
             setForm({ ...form, title: e.target.value });
+        },
+        [form],
+    );
+    const handleSubTitleChange = useCallback(
+        (e) => {
+            setForm({ ...form, subtitle: e.target.value });
         },
         [form],
     );
@@ -103,6 +111,7 @@ export default function AddFormContainer(props) {
         const newForm = {
             groupId: parseInt(props.groupId),
             title: form.title,
+            subtitle: form.subtitle.replaceAll('\n', '<br />'),
             content: JSON.stringify(questions),
         };
         createForm({
@@ -151,6 +160,18 @@ export default function AddFormContainer(props) {
                     onChange={handleTitleChange}
                     value={form.title}
                     placeholder="새로운 폼의 이름을 입력하세요."
+                    style={{ borderRadius: 5, border: 'none' }}
+                />
+            </Form.Item>
+
+            <Form.Item name="subtitle">
+                <TextArea
+                    onChange={handleSubTitleChange}
+                    autoComplete="off"
+                    placeholder="사용자에게 표시할 부가적인 설명을 입력하세요. (선택)"
+                    autoSize={{
+                        maxRows: 3,
+                    }}
                     style={{ borderRadius: 5, border: 'none' }}
                 />
             </Form.Item>

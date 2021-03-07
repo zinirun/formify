@@ -20,6 +20,7 @@ import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QShowOptions from '../components/QuestionTypes/QShowOptions';
 import QTextType from '../components/QuestionTypes/QTextType';
 
+const { TextArea } = Input;
 const { confirm } = Modal;
 
 export default function ShowFormContainer({ formId, setContentAction }) {
@@ -43,6 +44,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
             setForm({
                 id: data.id,
                 title: data.title,
+                subtitle: data.subtitle,
                 pubUrl: data.pubUrl,
                 status: data.status,
             });
@@ -75,6 +77,12 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         (e) => {
             if (form.pubUrl) return;
             setForm({ ...form, title: e.target.value });
+        },
+        [form],
+    );
+    const handleSubTitleChange = useCallback(
+        (e) => {
+            setForm({ ...form, subtitle: e.target.value });
         },
         [form],
     );
@@ -129,6 +137,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
         try {
             const updatedForm = {
                 title: form.title,
+                subtitle: form.subtitle.replaceAll('\n', '<br />'),
                 content: JSON.stringify(questions),
             };
             await emptyValidator(updatedForm);
@@ -259,6 +268,17 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                         placeholder="폼의 이름을 입력하세요."
                         style={{ marginBottom: 20, borderRadius: 5, border: 'none' }}
                     />
+                    <Form.Item name="subtitle">
+                        <TextArea
+                            onChange={handleSubTitleChange}
+                            autoComplete="off"
+                            placeholder="사용자에게 표시할 부가적인 설명을 입력하세요. (선택)"
+                            autoSize={{
+                                maxRows: 3,
+                            }}
+                            style={{ borderRadius: 5, border: 'none' }}
+                        />
+                    </Form.Item>
                     {questions.map((q) => (
                         <Card
                             key={q.seq}

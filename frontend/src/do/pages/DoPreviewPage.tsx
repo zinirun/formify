@@ -36,11 +36,12 @@ export default function DoPreviewPage(props) {
 
     useEffect(() => {
         if (data) {
-            const { id, title, status, createdAt, content } = data.getFormById;
+            const { id, title, subtitle, status, createdAt, content } = data.getFormById;
             const questionsParsed = JSON.parse(content);
             setForm({
                 id,
                 title,
+                subtitle,
                 createdAt,
                 status,
             });

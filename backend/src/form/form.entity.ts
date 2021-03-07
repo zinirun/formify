@@ -26,6 +26,10 @@ export class Form {
     @Column({ length: 40 })
     title: string;
 
+    @Field(() => String, { nullable: true })
+    @Column('text', { nullable: true })
+    subtitle: string;
+
     @Field(() => String)
     @Column('text')
     content: string;
@@ -48,7 +52,7 @@ export class Form {
     user: User;
 
     /**
-     * Join with user -> userId
+     * Join with group -> groupId
      */
     @Field(() => Group)
     @ManyToOne(() => Group, (group) => group.forms)

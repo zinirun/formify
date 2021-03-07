@@ -47,6 +47,7 @@ export const GET_FORM_BY_ID = gql`
             id
             title
             content
+            subtitle
             createdAt
             updatedAt
             status
@@ -61,6 +62,7 @@ export const GET_FORM_BY_PUB_URL = gql`
             id
             title
             content
+            subtitle
             status
             createdAt
             pubUrl
@@ -74,6 +76,7 @@ export const GET_FORMS_BY_GROUP_ID = gql`
             id
             title
             content
+            subtitle
             status
             pubUrl
             createdAt
@@ -87,6 +90,7 @@ export const UPDATE_FORM = gql`
             id
             title
             content
+            subtitle
             status
             user {
                 id
@@ -102,6 +106,7 @@ export const PUBLISH_FORM = gql`
             id
             title
             content
+            subtitle
             status
             pubUrl
             user {

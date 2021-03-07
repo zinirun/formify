@@ -38,11 +38,12 @@ export default function DoPage(props) {
 
     useEffect(() => {
         if (data) {
-            const { id, title, status, createdAt, content } = data.getFormByPubUrl;
+            const { id, title, subtitle, status, createdAt, content } = data.getFormByPubUrl;
             const questionsParsed = JSON.parse(content);
             setForm({
                 id,
                 title,
+                subtitle,
                 createdAt,
                 status,
             });

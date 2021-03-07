@@ -9,6 +9,9 @@ export class FormInput {
     readonly title!: string;
 
     @Field(() => String)
+    readonly subtitle: string;
+
+    @Field(() => String)
     readonly content!: string;
 }
 
@@ -16,6 +19,9 @@ export class FormInput {
 export class FormUpdateInput {
     @Field(() => String)
     readonly title!: string;
+
+    @Field(() => String)
+    readonly subtitle: string;
 
     @Field(() => String)
     readonly content!: string;
