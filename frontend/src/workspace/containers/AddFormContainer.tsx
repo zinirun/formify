@@ -218,7 +218,11 @@ export default function AddFormContainer(props) {
                     {q.type === 'text' ? (
                         <QTextType />
                     ) : (
-                        <QOptions seq={q.seq} onChange={handleQuestionOptionsChange} />
+                        <QOptions
+                            seq={q.seq}
+                            onChange={handleQuestionOptionsChange}
+                            withEtcOption={q.type === 'selectOne'}
+                        />
                     )}
                 </Card>
             ))}

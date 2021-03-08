@@ -62,6 +62,7 @@ export const ALPHA_HOTKEY = {
     7: 'h',
     8: 'i',
     9: 'j',
+    99: 'z',
 };
 
 export const ALPHA_TO_KEY = {
@@ -75,4 +76,5 @@ export const ALPHA_TO_KEY = {
     h: 7,
     i: 8,
     j: 9,
+    z: 99,
 };

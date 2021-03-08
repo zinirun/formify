@@ -20,6 +20,7 @@ export default function DoPreviewPage(props) {
     const { formId } = props.match.params;
     const [isDark, { toggle }] = useDarkreader(false);
     const [answer, setAnswer] = useState({});
+    const [etcValue, setEtcValue]: any = useState({});
     const [status, setStatus] = useState('start');
     const [done, setDone]: any = useState({
         percent: 0,
@@ -62,6 +63,16 @@ export default function DoPreviewPage(props) {
             percent,
         });
     }, [answer, handleAnswerDone]);
+
+    const etcValueHandler = useCallback(
+        (key, value) => {
+            setEtcValue({
+                ...etcValue,
+                [key]: value,
+            });
+        },
+        [etcValue],
+    );
 
     const inputHandler = useCallback(
         (name, value) => {
@@ -121,7 +132,9 @@ export default function DoPreviewPage(props) {
                                         <header className="App-header">
                                             <QuestionContainer
                                                 item={item}
+                                                etcValue={etcValue}
                                                 inputHandler={inputHandler}
+                                                etcValueHandler={etcValueHandler}
                                                 done={done}
                                             />
                                         </header>

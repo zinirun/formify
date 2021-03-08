@@ -20,6 +20,7 @@ export default function DoPage(props) {
     const { pubUrl } = props.match.params;
     const [isDark, { toggle }] = useDarkreader(false);
     const [answer, setAnswer] = useState({});
+    const [etcValue, setEtcValue]: any = useState({});
     const [status, setStatus] = useState('start');
     const [done, setDone]: any = useState({
         percent: 0,
@@ -64,6 +65,16 @@ export default function DoPage(props) {
             percent,
         });
     }, [answer, handleAnswerDone]);
+
+    const etcValueHandler = useCallback(
+        (key, value) => {
+            setEtcValue({
+                ...etcValue,
+                [key]: value,
+            });
+        },
+        [etcValue],
+    );
 
     const inputHandler = useCallback(
         (name, value) => {
@@ -137,6 +148,8 @@ export default function DoPage(props) {
                                             <QuestionContainer
                                                 item={item}
                                                 inputHandler={inputHandler}
+                                                etcValue={etcValue}
+                                                etcValueHandler={etcValueHandler}
                                                 done={done}
                                             />
                                         </header>

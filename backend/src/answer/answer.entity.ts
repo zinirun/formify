@@ -22,6 +22,10 @@ export class Answer {
     @Column('text')
     content: string;
 
+    @Field(() => String, { nullable: true })
+    @Column('text', { nullable: true })
+    etcValue: string;
+
     /**
      * Join with user -> userId
      */

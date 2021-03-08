@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Button } from 'antd';
 import { isMobile } from 'react-device-detect';
 import { CheckOutlined } from '@ant-design/icons';
 import { ANIMATE_DELAY, ALPHA_TO_KEY } from '../doConfig';
 import { AnswerCheckbox, AnswerRadio, AnswerTextInput } from '../components/AnswerComponents';
 
-export default function QuestionContainer({ item, inputHandler, done }) {
+export default function QuestionContainer({ item, etcValue, inputHandler, etcValueHandler, done }) {
     useEffect(() => {
         document.getElementById('1-0')?.focus();
     }, []);
@@ -17,22 +17,39 @@ export default function QuestionContainer({ item, inputHandler, done }) {
         }, ANIMATE_DELAY);
     };
 
+    const setFocusToEtcInput = (i) => {
+        setTimeout(() => {
+            document.getElementById(`etc-${i}`)?.focus();
+        }, 0);
+    };
+
     const handleInputChange = (e) => {
-        inputHandler(e.target.name, e.target.value);
+        const { name, value } = e.target;
+        inputHandler(name, value);
+        if (value !== 99) {
+            etcValueHandler(name, '');
+            return;
+        }
+        setFocusToEtcInput(name);
+    };
+
+    const handleEtcInputChange = (e) => {
+        const { name, value } = e.target;
+        etcValueHandler(name, value);
     };
 
     const handleCheckboxChange = (name, values) => {
         inputHandler(name, values);
     };
 
-    const handleKeyPress = (e, link, i, isHotkey?) => {
+    const handleKeyPress = (e, link, i, isHotkey?, isEtcInput?) => {
         if (e.key === 'Enter') {
             clickHandler(link, i);
         }
         if (e.code === 'Enter' && e.ctrlKey) {
             document.getElementById('submit-btn')?.click();
         }
-        if (isHotkey && ALPHA_TO_KEY.hasOwnProperty(e.key.toLowerCase())) {
+        if (!isEtcInput && isHotkey && ALPHA_TO_KEY.hasOwnProperty(e.key.toLowerCase())) {
             const key = ALPHA_TO_KEY[e.key.toLowerCase()];
             document.getElementById(`${i - 1}-${key}`)?.click();
         }
@@ -62,6 +79,8 @@ export default function QuestionContainer({ item, inputHandler, done }) {
                 {item.type === 'selectOne' && (
                     <AnswerRadio
                         item={item}
+                        etcValue={etcValue}
+                        handleEtcInputChange={handleEtcInputChange}
                         handleInputChange={handleInputChange}
                         handleKeyPress={handleKeyPress}
                     />

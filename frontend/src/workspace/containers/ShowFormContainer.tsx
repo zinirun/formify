@@ -273,6 +273,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                                     onChange={handleQuestionOptionsChange}
                                     data={q.options}
                                     isPublished={form.pubUrl ? true : false}
+                                    withEtcOption={q.type === 'selectOne'}
                                 />
                             )}
                         </Card>

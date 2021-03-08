@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Tooltip } from 'antd';
+import { Button, Col, Form, Input, message, Row, Tooltip } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function QOptions(props) {
@@ -9,6 +9,7 @@ export default function QOptions(props) {
             value: '',
         },
     ]);
+    const [hasEtc, setHasEtc] = useState(false);
     useEffect(() => {
         if (props.data) {
             setOptions(props.data);
@@ -28,8 +29,8 @@ export default function QOptions(props) {
             setOptions(updated);
             props.onChange(
                 props.seq,
-                updated.map((opt, idx) => {
-                    return { key: idx, value: opt.value };
+                updated.map((opt) => {
+                    return { key: opt.key, value: opt.value };
                 }),
             );
         },
@@ -41,8 +42,8 @@ export default function QOptions(props) {
             setOptions(updated);
             props.onChange(
                 props.seq,
-                updated.map((opt, idx) => {
-                    return { key: idx, value: opt.value };
+                updated.map((opt) => {
+                    return { key: opt.key, value: opt.value };
                 }),
             );
         },
@@ -62,8 +63,26 @@ export default function QOptions(props) {
         setOptions(updated);
         props.onChange(
             props.seq,
-            updated.map((opt, idx) => {
-                return { key: idx, value: opt.value };
+            updated.map((opt) => {
+                return { key: opt.key, value: opt.value };
+            }),
+        );
+    }, [props, options]);
+    const addEtcItem = useCallback(() => {
+        const updated = [
+            ...options,
+            {
+                key: 99,
+                value: '기타 (직접 입력)',
+                etcValue: '',
+            },
+        ];
+        setOptions(updated);
+        setHasEtc(true);
+        props.onChange(
+            props.seq,
+            updated.map((opt) => {
+                return { key: opt.key, value: opt.value };
             }),
         );
     }, [props, options]);
@@ -75,20 +94,22 @@ export default function QOptions(props) {
                     key={`opt-${props.seq}-${opt.key}`}
                     style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}
                 >
-                    <Form.Item
-                        name={`opt-${props.seq}-${opt.key}`}
-                        initialValue={opt.value}
-                        rules={[{ required: true, message: '보기를 입력하세요.' }]}
-                        style={{ margin: 0, width: '100%' }}
-                    >
-                        <Input
-                            autoFocus
+                    {opt.key !== 99 && (
+                        <Form.Item
                             name={`opt-${props.seq}-${opt.key}`}
-                            onChange={(e) => handleChange(e, opt.key)}
-                            placeholder="보기를 입력하세요."
-                        />
-                    </Form.Item>
-                    {opt.key !== 0 && (
+                            initialValue={opt.value}
+                            rules={[{ required: true, message: '보기를 입력하세요.' }]}
+                            style={{ margin: 0, width: '100%' }}
+                        >
+                            <Input
+                                autoFocus
+                                name={`opt-${props.seq}-${opt.key}`}
+                                onChange={(e) => handleChange(e, opt.key)}
+                                placeholder="보기를 입력하세요."
+                            />
+                        </Form.Item>
+                    )}
+                    {opt.key !== 0 && opt.key !== 99 && (
                         <div style={{ marginLeft: '10px' }}>
                             <Tooltip title="보기 삭제">
                                 <MinusCircleOutlined
@@ -100,11 +121,47 @@ export default function QOptions(props) {
                     )}
                 </div>
             ))}
-            <Form.Item>
-                <Button type="dashed" onClick={() => addItem()} block icon={<PlusOutlined />}>
-                    보기 추가
-                </Button>
-            </Form.Item>
+            {hasEtc && (
+                <div style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}>
+                    <Form.Item
+                        name={`opt-${props.seq}-99`}
+                        initialValue="기타 (직접 입력)"
+                        style={{ margin: 0, width: '100%' }}
+                    >
+                        <Input
+                            autoFocus
+                            name={`opt-${props.seq}-99`}
+                            disabled
+                            style={{ cursor: 'default' }}
+                        />
+                    </Form.Item>
+                    <div style={{ marginLeft: '10px' }}>
+                        <Tooltip title="보기 삭제">
+                            <MinusCircleOutlined
+                                style={{ color: 'crimson', fontSize: '1.0rem' }}
+                                onClick={() => {
+                                    setHasEtc(false);
+                                    removeItem(99);
+                                }}
+                            />
+                        </Tooltip>
+                    </div>
+                </div>
+            )}
+            <Row>
+                <Col span={hasEtc ? 24 : props.withEtcOption ? 18 : 24}>
+                    <Button type="dashed" onClick={addItem} block icon={<PlusOutlined />}>
+                        보기 추가
+                    </Button>
+                </Col>
+                {props.withEtcOption && !hasEtc && (
+                    <Col span={6} style={{ paddingLeft: 5 }}>
+                        <Button type="dashed" onClick={addEtcItem} block icon={<PlusOutlined />}>
+                            기타(직접 입력) 추가
+                        </Button>
+                    </Col>
+                )}
+            </Row>
         </>
     );
 }

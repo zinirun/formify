@@ -1,33 +1,83 @@
+import { useState } from 'react';
 import { Checkbox, Radio, Space, Input } from 'antd';
 import { isMobile } from 'react-device-detect';
 import { ALPHA_HOTKEY, optionsStyle } from '../doConfig';
 
 const { TextArea } = Input;
 
-function AnswerRadio({ item, handleInputChange, handleKeyPress }) {
+function AnswerRadio({ item, handleInputChange, handleEtcInputChange, etcValue, handleKeyPress }) {
+    const [selectedEtc, setSelectedEtc] = useState(false);
+    const handleChange = (e) => {
+        const { value } = e.target;
+        handleInputChange(e);
+        if (value === 99) {
+            setSelectedEtc(true);
+            return;
+        }
+        setSelectedEtc(false);
+    };
     return (
         <Radio.Group name={item.i}>
             {item.options.map((option) => (
-                <Space
-                    key={`${item.id}-${option.key}`}
-                    style={{
-                        display: 'flex',
-                    }}
-                >
-                    {!isMobile && (
-                        <div className="alpha-hotkey">{ALPHA_HOTKEY[option.key].toUpperCase()}</div>
+                <div key={`${item.id}-${option.key}`}>
+                    {option.key === 99 ? (
+                        <Space
+                            style={{
+                                display: 'flex',
+                            }}
+                        >
+                            {!isMobile && (
+                                <div className="alpha-hotkey">
+                                    {ALPHA_HOTKEY[option.key].toUpperCase()}
+                                </div>
+                            )}
+                            <Radio
+                                onChange={handleChange}
+                                key={`${item.i}-${option.key}`}
+                                id={`${item.i}-${option.key}`}
+                                style={optionsStyle}
+                                value={option.key}
+                                onKeyPress={(e) => handleKeyPress(e, item.link, item.i + 1, true)}
+                            >
+                                {selectedEtc ? (
+                                    <Input
+                                        id={`etc-${item.i}`}
+                                        name={item.i}
+                                        value={etcValue[item.i] || ''}
+                                        onKeyPress={(e) =>
+                                            handleKeyPress(e, item.link, item.i + 1, true, true)
+                                        }
+                                        onChange={handleEtcInputChange}
+                                    />
+                                ) : (
+                                    <>{option.value}</>
+                                )}
+                            </Radio>
+                        </Space>
+                    ) : (
+                        <Space
+                            style={{
+                                display: 'flex',
+                            }}
+                        >
+                            {!isMobile && (
+                                <div className="alpha-hotkey">
+                                    {ALPHA_HOTKEY[option.key].toUpperCase()}
+                                </div>
+                            )}
+                            <Radio
+                                onChange={handleChange}
+                                key={`${item.i}-${option.key}`}
+                                id={`${item.i}-${option.key}`}
+                                style={optionsStyle}
+                                value={option.key}
+                                onKeyPress={(e) => handleKeyPress(e, item.link, item.i + 1, true)}
+                            >
+                                {option.value}
+                            </Radio>
+                        </Space>
                     )}
-                    <Radio
-                        onChange={handleInputChange}
-                        key={`${item.i}-${option.key}`}
-                        id={`${item.i}-${option.key}`}
-                        style={optionsStyle}
-                        value={option.key}
-                        onKeyPress={(e) => handleKeyPress(e, item.link, item.i + 1, true)}
-                    >
-                        {option.value}
-                    </Radio>
-                </Space>
+                </div>
             ))}
         </Radio.Group>
     );

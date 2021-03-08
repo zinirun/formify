@@ -7,4 +7,7 @@ export class AnswerInput {
 
     @Field(() => String)
     readonly content!: string;
+
+    @Field(() => String)
+    readonly etcValue: string;
 }
