@@ -41,7 +41,11 @@ function AnswerRadio({ item, handleInputChange, handleEtcInputChange, etcValue, 
                             >
                                 {selectedEtc ? (
                                     <Input
-                                        style={{ borderRadius: 5, fontSize: '1.05rem' }}
+                                        style={{
+                                            borderRadius: 5,
+                                            fontSize: '1.05rem',
+                                            width: '95%',
+                                        }}
                                         id={`etc-${item.i}`}
                                         name={item.i}
                                         value={etcValue[item.i] || ''}
