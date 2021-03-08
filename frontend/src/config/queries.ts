@@ -135,6 +135,7 @@ export const GET_ANSWERS_BY_FORM_ID = gql`
         getAnswersByFormId(formId: $formId) {
             id
             content
+            etcValue
         }
     }
 `;

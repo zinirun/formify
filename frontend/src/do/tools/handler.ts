@@ -10,3 +10,14 @@ export const checkAnswerHandler = (answer) => {
         percent: 100 - Math.round((notDone.length / Object.keys(answer).length) * 100),
     };
 };
+
+export const etcValueMapper = (etc) => {
+    const data = {};
+    for (const key in etc) {
+        const value = etc[key];
+        if (value) {
+            data[key] = value;
+        }
+    }
+    return JSON.stringify(data);
+};

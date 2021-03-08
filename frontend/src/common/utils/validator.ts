@@ -12,7 +12,9 @@ const emptyValidatorInQuestion = (question) => {
     if (!question.title) {
         throw ERROR_HAS_EMPTY;
     }
-    emptyValidatorInOptions(question.options);
+    if (question.type !== 'text') {
+        emptyValidatorInOptions(question.options);
+    }
 };
 
 export const emptyValidatorOnUpdateForm = (form) => {

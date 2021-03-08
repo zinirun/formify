@@ -55,6 +55,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
                     return {
                         id: d.id,
                         answer: JSON.parse(d.content),
+                        etcValue: JSON.parse(d.etcValue),
                     };
                 }),
             );

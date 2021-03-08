@@ -60,7 +60,8 @@ const chartDataMapper = (data: any) => {
 };
 
 const personalAnswerMapper = (initData, answers) => {
-    return answers.map((answer) => {
+    const etcValue = answers.map((a) => a.etcValue);
+    return answers.map((answer, idx) => {
         const { id, answer: data } = answer;
         const newData: any[] = [];
         for (const seq in data) {
@@ -70,6 +71,10 @@ const personalAnswerMapper = (initData, answers) => {
             const { options } = result;
             switch (type) {
                 case 'selectOne':
+                    if (!options[userAnswerBySeq]) {
+                        newAnswerBySeq.push(etcValue[idx][seq]);
+                        break;
+                    }
                     newAnswerBySeq.push(options[userAnswerBySeq].value);
                     break;
                 case 'selectAll':
@@ -104,6 +109,13 @@ export const analysisAnswerData = async (questions: any, answers: any) => {
                 const { type, result } = data[vKey];
                 switch (type) {
                     case 'selectOne':
+                        if (!result.options[vValue]) {
+                            const lastKey = Object.keys(result.options)[
+                                Object.keys(result.options).length - 1
+                            ];
+                            result.options[lastKey].count += 1;
+                            break;
+                        }
                         result.options[vValue].count += 1;
                         break;
                     case 'selectAll':
@@ -120,6 +132,7 @@ export const analysisAnswerData = async (questions: any, answers: any) => {
             personal: personalAnswerMapper(data, answers),
         };
     } catch (err) {
+        console.error(err);
         throw new Error('ANALYSIS_ANSWER_DATA: ERROR');
     }
 };

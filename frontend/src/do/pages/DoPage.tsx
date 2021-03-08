@@ -6,7 +6,7 @@ import LoadingSpin from '../../common/components/LoadingSpin';
 import { CREATE_ANSWER, GET_FORM_BY_PUB_URL } from '../../config/queries';
 import QuestionContainer from '../containers/QuestionContainer';
 import { answerInitMapper, generateSectionOptions, questionMapper } from '../doConfig';
-import { checkAnswerHandler } from '../tools/handler';
+import { checkAnswerHandler, etcValueMapper } from '../tools/handler';
 import { FixedLogo } from '../../header/components/Logo';
 import ClosedContainer from '../containers/ClosedContainer';
 import StartContainer from '../containers/StartContainer';
@@ -97,6 +97,7 @@ export default function DoPage(props) {
                 answer: {
                     formId: form.id,
                     content: JSON.stringify(answer),
+                    etcValue: etcValueMapper(etcValue),
                 },
             },
         })

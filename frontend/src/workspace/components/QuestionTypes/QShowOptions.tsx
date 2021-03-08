@@ -76,7 +76,6 @@ export default function QShowOptions(props) {
             {
                 key: 99,
                 value: '기타 (직접 입력)',
-                etcValue: '',
             },
         ];
         setOptions(updated);
