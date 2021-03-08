@@ -8,6 +8,6 @@ export class AnswerInput {
     @Field(() => String)
     readonly content!: string;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     readonly etcValue: string;
 }

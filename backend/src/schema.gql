@@ -84,5 +84,5 @@ input GroupInput {
 input AnswerInput {
   formId: Float!
   content: String!
-  etcValue: String!
+  etcValue: String
 }
