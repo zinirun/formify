@@ -1,4 +1,4 @@
-import { CheckOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined } from '@ant-design/icons';
 import { isMobile } from 'react-device-detect';
 import { Button } from 'antd';
 
@@ -41,7 +41,7 @@ export default function StartContainer({ handleStartClick, form }) {
                 <Button
                     size="large"
                     id="start-btn"
-                    icon={<CheckOutlined />}
+                    icon={<ArrowRightOutlined />}
                     onClick={handleStartClick}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
