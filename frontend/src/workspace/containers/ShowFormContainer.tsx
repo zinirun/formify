@@ -74,6 +74,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
     );
     const handleSubTitleChange = useCallback(
         (e) => {
+            if (form.pubUrl) return;
             setForm({ ...form, subtitle: e.target.value });
         },
         [form],
@@ -219,17 +220,16 @@ export default function ShowFormContainer({ formId, setContentAction }) {
                         placeholder="새로운 폼의 이름을 입력하세요."
                         style={{ borderRadius: 5, border: 'none', marginBottom: 20 }}
                     />
-                    <Form.Item name="subtitle">
-                        <TextArea
-                            onChange={handleSubTitleChange}
-                            autoComplete="off"
-                            placeholder="사용자에게 표시할 부가적인 설명을 입력하세요. (선택)"
-                            autoSize={{
-                                maxRows: 3,
-                            }}
-                            style={{ borderRadius: 5, border: 'none' }}
-                        />
-                    </Form.Item>
+                    <TextArea
+                        onChange={handleSubTitleChange}
+                        value={form.subtitle ? form.subtitle.replaceAll('<br />', '\n') : ''}
+                        autoComplete="off"
+                        placeholder="사용자에게 표시할 부가적인 설명을 입력하세요. (선택)"
+                        autoSize={{
+                            maxRows: 3,
+                        }}
+                        style={{ borderRadius: 5, border: 'none', marginBottom: 20 }}
+                    />
                     {questions.map((q) => (
                         <Card
                             key={q.seq}
