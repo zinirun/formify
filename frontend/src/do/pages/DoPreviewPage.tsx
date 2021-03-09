@@ -15,6 +15,7 @@ import { isMobile } from 'react-device-detect';
 import { useDarkreader } from 'react-darkreader';
 import FixedIsPreview from '../components/FixedIsPreview';
 import PreviewSubmittedContainer from '../containers/PreviewSubmittedContainer';
+import NonExistContainer from '../containers/NonExistContainer';
 
 export default function DoPreviewPage(props) {
     const { formId } = props.match.params;
@@ -52,7 +53,11 @@ export default function DoPreviewPage(props) {
             if (!isMobile && status !== 'closed')
                 message.info(`키보드만을 이용해서 답변할 수 있습니다.`);
         }
-    }, [data]);
+
+        if (error) {
+            setStatus('404');
+        }
+    }, [data, error]);
 
     const handleAnswerDone = useCallback(checkAnswerHandler, []);
 
@@ -113,6 +118,7 @@ export default function DoPreviewPage(props) {
             <FixedLogo />
             <FixedIsPreview />
             {loading && <LoadingSpin />}
+            {status === '404' && <NonExistContainer />}
             {status === 'start' && form && (
                 <StartContainer handleStartClick={handleStartClick} form={form} />
             )}
