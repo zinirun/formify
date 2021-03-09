@@ -15,6 +15,7 @@ import SubmittedContainer from '../containers/SubmittedContainer';
 import '../static/style.css';
 import { isMobile } from 'react-device-detect';
 import { useDarkreader } from 'react-darkreader';
+import NonExistContainer from '../containers/NonExistContainer';
 
 export default function DoPage(props) {
     const { pubUrl } = props.match.params;
@@ -54,7 +55,10 @@ export default function DoPage(props) {
             if (!isMobile && status !== 'closed')
                 message.info(`키보드만을 이용해서 답변할 수 있습니다.`);
         }
-    }, [data]);
+        if (error) {
+            setStatus('404');
+        }
+    }, [data, error]);
 
     const handleAnswerDone = useCallback(checkAnswerHandler, []);
 
@@ -111,10 +115,6 @@ export default function DoPage(props) {
         setStatus('progress');
     }, []);
 
-    if (error) {
-        props.history.push('/?404form');
-    }
-
     return (
         <div
             style={{
@@ -125,6 +125,7 @@ export default function DoPage(props) {
             <ScrollToTopOnMount />
             <FixedLogo />
             {loading && <LoadingSpin />}
+            {status === '404' && <NonExistContainer />}
             {status === 'start' &&
                 form &&
                 (form.status === 'open' ? (
