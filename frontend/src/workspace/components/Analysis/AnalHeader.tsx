@@ -1,4 +1,4 @@
-import { Button, Descriptions, PageHeader } from 'antd';
+import { Button, Descriptions, message, PageHeader } from 'antd';
 import { dateFormater } from '../../../do/tools/formater';
 import { createPersonalsToXLSX } from '../../tools/xlsx';
 
@@ -12,7 +12,9 @@ export default function AnalHeader({ setContentAction, form, answerCount, person
     };
 
     const handleDownloadXLSX = () => {
-        createPersonalsToXLSX(form.title, personals);
+        createPersonalsToXLSX(form.title, personals).catch((err) => {
+            message.error('처리할 데이터가 없습니다.');
+        });
     };
 
     return (
