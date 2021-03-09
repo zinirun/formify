@@ -27,8 +27,16 @@ export class FormService {
         return isExist ? this.generatePubUrl() : generatedValue;
     }
 
-    async getOne(id: number): Promise<Form> {
-        const form = await this.formRepository.findOneByIdWithUser(id);
+    async getOne(id: number, user: User): Promise<Form> {
+        const form = await this.formRepository.findOneByIdWithUser(id, user.id);
+        if (!form) {
+            throw new NotFoundException(`Form with ID ${id}: Not Found`);
+        }
+        return form;
+    }
+
+    async getOnePublic(id: number): Promise<Form> {
+        const form = await this.formRepository.findOne(id);
         if (!form) {
             throw new NotFoundException(`Form with ID ${id}: Not Found`);
         }
@@ -59,47 +67,47 @@ export class FormService {
         try {
             const group = await this.groupService.getOne(form.groupId);
             const { id } = await this.formRepository.save({ ...form, user, group });
-            return await this.getOne(id);
+            return await this.getOne(id, user);
         } catch (err) {
             throw new ConflictException(err);
         }
     }
 
-    async update(id: number, form: FormUpdateInput): Promise<Form> {
+    async update(id: number, form: FormUpdateInput, user: User): Promise<Form> {
         try {
-            const { status } = await this.getOne(id);
+            const { status } = await this.getOne(id, user);
             if (status !== 'modify') {
                 throw new BadRequestException(`Form #${id} has not modifying status, can't update`);
             }
             await this.formRepository.update({ id }, form);
-            return await this.getOne(id);
+            return await this.getOne(id, user);
         } catch (err) {
             throw new ConflictException(err);
         }
     }
 
-    async updateStatusClosed(id: number): Promise<Form> {
+    async updateStatusClosed(id: number, user: User): Promise<Form> {
         try {
-            const { status } = await this.getOne(id);
+            const { status } = await this.getOne(id, user);
             if (status === 'closed') {
                 throw new BadRequestException(`Form #${id} Already closed, can't update`);
             }
             await this.formRepository.update({ id }, { status: 'closed' });
-            return await this.getOne(id);
+            return await this.getOne(id, user);
         } catch (err) {
             throw new ConflictException(err);
         }
     }
 
-    async publish(id: number): Promise<Form> {
+    async publish(id: number, user: User): Promise<Form> {
         try {
-            const { pubUrl } = await this.getOne(id);
+            const { pubUrl } = await this.getOne(id, user);
             if (pubUrl) {
                 throw new BadRequestException(`Form #${id} Already exists: pubUrl`);
             }
             const generatedPubUrl = await this.generatePubUrl();
             await this.formRepository.update({ id }, { pubUrl: generatedPubUrl, status: 'open' });
-            return await this.getOne(id);
+            return await this.getOne(id, user);
         } catch (err) {
             throw new ConflictException(err);
         }

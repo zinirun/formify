@@ -13,8 +13,8 @@ export class FormResolver {
 
     @UseGuards(LoginGuard)
     @Query(() => Form)
-    async getFormById(@Args('id') id: number): Promise<Form> {
-        return await this.formService.getOne(id);
+    async getFormById(@GetUser() user: User, @Args('id') id: number): Promise<Form> {
+        return await this.formService.getOne(id, user);
     }
 
     @UseGuards(LoginGuard)
@@ -42,18 +42,18 @@ export class FormResolver {
         @Args('id') id: number,
         @Args('form') form: FormUpdateInput,
     ): Promise<Form> {
-        return await this.formService.update(id, form);
+        return await this.formService.update(id, form, user);
     }
 
     @UseGuards(LoginGuard)
     @Mutation(() => Form)
     async publishForm(@GetUser() user: User, @Args('id') id: number): Promise<Form> {
-        return await this.formService.publish(id);
+        return await this.formService.publish(id, user);
     }
 
     @UseGuards(LoginGuard)
     @Mutation(() => Form)
     async updateFormStatusClosed(@GetUser() user: User, @Args('id') id: number): Promise<Form> {
-        return await this.formService.updateStatusClosed(id);
+        return await this.formService.updateStatusClosed(id, user);
     }
 }

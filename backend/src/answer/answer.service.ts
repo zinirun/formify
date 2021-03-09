@@ -5,6 +5,7 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { FormService } from 'src/form/form.service';
+import { User } from 'src/user/user.entity';
 import { Answer } from './answer.entity';
 import { AnswerInput } from './answer.inputs';
 import { AnswerRepository } from './answer.repository';
@@ -24,7 +25,8 @@ export class AnswerService {
         return answer;
     }
 
-    async getAllByFormId(formId: number): Promise<Answer[]> {
+    async getAllByFormId(formId: number, user: User): Promise<Answer[]> {
+        await this.formService.getOne(formId, user);
         return await this.answerRepository.find({
             where: {
                 form: formId,
@@ -34,7 +36,7 @@ export class AnswerService {
 
     async create(answer: AnswerInput): Promise<Answer> {
         try {
-            const form = await this.formService.getOne(answer.formId);
+            const form = await this.formService.getOnePublic(answer.formId);
             if (form.status !== 'open') {
                 throw new BadRequestException(`Form #${form.id} is not opened, can't create`);
             }

@@ -1,6 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { LoginGuard } from 'src/guards/login.guard';
+import { GetUser } from 'src/user/user.decorator';
+import { User } from 'src/user/user.entity';
 import { Answer } from './answer.entity';
 import { AnswerInput } from './answer.inputs';
 import { AnswerService } from './answer.service';
@@ -17,8 +19,11 @@ export class AnswerResolver {
 
     @UseGuards(LoginGuard)
     @Query(() => [Answer])
-    async getAnswersByFormId(@Args('formId') formId: number): Promise<Answer[]> {
-        return await this.answerService.getAllByFormId(formId);
+    async getAnswersByFormId(
+        @GetUser() user: User,
+        @Args('formId') formId: number,
+    ): Promise<Answer[]> {
+        return await this.answerService.getAllByFormId(formId, user);
     }
 
     @Mutation(() => Answer)

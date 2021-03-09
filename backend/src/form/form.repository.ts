@@ -3,10 +3,10 @@ import { Form } from './form.entity';
 
 @EntityRepository(Form)
 export class FormRepository extends Repository<Form> {
-    async findOneByIdWithUser(id: number) {
+    async findOneByIdWithUser(id: number, userId: number) {
         return await this.createQueryBuilder('form')
             .leftJoinAndSelect('form.user', 'user')
-            .where('form.id = :id', { id })
+            .where('form.id = :id and form.userId = :userId', { id, userId })
             .getOne();
     }
 }
