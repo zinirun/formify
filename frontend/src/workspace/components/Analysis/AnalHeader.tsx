@@ -12,7 +12,7 @@ export default function AnalHeader({ setContentAction, form, answerCount, person
     };
 
     const handleDownloadXLSX = () => {
-        createPersonalsToXLSX(personals);
+        createPersonalsToXLSX(form.title, personals);
     };
 
     return (

@@ -12,7 +12,7 @@ const personalsToExcelMapper = (personals: any[]) => {
     return [header, ...body];
 };
 
-export const createPersonalsToXLSX = async (personals) => {
+export const createPersonalsToXLSX = async (title, personals) => {
     try {
         if (personals.length === 0) {
             throw new Error('NO DATA: PERSONALS');
@@ -21,8 +21,8 @@ export const createPersonalsToXLSX = async (personals) => {
         console.log(data);
         const wb = XLSX.utils.book_new();
         const newWorksheet = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, newWorksheet, '폼 결과');
-        XLSX.writeFile(wb, 'Formify-Result.xlsx');
+        XLSX.utils.book_append_sheet(wb, newWorksheet, title);
+        XLSX.writeFile(wb, `Formify-${title || '결과'}.xlsx`);
     } catch (err) {
         throw new Error(err);
     }
