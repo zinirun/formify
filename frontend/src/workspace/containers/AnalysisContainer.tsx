@@ -87,6 +87,7 @@ export default function AnalysisContainer({ formId, setContentAction }) {
             {(formLoading || answerLoading) && <LoadingSpin />}
             {form && answers && (
                 <AnalHeader
+                    personals={personals}
                     setContentAction={setContentAction}
                     form={form}
                     answerCount={answers.length}

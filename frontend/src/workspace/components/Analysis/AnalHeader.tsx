@@ -1,7 +1,8 @@
 import { Button, Descriptions, PageHeader } from 'antd';
 import { dateFormater } from '../../../do/tools/formater';
+import { createPersonalsToXLSX } from '../../tools/xlsx';
 
-export default function AnalHeader({ setContentAction, form, answerCount }) {
+export default function AnalHeader({ setContentAction, form, answerCount, personals }) {
     const handleGoBack = () => {
         setContentAction({
             action: 'showForm',
@@ -9,14 +10,19 @@ export default function AnalHeader({ setContentAction, form, answerCount }) {
             groupId: -1,
         });
     };
+
+    const handleDownloadXLSX = () => {
+        createPersonalsToXLSX(personals);
+    };
+
     return (
         <PageHeader
             onBack={handleGoBack}
             title={form.title}
             subTitle="결과 분석"
             extra={[
-                <Button key="download-csv" type="primary">
-                    CSV 다운로드
+                <Button key="download-csv" type="primary" onClick={handleDownloadXLSX}>
+                    XLSX로 내보내기
                 </Button>,
             ]}
             style={{ borderRadius: 5, backgroundColor: 'white', marginBottom: 20 }}
