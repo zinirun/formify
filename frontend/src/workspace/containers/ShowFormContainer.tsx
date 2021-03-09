@@ -15,7 +15,7 @@ import ShowFormHeader from '../components/ShowFormHeader';
 const { TextArea } = Input;
 const { confirm } = Modal;
 
-export default function ShowFormContainer({ formId, setContentAction }) {
+export default function ShowFormContainer({ formId, setContentAction, setSelectedAfterQuery }) {
     const [form, setForm]: any = useState({});
     const [questions, setQuestions]: any = useState([]);
     const [updateForm] = useMutation(UPDATE_FORM);
@@ -190,6 +190,7 @@ export default function ShowFormContainer({ formId, setContentAction }) {
     };
 
     const onAnalysisForm = () => {
+        setSelectedAfterQuery(true);
         setContentAction({
             action: 'analysisForm',
             formId,

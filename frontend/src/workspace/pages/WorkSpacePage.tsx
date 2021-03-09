@@ -103,6 +103,7 @@ export default function WorkSpacePage() {
                     <ShowFormContainer
                         formId={contentAction.formId}
                         setContentAction={setContentAction}
+                        setSelectedAfterQuery={setSelectedAfterQuery}
                     />
                 )}
                 {(!search || selectedAfterQuery) && contentAction.action === 'analysisForm' && (
@@ -112,7 +113,11 @@ export default function WorkSpacePage() {
                     />
                 )}
                 {!selectedAfterQuery && query.f && query.g && (
-                    <ShowFormContainer formId={query.f} setContentAction={setContentAction} />
+                    <ShowFormContainer
+                        formId={query.f}
+                        setContentAction={setContentAction}
+                        setSelectedAfterQuery={setSelectedAfterQuery}
+                    />
                 )}
                 {(!search || !(query.f && query.g)) && !contentAction.action && (
                     <WelcomeWorkspaceContainer />

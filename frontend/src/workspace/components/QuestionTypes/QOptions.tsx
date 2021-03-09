@@ -73,7 +73,7 @@ export default function QOptions(props) {
             ...options,
             {
                 key: 99,
-                value: '기타 (직접 입력)',
+                value: '기타',
             },
         ];
         setOptions(updated);
@@ -120,11 +120,11 @@ export default function QOptions(props) {
                     )}
                 </div>
             ))}
-            {hasEtc && (
+            {props.withEtcOption && hasEtc && (
                 <div style={{ display: 'flex', marginBottom: 8, alignItems: 'baseline' }}>
                     <Form.Item
                         name={`opt-${props.seq}-99`}
-                        initialValue="기타 (직접 입력)"
+                        initialValue="기타"
                         style={{ margin: 0, width: '100%' }}
                     >
                         <Input
