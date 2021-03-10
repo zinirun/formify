@@ -20,7 +20,7 @@ const homeContents = [
 
     {
         src: '/assets/Home/Home3.png',
-        title: '강력한 워크스페이스',
+        title: '강력하지만 간단한 워크스페이스',
         content:
             '답변의 유형에 따라 한 눈에 들어오는 데이터 차트를 제공합니다. 또한 개인 별 답변을 확인할 수 있고, XLSX 다운로드까지 지원합니다.',
         direction: 'right',
