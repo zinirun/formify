@@ -52,6 +52,12 @@ export class FormResolver {
     }
 
     @UseGuards(LoginGuard)
+    @Mutation(() => Boolean)
+    async removeForm(@GetUser() user: User, @Args('id') id: number): Promise<boolean> {
+        return await this.formService.remove(id, user);
+    }
+
+    @UseGuards(LoginGuard)
     @Mutation(() => Form)
     async updateFormStatusClosed(@GetUser() user: User, @Args('id') id: number): Promise<Form> {
         return await this.formService.updateStatusClosed(id, user);

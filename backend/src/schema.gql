@@ -21,6 +21,7 @@ type Form {
   content: String!
   status: String!
   pubUrl: String
+  isDeleted: Boolean!
   user: User!
   group: Group!
   createdAt: Date!
@@ -30,6 +31,7 @@ type Form {
 type Group {
   id: Float!
   name: String!
+  isDeleted: Boolean!
   user: User!
   createdAt: Date!
   updatedAt: Date!
@@ -59,8 +61,10 @@ type Mutation {
   createForm(form: FormInput!): Form!
   updateForm(form: FormUpdateInput!, id: Float!): Form!
   publishForm(id: Float!): Form!
+  removeForm(id: Float!): Boolean!
   updateFormStatusClosed(id: Float!): Form!
   createGroup(group: GroupInput!): Group!
+  removeGroup(id: Float!): Boolean!
   createAnswer(answer: AnswerInput!): Answer!
 }
 

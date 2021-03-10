@@ -43,6 +43,10 @@ export class Form {
     @Index({ unique: true })
     pubUrl: string;
 
+    @Field(() => Boolean)
+    @Column({ default: false })
+    isDeleted: boolean;
+
     /**
      * Join with user -> userId
      */

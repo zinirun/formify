@@ -24,6 +24,10 @@ export class Group {
     @Column({ length: 40 })
     name: string;
 
+    @Field(() => Boolean)
+    @Column({ default: false })
+    isDeleted: boolean;
+
     /**
      * Join with user -> userId
      */

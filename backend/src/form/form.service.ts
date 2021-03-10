@@ -36,7 +36,11 @@ export class FormService {
     }
 
     async getOnePublic(id: number): Promise<Form> {
-        const form = await this.formRepository.findOne(id);
+        const form = await this.formRepository.findOne(id, {
+            where: {
+                isDeleted: false,
+            },
+        });
         if (!form) {
             throw new NotFoundException(`Form with ID ${id}: Not Found`);
         }
@@ -47,6 +51,7 @@ export class FormService {
         const form = await this.formRepository.findOne({
             where: {
                 pubUrl,
+                isDeleted: false,
             },
         });
         if (!form) {
@@ -59,13 +64,14 @@ export class FormService {
         return await this.formRepository.find({
             where: {
                 group: groupId,
+                isDeleted: false,
             },
         });
     }
 
     async create(user: User, form: FormInput): Promise<Form> {
         try {
-            const group = await this.groupService.getOne(form.groupId);
+            const group = await this.groupService.getOne(form.groupId, user);
             const { id } = await this.formRepository.save({ ...form, user, group });
             return await this.getOne(id, user);
         } catch (err) {
@@ -81,6 +87,21 @@ export class FormService {
             }
             await this.formRepository.update({ id }, form);
             return await this.getOne(id, user);
+        } catch (err) {
+            throw new ConflictException(err);
+        }
+    }
+
+    async remove(id: number, user: User): Promise<boolean> {
+        try {
+            await this.getOne(id, user);
+            await this.formRepository.update(
+                { id },
+                {
+                    isDeleted: true,
+                },
+            );
+            return true;
         } catch (err) {
             throw new ConflictException(err);
         }

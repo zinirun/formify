@@ -22,4 +22,10 @@ export class GroupResolver {
     async createGroup(@GetUser() user: User, @Args('group') group: GroupInput): Promise<Group> {
         return await this.groupService.create(user, group);
     }
+
+    @UseGuards(LoginGuard)
+    @Mutation(() => Boolean)
+    async removeGroup(@GetUser() user: User, @Args('id') id: number): Promise<boolean> {
+        return await this.groupService.remove(id, user);
+    }
 }
