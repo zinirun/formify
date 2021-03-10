@@ -33,6 +33,18 @@ export default function WorkSpacePage() {
     } = useQuery(GET_GROUPS);
 
     useEffect(() => {
+        if (query.removed) {
+            const type = query.removed;
+            if (type === 'form') {
+                message.success('폼이 삭제되었습니다.');
+            }
+            if (type === 'group') {
+                message.success('그룹이 삭제되었습니다.');
+            }
+        }
+    }, [query]);
+
+    useEffect(() => {
         if (groupsData) {
             const groups = groupsData.getGroups;
             setGroups(groups);

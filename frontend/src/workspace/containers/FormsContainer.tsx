@@ -31,7 +31,7 @@ export default function FormsContainer(props) {
                 id: parseInt(props.group.id),
             },
         })
-            .then(() => (window.location.href = '/workspace'))
+            .then(() => (window.location.href = '/workspace?removed=group'))
             .catch((err) => {
                 message.error(`그룹을 삭제하는 중 오류가 발생했습니다. [${err}]`);
             });
@@ -43,7 +43,7 @@ export default function FormsContainer(props) {
                 id: parseInt(formId),
             },
         })
-            .then(() => (window.location.href = '/workspace'))
+            .then(() => (window.location.href = '/workspace?removed=form'))
             .catch((err) => {
                 message.error(`폼을 삭제하는 중 오류가 발생했습니다. [${err}]`);
             });
