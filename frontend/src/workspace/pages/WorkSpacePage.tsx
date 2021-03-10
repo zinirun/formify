@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Empty, Layout, Menu, message } from 'antd';
+import { Empty, Layout, Menu, message, Space, Switch } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_GROUPS } from '../../config/queries';
 import LoadingSpin from '../../common/components/LoadingSpin';
@@ -23,6 +23,7 @@ export default function WorkSpacePage() {
         groupId: 0,
         formId: 0,
     });
+    const [showRemove, setShowRemove] = useState(false);
     const [groups, setGroups]: any = useState([]);
     const {
         data: groupsData,
@@ -37,6 +38,10 @@ export default function WorkSpacePage() {
             setGroups(groups);
         }
     }, [groupsData]);
+
+    const handleShowRemove = useCallback((v) => {
+        setShowRemove(v);
+    }, []);
 
     const handleSelectForm = useCallback(
         ({ key }) => {
@@ -82,8 +87,23 @@ export default function WorkSpacePage() {
                         style={{ height: 'calc(100% - 48px)' }}
                     >
                         {groups.map((group) => (
-                            <FormsContainer {...group} key={`group-${group.id}`} group={group} />
+                            <FormsContainer
+                                {...group}
+                                key={`group-${group.id}`}
+                                group={group}
+                                showremove={showRemove ? 1 : 0}
+                            />
                         ))}
+                        <Menu.Item disabled style={{ cursor: 'default' }}>
+                            <Space size={6} style={{ display: 'flex', float: 'right' }}>
+                                <span style={{ color: '#aaa', fontSize: '0.8rem' }}>
+                                    삭제 옵션 표시
+                                </span>
+                                <div>
+                                    <Switch size="small" onChange={handleShowRemove} />
+                                </div>
+                            </Space>
+                        </Menu.Item>
                     </Menu>
                 ) : (
                     <Empty description="그룹이 없습니다." image={Empty.PRESENTED_IMAGE_SIMPLE} />

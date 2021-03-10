@@ -38,7 +38,7 @@ const guideContents = [
 export default function GuidePage() {
     return (
         <Layout className="site-layout-background top-wrapper">
-            <p
+            <div
                 style={{
                     fontSize: '1.4rem',
                     fontWeight: 'bold',
@@ -58,7 +58,7 @@ export default function GuidePage() {
                     별도의 회원가입 과정이 없습니다. 소셜 계정으로 로그인 후 바로 서비스를
                     이용하세요.
                 </p>
-            </p>
+            </div>
             <Content style={{ padding: '24px 0 72px' }}>
                 {guideContents.map((contents, idx) => (
                     <GuideContainer key={idx} contents={contents} />

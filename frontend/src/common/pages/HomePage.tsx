@@ -37,7 +37,7 @@ const homeContents = [
 export default function HomePage() {
     return (
         <Layout className="site-layout-background top-wrapper">
-            <p
+            <div
                 style={{
                     fontSize: '1.4rem',
                     fontWeight: 'bold',
@@ -56,7 +56,7 @@ export default function HomePage() {
                 >
                     Formify의 모든 서비스는 무료로 제공됩니다.
                 </p>
-            </p>
+            </div>
             <Content style={{ padding: '24px 0 72px' }}>
                 {homeContents.map((contents, idx) => (
                     <HomeContainer key={idx} contents={contents} />
