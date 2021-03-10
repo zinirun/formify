@@ -30,6 +30,12 @@ export const CREATE_GROUP = gql`
     }
 `;
 
+export const REMOVE_GROUP = gql`
+    mutation removeGroup($id: Float!) {
+        removeGroup(id: $id)
+    }
+`;
+
 export const CREATE_FORM = gql`
     mutation createForm($form: FormInput!) {
         createForm(form: $form) {
@@ -114,6 +120,12 @@ export const PUBLISH_FORM = gql`
                 username
             }
         }
+    }
+`;
+
+export const REMOVE_FORM = gql`
+    mutation removeForm($id: Float!) {
+        removeForm(id: $id)
     }
 `;
 
