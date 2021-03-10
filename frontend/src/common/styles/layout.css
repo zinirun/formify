@@ -1,3 +1,22 @@
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 9px;
+}
+*::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #ccc;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
+}
+*::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+
 .site-layout-background {
     background: #fff;
     padding: 0;
