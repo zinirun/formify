@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Empty, Layout, Menu, message, Space, Switch } from 'antd';
+import { Empty, Layout, Menu, message, Space, Switch, Tooltip } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_GROUPS } from '../../config/queries';
 import LoadingSpin from '../../common/components/LoadingSpin';
@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import WelcomeWorkspaceContainer from '../containers/WelcomeWorkspaceContainer';
 import AnalysisContainer from '../containers/AnalysisContainer';
+import { DeleteOutlined } from '@ant-design/icons';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
@@ -95,14 +96,14 @@ export default function WorkSpacePage() {
                             />
                         ))}
                         <Menu.Item disabled style={{ cursor: 'default' }}>
-                            <Space size={6} style={{ display: 'flex', float: 'right' }}>
-                                <span style={{ color: '#aaa', fontSize: '0.8rem' }}>
-                                    삭제 옵션 표시
-                                </span>
-                                <div>
-                                    <Switch size="small" onChange={handleShowRemove} />
-                                </div>
-                            </Space>
+                            <Tooltip title="삭제 옵션 표시">
+                                <Switch
+                                    style={{ width: '35px' }}
+                                    checkedChildren={<DeleteOutlined />}
+                                    unCheckedChildren={<DeleteOutlined />}
+                                    onChange={handleShowRemove}
+                                />
+                            </Tooltip>
                         </Menu.Item>
                     </Menu>
                 ) : (
