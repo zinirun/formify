@@ -24,7 +24,7 @@ export class GroupService {
     async getOne(id: number, user: User): Promise<Group> {
         const group = await this.groupRepository.findOne(id, {
             where: {
-                userId: user.id,
+                user,
                 isDeleted: false,
             },
         });
@@ -37,7 +37,7 @@ export class GroupService {
     async getAll(user: User): Promise<Group[]> {
         return await this.groupRepository.find({
             where: {
-                user: user.id,
+                user,
                 isDeleted: false,
             },
         });
@@ -54,7 +54,6 @@ export class GroupService {
 
     async remove(id: number, user: User): Promise<boolean> {
         const group = await this.getOne(id, user);
-
         const queryRunner = await getConnection().createQueryRunner();
         await queryRunner.startTransaction();
 
