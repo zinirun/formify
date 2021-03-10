@@ -1,11 +1,21 @@
-import { MinusCircleOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons';
+import {
+    MinusCircleOutlined,
+    PlusOutlined,
+    ShareAltOutlined,
+    StopOutlined,
+} from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
 import { Modal, Button, Card, Form, Input, message, Tooltip } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingSpin from '../../common/components/LoadingSpin';
 import Result404 from '../../common/components/Result404';
 import { emptyValidatorOnUpdateForm } from '../../common/utils/validator';
-import { GET_FORM_BY_ID, PUBLISH_FORM, UPDATE_FORM } from '../../config/queries';
+import {
+    GET_FORM_BY_ID,
+    PUBLISH_FORM,
+    UPDATE_FORM,
+    UPDATE_FORM_STATUS_CLOSED,
+} from '../../config/queries';
 import { FormAlertClosed, FormAlertModify, FormAlertOpen } from '../components/FormAlerts';
 import QuestionTypeDropdown from '../components/QuestionTypeDropdown';
 import QShowOptions from '../components/QuestionTypes/QShowOptions';
@@ -20,6 +30,7 @@ export default function ShowFormContainer({ formId, setContentAction, setSelecte
     const [questions, setQuestions]: any = useState([]);
     const [updateForm] = useMutation(UPDATE_FORM);
     const [publishForm] = useMutation(PUBLISH_FORM);
+    const [updateFormStatusClosed] = useMutation(UPDATE_FORM_STATUS_CLOSED);
     const {
         data: formData,
         error: formError,
@@ -197,6 +208,34 @@ export default function ShowFormContainer({ formId, setContentAction, setSelecte
         });
     };
 
+    const onUpdateStatusClosedForm = () => {
+        confirm({
+            title: '폼의 답변을 마감합니다.',
+            icon: <StopOutlined style={{ color: 'crimson' }} />,
+            content: '답변 제출을 마감하면 사용자가 더 이상 답변을 제출할 수 없습니다.',
+            okText: '답변 마감',
+            cancelText: '취소',
+            onOk() {
+                triggerUpdateStatusClosedForm();
+            },
+        });
+    };
+
+    const triggerUpdateStatusClosedForm = () => {
+        updateFormStatusClosed({
+            variables: {
+                id: parseInt(formId),
+            },
+        })
+            .then(() => {
+                formRefetch();
+                message.success(`폼의 답변 제출을 종료하였습니다.`);
+            })
+            .catch((err) => {
+                message.error(`폼을 답변 제출을 종료하는 중 오류가 발생했습니다. [${err}]`);
+            });
+    };
+
     if (formError) {
         return <Result404 />;
     }
@@ -213,6 +252,7 @@ export default function ShowFormContainer({ formId, setContentAction, setSelecte
                         form={form}
                         onAnalysisForm={onAnalysisForm}
                         onPublishConfirm={onPublishConfirm}
+                        onUpdateStatusClosedForm={onUpdateStatusClosedForm}
                     />
                     <Input
                         name="title"

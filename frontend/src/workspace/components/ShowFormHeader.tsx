@@ -4,10 +4,16 @@ import {
     EditOutlined,
     EyeOutlined,
     FormOutlined,
+    StopOutlined,
 } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 
-export default function ShowFormHeader({ form, onAnalysisForm, onPublishConfirm }) {
+export default function ShowFormHeader({
+    form,
+    onAnalysisForm,
+    onPublishConfirm,
+    onUpdateStatusClosedForm,
+}) {
     const onOpenForm = (pubUrl: string | null) => {
         pubUrl && window.open(`/do/${pubUrl}`);
     };
@@ -29,6 +35,26 @@ export default function ShowFormHeader({ form, onAnalysisForm, onPublishConfirm 
                     <Button onClick={() => onOpenPreview(form.id)} icon={<EyeOutlined />}>
                         미리보기
                     </Button>
+                    {form.status === 'open' && (
+                        <Button
+                            danger
+                            icon={<StopOutlined />}
+                            type="primary"
+                            onClick={onUpdateStatusClosedForm}
+                        >
+                            답변 마감하기
+                        </Button>
+                    )}
+                    {form.status === 'closed' && (
+                        <Button
+                            danger
+                            icon={<StopOutlined />}
+                            type="primary"
+                            style={{ cursor: 'default' }}
+                        >
+                            답변 마감됨
+                        </Button>
+                    )}
                     <Button icon={<BarChartOutlined />} type="primary" onClick={onAnalysisForm}>
                         답변 처리하기
                     </Button>

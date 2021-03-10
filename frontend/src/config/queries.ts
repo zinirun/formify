@@ -117,6 +117,19 @@ export const PUBLISH_FORM = gql`
     }
 `;
 
+export const UPDATE_FORM_STATUS_CLOSED = gql`
+    mutation updateFormStatusClosed($id: Float!) {
+        updateFormStatusClosed(id: $id) {
+            id
+            title
+            content
+            subtitle
+            status
+            pubUrl
+        }
+    }
+`;
+
 export const CREATE_ANSWER = gql`
     mutation createAnswer($answer: AnswerInput!) {
         createAnswer(answer: $answer) {
