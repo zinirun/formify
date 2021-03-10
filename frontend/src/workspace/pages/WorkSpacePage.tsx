@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Empty, Layout, Menu, message, Space, Switch, Tooltip } from 'antd';
+import { Empty, Layout, Menu, message, Switch, Tooltip } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_GROUPS } from '../../config/queries';
 import LoadingSpin from '../../common/components/LoadingSpin';
