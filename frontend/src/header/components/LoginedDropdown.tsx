@@ -3,11 +3,11 @@ import { Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import LoginedMenu from './LoginedMenu';
 
-export default function LoginedDropdown({ username }) {
+export default function LoginedDropdown({ user }) {
     return (
-        <Dropdown overlay={LoginedMenu}>
+        <Dropdown overlay={<LoginedMenu user={user} />}>
             <a className="ant-dropdown-link" href="/" onClick={(e) => e.preventDefault()}>
-                {username} <DownOutlined />
+                {user.username} <DownOutlined />
             </a>
         </Dropdown>
     );

@@ -37,7 +37,7 @@ export default withRouter(function SiteHeader(props: any) {
         <Header className="header">
             <Logo />
             <Space className="user-section" style={{ display: 'flex', float: 'right' }}>
-                {user ? <LoginedDropdown username={user.username} /> : <SocialLoginDropdown />}
+                {user ? <LoginedDropdown user={user} /> : <SocialLoginDropdown />}
                 <Switch checked={isDark} onChange={toggle} styling="github" />
             </Space>
             <Menu theme="dark" mode="horizontal" selectedKeys={currentMenu}>
