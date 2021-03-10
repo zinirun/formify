@@ -6,9 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { DateScalar } from './scalars/date';
-import { GroupResolver } from './group/group.resolver';
 import { GroupModule } from './group/group.module';
-import { AnswerResolver } from './answer/answer.resolver';
 import { AnswerModule } from './answer/answer.module';
 
 @Module({
@@ -24,8 +22,8 @@ import { AnswerModule } from './answer/answer.module';
         }),
         AuthModule,
         UserModule,
-        FormModule,
         GroupModule,
+        FormModule,
         AnswerModule,
     ],
     providers: [DateScalar],

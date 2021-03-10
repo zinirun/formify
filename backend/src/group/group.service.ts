@@ -1,13 +1,25 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+    ConflictException,
+    forwardRef,
+    Inject,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FormService } from 'src/form/form.service';
 import { User } from 'src/user/user.entity';
-import { Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { Group } from './group.entity';
 import { GroupInput } from './group.input';
 
 @Injectable()
 export class GroupService {
-    constructor(@InjectRepository(Group) private groupRepository: Repository<Group>) {}
+    constructor(
+        @InjectRepository(Group)
+        private groupRepository: Repository<Group>,
+        @Inject(forwardRef(() => FormService))
+        private readonly formService: FormService,
+    ) {}
 
     async getOne(id: number, user: User): Promise<Group> {
         const group = await this.groupRepository.findOne(id, {
@@ -41,17 +53,26 @@ export class GroupService {
     }
 
     async remove(id: number, user: User): Promise<boolean> {
+        const group = await this.getOne(id, user);
+
+        const queryRunner = await getConnection().createQueryRunner();
+        await queryRunner.startTransaction();
+
         try {
-            await this.getOne(id, user);
+            await this.formService.removeByGroup(group);
             await this.groupRepository.update(
                 { id },
                 {
                     isDeleted: true,
                 },
             );
-            return true;
+            await queryRunner.commitTransaction();
         } catch (err) {
+            await queryRunner.rollbackTransaction();
             throw new ConflictException(err);
+        } finally {
+            await queryRunner.release();
+            return true;
         }
     }
 }

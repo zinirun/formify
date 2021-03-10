@@ -1,9 +1,12 @@
 import {
     BadRequestException,
     ConflictException,
+    forwardRef,
+    Inject,
     Injectable,
     NotFoundException,
 } from '@nestjs/common';
+import { Group } from 'src/group/group.entity';
 import { GroupService } from 'src/group/group.service';
 import { User } from 'src/user/user.entity';
 import { Form } from './form.entity';
@@ -14,6 +17,7 @@ import { FormRepository } from './form.repository';
 export class FormService {
     constructor(
         private formRepository: FormRepository,
+        @Inject(forwardRef(() => GroupService))
         private readonly groupService: GroupService,
     ) {}
 
@@ -97,6 +101,22 @@ export class FormService {
             await this.getOne(id, user);
             await this.formRepository.update(
                 { id },
+                {
+                    isDeleted: true,
+                },
+            );
+            return true;
+        } catch (err) {
+            throw new ConflictException(err);
+        }
+    }
+
+    async removeByGroup(group: Group): Promise<boolean> {
+        try {
+            await this.formRepository.update(
+                {
+                    group,
+                },
                 {
                     isDeleted: true,
                 },

@@ -49,23 +49,27 @@ type User {
 
 type Query {
   verifyUser: User!
+  getGroups: [Group!]!
   getFormById(id: Float!): Form!
   getFormByPubUrl(pubUrl: String!): Form!
   getFormsByGroupId(groupId: Float!): [Form!]!
-  getGroups: [Group!]!
   getAnswerById(id: Float!): Answer!
   getAnswersByFormId(formId: Float!): [Answer!]!
 }
 
 type Mutation {
+  createGroup(group: GroupInput!): Group!
+  removeGroup(id: Float!): Boolean!
   createForm(form: FormInput!): Form!
   updateForm(form: FormUpdateInput!, id: Float!): Form!
   publishForm(id: Float!): Form!
   removeForm(id: Float!): Boolean!
   updateFormStatusClosed(id: Float!): Form!
-  createGroup(group: GroupInput!): Group!
-  removeGroup(id: Float!): Boolean!
   createAnswer(answer: AnswerInput!): Answer!
+}
+
+input GroupInput {
+  name: String!
 }
 
 input FormInput {
@@ -79,10 +83,6 @@ input FormUpdateInput {
   title: String!
   subtitle: String!
   content: String!
-}
-
-input GroupInput {
-  name: String!
 }
 
 input AnswerInput {

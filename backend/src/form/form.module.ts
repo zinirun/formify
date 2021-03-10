@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { GroupModule } from 'src/group/group.module';
@@ -8,7 +8,12 @@ import { FormResolver } from './form.resolver';
 import { FormService } from './form.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([FormRepository]), UserModule, AuthModule, GroupModule],
+    imports: [
+        TypeOrmModule.forFeature([FormRepository]),
+        UserModule,
+        AuthModule,
+        forwardRef(() => GroupModule),
+    ],
     providers: [FormResolver, FormService],
     exports: [FormService],
 })
