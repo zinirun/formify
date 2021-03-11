@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Empty, Layout, Menu, message, Switch, Tooltip } from 'antd';
+import { Empty, Layout, Menu, message } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_GROUPS } from '../../config/queries';
 import LoadingSpin from '../../common/components/LoadingSpin';
@@ -11,7 +11,6 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import WelcomeWorkspaceContainer from '../containers/WelcomeWorkspaceContainer';
 import AnalysisContainer from '../containers/AnalysisContainer';
-import { DeleteOutlined } from '@ant-design/icons';
 const { Content, Sider } = Layout;
 
 export default function WorkSpacePage() {
@@ -75,7 +74,6 @@ export default function WorkSpacePage() {
     return (
         <Layout className="site-layout-background">
             <Sider className="site-layout-background" width={300}>
-                <AddGroupContainer refetch={groupsRefetch} />
                 {groupsLoading && <LoadingSpin />}
                 {!groupsLoading && groups.length > 0 ? (
                     <Menu
@@ -87,6 +85,10 @@ export default function WorkSpacePage() {
                         onSelect={handleSelectForm}
                         style={{ height: 'calc(100% - 48px)' }}
                     >
+                        <AddGroupContainer
+                            refetch={groupsRefetch}
+                            handleShowRemove={handleShowRemove}
+                        />
                         {groups.map((group) => (
                             <FormsContainer
                                 {...group}
@@ -95,16 +97,7 @@ export default function WorkSpacePage() {
                                 showremove={showRemove ? 1 : 0}
                             />
                         ))}
-                        <Menu.Item disabled style={{ cursor: 'default' }}>
-                            <Tooltip title="삭제 옵션 표시">
-                                <Switch
-                                    style={{ width: '35px' }}
-                                    checkedChildren={<DeleteOutlined />}
-                                    unCheckedChildren={<DeleteOutlined />}
-                                    onChange={handleShowRemove}
-                                />
-                            </Tooltip>
-                        </Menu.Item>
+                        <Menu.Item disabled style={{ cursor: 'default' }}></Menu.Item>
                     </Menu>
                 ) : (
                     <Empty description="그룹이 없습니다." image={Empty.PRESENTED_IMAGE_SIMPLE} />
