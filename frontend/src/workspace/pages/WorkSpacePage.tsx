@@ -75,7 +75,7 @@ export default function WorkSpacePage() {
         <Layout className="site-layout-background">
             <Sider className="site-layout-background" width={300}>
                 {groupsLoading && <LoadingSpin />}
-                {!groupsLoading && groups.length > 0 ? (
+                {!groupsLoading && groups && (
                     <Menu
                         mode="inline"
                         defaultOpenKeys={query.f && query.g ? [`group-${query.g}`] : ['']}
@@ -97,10 +97,15 @@ export default function WorkSpacePage() {
                                 showremove={showRemove ? 1 : 0}
                             />
                         ))}
-                        <Menu.Item disabled style={{ cursor: 'default' }}></Menu.Item>
+                        {groups.length === 0 && (
+                            <Menu.Item disabled style={{ height: 120, cursor: 'default' }}>
+                                <Empty
+                                    description="그룹이 없습니다."
+                                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                                />
+                            </Menu.Item>
+                        )}
                     </Menu>
-                ) : (
-                    <Empty description="그룹이 없습니다." image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 )}
             </Sider>
             <Content
