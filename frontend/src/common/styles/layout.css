@@ -16,7 +16,9 @@
     width: 0;
     height: 0;
 }
-
+.header * {
+    user-select: none;
+}
 .site-layout-background {
     background: #fff;
     padding: 0;
