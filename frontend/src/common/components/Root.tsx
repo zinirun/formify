@@ -30,7 +30,10 @@ function LayoutWithHeader(props) {
                 <Content style={{ background: 'white' }}>{props.children}</Content>
             </Layout>
             <Footer style={{ textAlign: 'center', background: 'white' }}>
-                Formify © 2021 Created by zini
+                Formify © 2021 Created by{' '}
+                <a href="https://github.com/zinirun" target="_blank" rel="noreferrer">
+                    zini
+                </a>
             </Footer>
         </>
     );
