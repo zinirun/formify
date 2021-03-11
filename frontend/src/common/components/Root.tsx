@@ -1,19 +1,33 @@
+import { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { Content, Footer } from 'antd/lib/layout/layout';
 import { useLocation } from 'react-router-dom';
 import SiteHeader from '../../header/SiteHeader';
-import { isMobile } from 'react-device-detect';
 import MobileSupport from './MobileSupport';
 
 import '../styles/layout.css';
+
 export default function Root(props) {
+    const [deviceWidth, setDeviceWidth]: any = useState(null);
     const { pathname } = useLocation();
     const isDoPage = pathname.split('/')[1] === 'do' || pathname.split('/')[1] === 'preview';
+
+    useEffect(() => {
+        const handleResize = () => {
+            setDeviceWidth(getWindowWidth());
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <>
             {isDoPage ? (
                 props.children
-            ) : isMobile ? (
+            ) : deviceWidth < 1024 ? (
                 <MobileSupport />
             ) : (
                 <LayoutWithHeader {...props} />
@@ -37,4 +51,8 @@ function LayoutWithHeader(props) {
             </Footer>
         </>
     );
+}
+
+function getWindowWidth() {
+    return window.innerWidth;
 }

@@ -10,7 +10,7 @@ export default function MobileSupport() {
                 title={<p style={{ fontSize: 'large', fontWeight: 'bold' }}>죄송합니다</p>}
                 subTitle={
                     <p>
-                        현재 모바일 버전은 지원하지 않습니다.
+                        가로 해상도 1024px 이상에서 사용할 수 있습니다.
                         <br />
                         PC 환경에서 모든 기능을 사용하세요.
                     </p>

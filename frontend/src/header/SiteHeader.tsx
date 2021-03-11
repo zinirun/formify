@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, withRouter } from 'react-router-dom';
 import { Layout, Menu, Space } from 'antd';
 import { SITE_MENU } from './headerConfig';
