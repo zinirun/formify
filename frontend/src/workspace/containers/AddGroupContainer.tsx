@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useMutation } from '@apollo/client';
-import { Popover, Input, Button } from 'antd';
+import { Popover, Input, Button, message } from 'antd';
 import { useState } from 'react';
 import { CREATE_GROUP } from '../../config/queries';
 const { Search } = Input;
@@ -19,7 +19,7 @@ export default function AddGroupContainer({ refetch }) {
                 },
             })
                 .then(() => refetch())
-                .catch((err) => console.log(err));
+                .catch(() => message.error('그룹의 이름을 10자 이하로 설정하세요.'));
         }
     };
     const handleVisibleChange = (value) => {

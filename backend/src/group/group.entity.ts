@@ -21,7 +21,7 @@ export class Group {
     id: number;
 
     @Field(() => String)
-    @Column({ length: 40 })
+    @Column({ length: 10 })
     name: string;
 
     @Field(() => Boolean)
