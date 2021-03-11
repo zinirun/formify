@@ -27,7 +27,7 @@ export default function Root(props) {
         <>
             {isDoPage ? (
                 props.children
-            ) : deviceWidth < 1024 ? (
+            ) : deviceWidth && deviceWidth < 1024 ? (
                 <MobileSupport />
             ) : (
                 <LayoutWithHeader {...props} />
