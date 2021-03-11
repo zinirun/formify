@@ -102,11 +102,6 @@ export default function DoPreviewPage(props) {
         setStatus('progress');
     }, []);
 
-    if (error) {
-        console.log(error);
-        props.history.push('/?404form');
-    }
-
     return (
         <div
             style={{
