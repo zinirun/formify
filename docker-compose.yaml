@@ -52,5 +52,3 @@ services:
             - MYSQL_DATABASE=${DATABASE}
             - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
         restart: always
-        ports:
-            - '3306:3306'

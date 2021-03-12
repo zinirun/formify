@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import '~antd/dist/antd.css';
+import './App.css';
 import HomePage from './common/pages/HomePage';
 import WorkSpacePage from './workspace/pages/WorkSpacePage';
 import GuidePage from './common/pages/GuidePage';
