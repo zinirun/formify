@@ -36,8 +36,8 @@
     "xlsx": "^0.16.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -60,6 +60,9 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.7"
+    "@types/react-router-dom": "^5.1.7",
+    "babel-plugin-import": "^1.13.3",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.1.8"
   }
 }
