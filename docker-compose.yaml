@@ -1,0 +1,56 @@
+version: '3.1'
+networks:
+    app-tier:
+        driver: bridge
+services:
+    app:
+        networks:
+            - app-tier
+        build:
+            context: ./backend
+            dockerfile: ./Dockerfile
+        container_name: formify-backend
+        links:
+            - db
+        depends_on:
+            - db
+        restart: always
+        ports:
+            - '4000:4000'
+        expose:
+            - '4000'
+
+    client:
+        networks:
+            - app-tier
+        build:
+            context: ./frontend
+            dockerfile: ./Dockerfile
+        container_name: formify-frontend
+        volumes:
+            - /app/node_modules
+            - ./frontend:/app
+        links:
+            - app
+        depends_on:
+            - app
+        restart: always
+        ports:
+            - '80:80'
+        expose:
+            - '80'
+
+    db:
+        networks:
+            - app-tier
+        env_file: ./.env
+        image: mysql:5.7
+        volumes:
+            - ./db-init.sql:/docker-entrypoint-initdb.d/init.sql
+        container_name: formify-database
+        environment:
+            - MYSQL_DATABASE=${DATABASE}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+        restart: always
+        ports:
+            - '3306:3306'
