@@ -41,7 +41,7 @@ function LayoutWithHeader(props) {
         <>
             <Layout>
                 <SiteHeader />
-                <Content style={{ background: 'white' }}>{props.children}</Content>
+                <Content>{props.children}</Content>
             </Layout>
             <Footer style={{ textAlign: 'center', background: 'white' }}>
                 Formify © 2021 Created by{' '}

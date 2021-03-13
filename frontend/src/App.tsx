@@ -6,6 +6,7 @@ import DoPage from './do/pages/DoPage';
 import DoPreviewPage from './do/pages/DoPreviewPage';
 import Result404 from './common/components/Result404';
 import Root from './common/components/Root';
+import './App.less';
 
 function App() {
     return (
