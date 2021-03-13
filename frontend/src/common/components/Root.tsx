@@ -39,7 +39,7 @@ export default function Root(props) {
 function LayoutWithHeader(props) {
     return (
         <>
-            <Layout>
+            <Layout style={{ background: 'white' }}>
                 <SiteHeader />
                 <Content>{props.children}</Content>
             </Layout>
