@@ -1,0 +1,16 @@
+{
+    "apps": [
+        {
+            "name": "formify-backend",
+            "script": "./main.js",
+            "merge_logs": true,
+            "max_restarts": 20,
+            "exec_mode": "cluster",
+            "instances": 2,
+            "max_memory_restart": "1000M",
+            "log_date_format": "YY-MM-DD HH:mm:ss",
+            "error_file": "./logs/err.log",
+            "out_file": "./logs/out.log"
+        }
+    ]
+}

@@ -1,2 +1,4 @@
 dockerize -wait tcp://db:3306 -timeout 20s
-yarn build && yarn start:prod
+yarn build
+mv ecosystem.config.js dist
+yarn start:prod
