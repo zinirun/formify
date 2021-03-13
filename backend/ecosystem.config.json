@@ -6,7 +6,7 @@
             "merge_logs": true,
             "max_restarts": 20,
             "exec_mode": "cluster",
-            "instances": 2,
+            "instances": 1,
             "max_memory_restart": "1000M",
             "log_date_format": "YY-MM-DD HH:mm:ss",
             "error_file": "./logs/err.log",
