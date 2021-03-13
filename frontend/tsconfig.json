@@ -18,6 +18,5 @@
         "noImplicitAny": false,
         "charset": "utf8"
     },
-    "include": ["src"],
-    "exclude": ["./node_modules/**/*"]
+    "include": ["src"]
 }
