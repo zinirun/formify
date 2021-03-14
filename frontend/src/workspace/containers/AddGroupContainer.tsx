@@ -19,8 +19,7 @@ export default function AddGroupContainer({ refetch, handleShowRemove }) {
                 },
             })
                 .then(() => refetch())
-                .catch((err) => {
-                    console.log(err);
+                .catch(() => {
                     message.error('그룹의 이름을 10자 이하로 설정하세요.');
                 });
         }

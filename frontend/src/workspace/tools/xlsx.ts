@@ -18,7 +18,6 @@ export const createPersonalsToXLSX = async (title, personals) => {
             throw new Error('NO DATA: PERSONALS');
         }
         const data = await personalsToExcelMapper(personals);
-        console.log(data);
         const wb = XLSX.utils.book_new();
         const newWorksheet = XLSX.utils.aoa_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, newWorksheet, title);
