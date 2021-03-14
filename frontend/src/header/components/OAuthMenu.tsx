@@ -1,13 +1,12 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { FacebookOutlined, GithubOutlined, GoogleOutlined } from '@ant-design/icons';
-import { SERVER_ADDR } from '../../config/uri.config';
 
 type AuthSource = 'google' | 'facebook' | 'github';
 
 export default function OAuthMenu() {
     const handleOAuthLogin = (authSource: AuthSource) => {
-        window.location.href = `${SERVER_ADDR}/auth/${authSource}`;
+        window.location.href = `/auth/${authSource}`;
     };
     return (
         <Menu>
