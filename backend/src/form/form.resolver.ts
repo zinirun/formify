@@ -17,7 +17,6 @@ export class FormResolver {
         return await this.formService.getOne(id, user);
     }
 
-    @UseGuards(LoginGuard)
     @Query(() => Form)
     async getFormByPubUrl(@Args('pubUrl') pubUrl: string): Promise<Form> {
         return await this.formService.getOneByPubUrl(pubUrl);
