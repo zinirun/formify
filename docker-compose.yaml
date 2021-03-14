@@ -47,10 +47,13 @@ services:
         image: mysql:5.7
         volumes:
             - ./db-init.sql:/docker-entrypoint-initdb.d/init.sql
+            - /home/ubuntu/db-formify:/var/lib/mysql
         container_name: formify-database
         environment:
             - MYSQL_DATABASE=${DATABASE}
             - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - TZ="Asia/Seoul"
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
         restart: always
-        ports:
-            - '3306:3306'
