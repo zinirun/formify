@@ -1,19 +1,16 @@
 <p align="center" style="margin-bottom:5px">
     <img width="80" src=".github/formify-logo.png">
 </p>
-<p align="center" style="font-size:20px; font-weight:bold; margin:0">
-Formify
-</p>
-<p align="center" style="font-size:13px;">
-누구나 쉽게 만들고, 쉽게 답변할 수 있는 폼
-</p>
 
-## Start
+# Formify
+누구나 쉽게 만들고, 쉽게 답변할 수 있는 폼
+
+# Start
 - [Formify](http://formify.xyz)
 - [Guide](http://formify.xyz/guide)
 - [Preview - 2021학년도 소프트웨어학과 과잠 조사](http://formify.xyz/preview/1)
 
-## Stack
+# Stack
 - Backend
   - Nest.js
   - TypeORM (MySQL)
@@ -29,9 +26,9 @@ Formify
   - Shell-Script
   - Nginx
 
-## Usage
+# Usage
 
-### Development
+## Development
 1. Clone this repo
     ```bash
     git clone https://github.com/zinirun/formify.git
@@ -89,7 +86,7 @@ Formify
     yarn start # frontend
     ```
 
-### Production
+## Production
 1. Init your host (Ubuntu)
     ```bash
     chmod +x init.sh
@@ -104,3 +101,7 @@ Formify
     chmod +x rebuild.sh
     ./rebuild.sh
     ```
+
+## License
+
+Formify is [MIT licensed](LICENSE).
