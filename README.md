@@ -8,7 +8,7 @@
 # Start
 - [Formify](http://formify.xyz)
 - [Guide](http://formify.xyz/guide)
-- [Preview - 2021학년도 소프트웨어학과 과잠 조사](http://formify.xyz/preview/1)
+- [Preview - 상반기 공개채용 폼 예시](http://formify.xyz/do/qyyuv)
 
 # Stack
 - Backend
