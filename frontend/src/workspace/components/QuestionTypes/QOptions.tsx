@@ -98,7 +98,7 @@ export default function QOptions(props) {
                             name={`opt-${props.seq}-${opt.key}`}
                             initialValue={opt.value}
                             rules={[{ required: true, message: '보기를 입력하세요.' }]}
-                            style={{ margin: 0, width: '100%' }}
+                            style={{ marginBottom: 0, width: '100%' }}
                         >
                             <Input
                                 autoFocus
@@ -125,7 +125,7 @@ export default function QOptions(props) {
                     <Form.Item
                         name={`opt-${props.seq}-99`}
                         initialValue="기타"
-                        style={{ margin: 0, width: '100%' }}
+                        style={{ marginBottom: 0, width: '100%' }}
                     >
                         <Input
                             autoFocus
