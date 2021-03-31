@@ -5,6 +5,8 @@
 # Formify
 누구나 쉽게 만들고, 쉽게 답변할 수 있는 폼
 
+Make Easy, Answer Easy
+
 # Start
 - [Formify](http://formify.xyz)
 - [Guide](http://formify.xyz/guide)
@@ -13,7 +15,7 @@
 # Stack
 - Backend
   - Nest.js
-  - TypeORM (MySQL)
+  - TypeORM
   - GraphQL
   - JWT/OAuth2
   - PM2
@@ -21,10 +23,11 @@
   - React/Typescript
   - Apollo
   - Ant Design
+- Database
+  - MySQL
 - Infra
-  - Docker (compose)
-  - Shell-Script
-  - Nginx
+  - Docker-compose + shell-script
+  - Nginx + certbot
 
 # Usage
 
@@ -70,7 +73,7 @@
         }
         ```
     - (*) in `frontend/package.json`
-      - add backend proxy before production
+      - add backend proxy when develop
         ```json
         "proxy": "http://localhost:4000"
         ```
