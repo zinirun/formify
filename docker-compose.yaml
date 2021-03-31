@@ -20,7 +20,7 @@ services:
         expose:
             - '4000'
 
-    client:
+    nginx:
         networks:
             - app-tier
         build:
